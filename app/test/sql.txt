@@ -1,0 +1,33 @@
+CREATE TABLE movie
+(
+Id int,
+director varchar(255),
+title varchar(255),
+language varchar(255),
+doubanId varchar(255),
+country varchar(255),
+summary varchar(255),
+flash varchar(255),
+poster varchar(255),
+year int,
+coutry varchar(255),
+pv int,
+category int,
+createAt datetime,
+updateAt datetime,
+genres varchar(255)
+)
+
+
+CREATE TABLE category
+(
+Id int,
+name varchar(255),
+movies int,
+createAt datetime,
+updateAt datetime
+)
+
+alter table movie add genres varchar(255);
+
+SELECT * FROM movie WHERE title LIKE '三人行%'

@@ -36,12 +36,6 @@ exports.searchByCategory = function *(catId) {
     return categories
 }
 
-exports.searchByName = function *(q) {
-    var movies = pool.query('select title like '+q+' from movie')
-    console.log(movies)
-    return movies
-}
-
 exports.searchById = function *(id) {
     var movie = yield Movie
         .findOne({_id:id})
@@ -93,6 +87,68 @@ function updateMovies(movie){
 }
 
 exports.searchByDouban = function *(q){
+    console.log(q)
+    var options = {
+        url:'https://api.douban.com/v2/movie/search?q=',
+        json:true
+    }
+    options.url += encodeURIComponent(q)
+    var reponse = yield koa_request(options)
+    var _data = reponse.body;
+    var subjects = []
+    var movies = []
+    if(_data && _data.subjects){
+        subjects = _data.subjects
+    }
+    if(subjects.length > 0){
+        var queryArray = []
+        subjects.forEach(function(item){
+            queryArray.push(function *(){
+                var movie = yield pool.query('SELECT * from movie where doubanId = ? LIMIT 1;',[item.id])
+                if(movie.length > 0){
+                    movies.push(movie)
+                }else{
+                    var directors = item.directors || []
+                    var director = directors[0] || ""
+                    var name = director.name || ""
+                    pool.query('insert into movie(director,title,doubanId,poster,year,genres) values(?,?,?,?,?,?)',[ name,item.title,item.id,item.images.large,item.year,item.genres], function (err,row) {
+                        if(err){
+                            console.log(err)
+                        }else{
+                            console.log(row)
+                        }
+                    })
+
+
+/*                    movie = new Movie({
+                        director: director.name || "",
+                        title: item.title,
+                        doubanId: item.id,
+                        poster: item.images.large,
+                        year: item.year,
+                        genres:item.genres
+                    })*/
+                    //movie = yield movie.save();
+/*                    movies.push(movie)
+                    console.log(movies)*/
+                }
+            })
+        })
+
+        yield queryArray
+
+/*        movies.forEach(function(movie){
+            updateMovies(movie)
+        });*/
+    }
+
+
+    return movies
+}
+
+
+/*
+exports.searchByDouban = function *(q){
     var options = {
         url:'https://api.douban.com/v2/movie/search?q=',
         json:true
@@ -141,6 +197,7 @@ exports.searchByDouban = function *(q){
 
     return movies
 }
+*/
 
 exports.findHotMovies = function *(hot,count){
     var movies = yield Movie
@@ -148,10 +205,9 @@ exports.findHotMovies = function *(hot,count){
         .exec()
     return movies
 }
+
 exports.searchByName = function *(q) {
-    var movies = yield Movie
-        .find({title:new RegExp(q+'.*','i')})
-        .exec()
+    var movies = yield pool.query('SELECT * FROM movie where title LIKE ?',[ q + '%'])
     return movies
 }
 

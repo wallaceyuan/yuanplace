@@ -3,6 +3,7 @@
  */
 
 var mysql = require('mysql');
+var wrapper = require('co-mysql')
 
 /*var client = require("redis").createClient(6379, "knews-redis2.nrm01e.ng.0001.cnn1.cache.amazonaws.com.cn");
  var ip = 'http://danmaku.kankanews.com';
@@ -24,10 +25,11 @@ var pool = mysql.createPool({
     database:'yuan_place',
     connectTimeout:30000
 });
+p = wrapper(pool);
 
 module.exports = {
     ip:ip,
-    pool:pool,
+    pool:p,
     host:host
 }
 

@@ -1,1 +1,1 @@
-{"errcode":40001,"errmsg":"invalid credential, access_token is invalid or not latest hint: [FBaZfA0992vr36!]","expires_in":null}
+{"errcode":0,"errmsg":"ok","ticket":"kgt8ON7yVITDhtdwci0qeaoGY-JveGGG9NeDvk1n24fWLXadV8INHwLS-8aQbgZ_L2Bh0ogJAKFqCYyT69L8Sg","expires_in":1473257418775}
