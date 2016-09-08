@@ -53,44 +53,36 @@ function updateMovies(movie){
     var db = function *(genre,data){
         var cate = p.query('SELECT id FROM category where movieId = ? limit 1',[movie.id])
         if(cate && cate.length > 0){
-            console.log('update')
             yield p.query('update category set updateAt = ? where movieId = ?',[new Date(),movie.id])
         }else {
-            console.log('insert')
-            var cat_id = yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[genre,movie.id,new Date(),new Date()])
-            console.log(cat_id.insertId,data.countries[0],data.summary,movie.id)
-            pool.query('update movie set category = ? , coutry = ? ,summary = ? where id = ?',[cat_id,'美国',summary,12],function(err,row){
-                if(err){
-                    console.log(err)
-                }else{
-                    console.log(row)
-                }
-            })
+            yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[genre,movie.id,new Date(),new Date()])
+            var country =  data.countries[0] || ""
+            var summary = data.summary || ""
+            yield p.query('update movie set country = ?,summary = ? where id = ?',[country,summary,movie.id])
         }
     }
     request(options).then(function(response){
         var data = response.body;
         if(data.code == 5000) return
-/*        _.extend(movie,{
-            coutry:data.countries[0],
-            summary:data.summary
-        })*/
         var genres = data.genres
         if(genres && genres.length > 0){
             var cateArray = []
             genres.forEach(function(genre){
+                console.log('forEach')
                 cateArray.push(function *(){
+                    console.log('db cate')
                     yield db(genre,data)
                 })
             });
             co(function *(){
+                console.log('co cateArray')
                 yield cateArray
             })
         }else{
             co(function *(){
+                console.log('db cate sin')
                 yield db(genres,data)
             })
-            //movie.save()
         }
     });
 }
