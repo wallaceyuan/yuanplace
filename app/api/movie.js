@@ -50,13 +50,22 @@ function updateMovies(movie){
         json:true
     }
 
-    var db = function *(genre){
+    var db = function *(genre,data){
         var cate = p.query('SELECT id FROM category where movieId = ? limit 1',[movie.id])
         if(cate && cate.length > 0){
+            console.log('update')
             yield p.query('update category set updateAt = ? where movieId = ?',[new Date(),movie.id])
         }else {
+            console.log('insert')
             var cat_id = yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[genre,movie.id,new Date(),new Date()])
-            yield p.query('update movie set category = ? and coutry = ? and summary = ? where id = ?',[cat_id,data.countries[0],data.summary,movie.id])
+            console.log(cat_id.insertId,data.countries[0],data.summary,movie.id)
+            pool.query('update movie set category = ? , coutry = ? ,summary = ? where id = ?',[cat_id,'美国',summary,12],function(err,row){
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(row)
+                }
+            })
         }
     }
     request(options).then(function(response){
@@ -71,7 +80,7 @@ function updateMovies(movie){
             var cateArray = []
             genres.forEach(function(genre){
                 cateArray.push(function *(){
-                    yield db(genre)
+                    yield db(genre,data)
                 })
             });
             co(function *(){
@@ -79,7 +88,7 @@ function updateMovies(movie){
             })
         }else{
             co(function *(){
-                yield db(genres)
+                yield db(genres,data)
             })
             //movie.save()
         }
