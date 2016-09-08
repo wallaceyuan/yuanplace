@@ -1,6 +1,6 @@
 CREATE TABLE movie
 (
-Id int,
+id int,
 director varchar(255),
 title varchar(255),
 language varchar(255),
@@ -21,9 +21,9 @@ genres varchar(255)
 
 CREATE TABLE category
 (
-Id int,
+id int,
 name varchar(255),
-movies int,
+movieId varchar(255),
 createAt datetime,
 updateAt datetime
 )
@@ -31,3 +31,8 @@ updateAt datetime
 alter table movie add genres varchar(255);
 
 SELECT * FROM movie WHERE title LIKE '三人行%'
+
+
+ALTER TABLE `movie`
+MODIFY COLUMN `id`  int(11) NOT NULL AUTO_INCREMENT FIRST ,
+ADD PRIMARY KEY (`id`);

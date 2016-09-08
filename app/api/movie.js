@@ -10,6 +10,7 @@ var _ = require('lodash');
 var co = require('co');
 var conf = require('../../config/conf')
 var pool = conf.pool
+var p = conf.p
 
 // index page
 exports.findAll = function *() {
@@ -48,46 +49,44 @@ function updateMovies(movie){
         url:'https://api.douban.com/v2/movie/subject/'+movie.doubanId,
         json:true
     }
+
+    var db = function *(genre){
+        var cate = p.query('SELECT id FROM category where movieId = ? limit 1',[movie.id])
+        if(cate && cate.length > 0){
+            yield p.query('update category set updateAt = ? where movieId = ?',[new Date(),movie.id])
+        }else {
+            var cat_id = yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[genre,movie.id,new Date(),new Date()])
+            yield p.query('update movie set category = ? and coutry = ? and summary = ? where id = ?',[cat_id,data.countries[0],data.summary,movie.id])
+        }
+    }
     request(options).then(function(response){
         var data = response.body;
         if(data.code == 5000) return
-
-        _.extend(movie,{
+/*        _.extend(movie,{
             coutry:data.countries[0],
             summary:data.summary
-        })
+        })*/
         var genres = data.genres
         if(genres && genres.length > 0){
             var cateArray = []
             genres.forEach(function(genre){
                 cateArray.push(function *(){
-                    var cate =  yield Category.findOne({name: genre}).exec();
-                    if(cate){
-                        cate.movies.push(movie._id)
-                        movie.save(cate)
-                    }else{
-                        var cat = new Category({
-                            name: genre,
-                            movies: [movie._id]
-                        })
-                        cat = cat.save()
-                        movie.category = cat._id
-                        yield movie.save()
-                    }
+                    yield db(genre)
                 })
             });
-
             co(function *(){
                 yield cateArray
             })
         }else{
-            movie.save()
+            co(function *(){
+                yield db(genres)
+            })
+            //movie.save()
         }
     });
 }
 
 exports.searchByDouban = function *(q){
-    console.log(q)
     var options = {
         url:'https://api.douban.com/v2/movie/search?q=',
         json:true
@@ -104,42 +103,34 @@ exports.searchByDouban = function *(q){
         var queryArray = []
         subjects.forEach(function(item){
             queryArray.push(function *(){
-                var movie = yield pool.query('SELECT * from movie where doubanId = ? LIMIT 1;',[item.id])
+                var movie = yield p.query('SELECT * from movie where doubanId = ? LIMIT 1;',[item.id])
                 if(movie.length > 0){
                     movies.push(movie)
                 }else{
                     var directors = item.directors || []
-                    var director = directors[0] || ""
-                    var name = director.name || ""
-                    pool.query('insert into movie(director,title,doubanId,poster,year,genres) values(?,?,?,?,?,?)',[ name,item.title,item.id,item.images.large,item.year,item.genres], function (err,row) {
-                        if(err){
-                            console.log(err)
-                        }else{
-                            console.log(row)
-                        }
-                    })
-
-
-/*                    movie = new Movie({
-                        director: director.name || "",
+                    var director = directors[0] || " "
+                    var name = director.name || "暂无"
+                    var genres = item.genres.join(',')
+                    var row = yield p.query('insert into movie(director,title,doubanId,poster,year,genres) values(?,?,?,?,?,?)',[name,item.title,item.id,item.images.large,item.year,genres])
+                    movie = {
+                        director: name,
                         title: item.title,
                         doubanId: item.id,
                         poster: item.images.large,
                         year: item.year,
-                        genres:item.genres
-                    })*/
-                    //movie = yield movie.save();
-/*                    movies.push(movie)
-                    console.log(movies)*/
+                        genres:genres,
+                        id:row.insertId
+                    }
+                    movies.push(movie)
                 }
             })
         })
 
         yield queryArray
-
-/*        movies.forEach(function(movie){
+        movies.forEach(function(movie){
+            //console.log('movie',movie)
             updateMovies(movie)
-        });*/
+        });
     }
 
 
@@ -207,7 +198,7 @@ exports.findHotMovies = function *(hot,count){
 }
 
 exports.searchByName = function *(q) {
-    var movies = yield pool.query('SELECT * FROM movie where title LIKE ?',[ q + '%'])
+    var movies = yield p.query('SELECT * FROM movie where title LIKE ?',[ q + '%'])
     return movies
 }
 

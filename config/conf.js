@@ -29,7 +29,8 @@ p = wrapper(pool);
 
 module.exports = {
     ip:ip,
-    pool:p,
+    pool:pool,
+    p:p,
     host:host
 }
 
