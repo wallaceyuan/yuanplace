@@ -1,5 +1,9 @@
 var mongoose = require('mongoose')
+var co = require('co');
 var User = mongoose.model('User')
+var users = require('../api/users')
+var bcrypt = require('bcryptjs')
+var SALT_WORK_FACTOR = 10
 
 // signup
 exports.showSignup = function *(next) {
@@ -16,26 +20,26 @@ exports.showSignin = function *(next) {
 
 exports.signup = function *(next) {
   var _user = this.request.body.user
-  var user = yield User.findOne({name: _user.name}).exec()
-/*  if (err) {
-    console.log(err)
-  }*/
-  if (user) {
+  var res = yield p.query('select * from users where name=? limit 1',[_user.name])
+  if (res && res.length > 0) {
     this.redirect('/signin')
-
     yield next
   }
   else {
-    user = new User(_user)
-
-    yield user.save()
-
-    this.session.user = user
-
+    var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
+    var hash = bcrypt.hashSync(_user.password, salt);
+    _user.password = hash
+   // var aaa = yield users.preSave(_user)
+    console.log(_user)
+    var newUser = yield users.saveUser(_user)
+    console.log(newUser)
+    this.session.user = newUser
+    console.log(this.session,'session')
+    console.log(1233)
     this.redirect('/')
-
   }
 }
+
 
 // signin
 exports.signin = function *(next) {

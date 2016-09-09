@@ -3,6 +3,7 @@
  */
 var conf = require('../../config/conf')
 var pool = conf.pool
+var p = conf.p
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
 var moment = require('moment')
@@ -174,6 +175,16 @@ function updateMovies(movie){
     console.log(err,row)
 })*/
 
+/*
 pool.query('select * from movie where id=1 limit 1',function(err, row){
     console.log(err,row)
+})
+*/
+
+/*pool.query('select * from users where name=1 limit 1',function(err, row){
+    console.log(err,row)
+})*/
+
+pool.query('select id from users where name = ? limit 1',[1],function(err,res){
+    console.log(err,res)
 })

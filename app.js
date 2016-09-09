@@ -59,12 +59,13 @@ app.use(bodyParser());
 
 app.use(function *(next){
     var user = this.session.user
-    if(user && user._id){
+    console.log(user)
+/*    if(user && user._id){
         this.session.user = yield User.findOne({_id:user._id}).exec()
         this.state.user = this.session.user
     }else{
         this.state.user = null
-    }
+    }*/
     yield next
 })
 
