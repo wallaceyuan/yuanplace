@@ -129,67 +129,11 @@ exports.searchByDouban = function *(q){
 
         yield queryArray
         movies.forEach(function(movie){
-            //console.log('movie',movie)
             updateMovies(movie)
         });
     }
-
-
     return movies
 }
-
-
-/*
-exports.searchByDouban = function *(q){
-    var options = {
-        url:'https://api.douban.com/v2/movie/search?q=',
-        json:true
-    }
-    options.url += encodeURIComponent(q)
-    var reponse = yield koa_request(options)
-    var _data = reponse.body;
-    var subjects = []
-    var movies = []
-    if(_data && _data.subjects){
-        subjects = _data.subjects
-    }
-    if(subjects.length > 0){
-        var queryArray = []
-        subjects.forEach(function(item){
-            queryArray.push(function *(){
-                var movie = yield Movie.findOne({doubanId: item.id})
-                if(movie){
-                    movies.push(movie)
-                }else{
-                    var directors = item.directors || []
-                    var director = directors[0] || ""
-
-                    movie = new Movie({
-                        director: director.name || "",
-                        title: item.title,
-                        doubanId: item.id,
-                        poster: item.images.large,
-                        year: item.year,
-                        genres:item.genres,
-
-                    })
-                    movie = yield movie.save();
-                    movies.push(movie)
-                }
-            })
-        })
-
-        yield queryArray
-
-        movies.forEach(function(movie){
-            updateMovies(movie)
-        });
-    }
-
-
-    return movies
-}
-*/
 
 exports.findHotMovies = function *(hot,count){
     var movies = yield Movie
