@@ -13,7 +13,7 @@ var pool = conf.pool
 var p = conf.p
 
 // index page
-exports.findAll = function *() {
+/*exports.findAll = function *() {
     var category = yield Category
         .find({})
         .populate({
@@ -22,6 +22,31 @@ exports.findAll = function *() {
             options: { limit: 6 }
         })
         .exec()
+    return category
+}*/
+
+exports.findAll = function *() {
+    var rows = yield p.query('SELECT t1.name,t1.movieId,t2.title,t2.poster,t2.id FROM category as t1, movie as t2 where t1.movieId = t2.id group by t1.name,t1.movieId')
+    var cate = ''
+    var category = new Array()
+    rows.map(function(row) {
+        var name = row.name
+        var reg = eval('/'+name +'/g');
+        if (cate.match(reg)) {
+            category.map(function(cc){
+                if(cc.name == row.name){
+                    cc.movies.push(row)
+                }
+            })
+        }else{
+            cate += row.name
+            var data = { id:row.id ,
+                name: row.name,
+                movies: [row]
+            }
+            category.push(data)
+        }
+    })
     return category
 }
 
@@ -49,7 +74,6 @@ function updateMovies(movie){
         url:'https://api.douban.com/v2/movie/subject/'+movie.doubanId,
         json:true
     }
-
     var db = function *(genre,data){
         var cate = p.query('SELECT id FROM category where movieId = ? limit 1',[movie.id])
         if(cate && cate.length > 0){
@@ -112,7 +136,7 @@ exports.searchByDouban = function *(q){
                     var director = directors[0] || " "
                     var name = director.name || "暂无"
                     var genres = item.genres.join(',')
-                    var row = yield p.query('insert into movie(director,title,doubanId,poster,year,genres) values(?,?,?,?,?,?)',[name,item.title,item.id,item.images.large,item.year,genres])
+                    var row = yield p.query('insert into movie(director,title,doubanId,poster,year,genres,createAt,updateAt) values(?,?,?,?,?,?,?,?)',[name,item.title,item.id,item.images.large,item.year,genres,new Date(),new Date()])
                     movie = {
                         director: name,
                         title: item.title,

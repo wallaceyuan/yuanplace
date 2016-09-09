@@ -8,6 +8,51 @@ var request = Promise.promisify(require('request'));
 var moment = require('moment')
 var _ = require('lodash');
 var co = require('co');
+
+/*
+pool.query('SELECT * FROM category group by name,movie',function(err,row){
+    console.log(err,row)
+})
+*/
+/*var total = [0, 1, 2, 3].reduce(function(a, b) {
+    console.log(a,b)
+    return a + b;
+}, 0);
+console.log(total)*/
+
+pool.query('SELECT * FROM category LEFT JOIN movie on category.movieId = movie.id group by name,movieId',function(err,rows){
+    var cate = ''
+    var ccs = new Array()
+    rows.map(function(row) {
+        var name = row.name
+        var reg = eval('/'+name +'/g');
+        console.log(cate,name)
+        if (cate.match(reg)) {
+            console.log('match')
+            ccs.map(function(cc){
+                if(cc.name == row.name){
+                    cc.movies.push(row)
+                }
+            })
+        }else{
+            console.log('not match')
+            cate += row.name
+            var data = { id:row.id ,
+                name: row.name,
+                meta: { updateAt: row.updateAt,
+                        createAt: row.createAt
+                    },
+                movies: [{row}]
+            }
+            ccs.push(data)
+        }
+    })
+    console.log(ccs)
+})
+
+/*var aa = [1,2,3,4,5]
+var ad = aa.find(1)
+console.log(ad)*/
 /*var q = '三人行'
 pool.query('SELECT * FROM movie where title LIKE ?',[ q + '%'],function(err,row,fields){
     if(err){
@@ -55,7 +100,7 @@ var genres=[
 var aa = genres.join(',')
 console.log(aa)*/
 
-var movie = {
+/*var movie = {
     director: 12,
     title: 12,
     doubanId: 1111,
@@ -73,7 +118,7 @@ pool.query('update movie set category = ? , coutry = ? ,summary = ? where id = ?
     }else{
         console.log(row)
     }
-})
+})*/
 
 
 
