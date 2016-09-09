@@ -13,18 +13,6 @@ var pool = conf.pool
 var p = conf.p
 
 // index page
-/*exports.findAll = function *() {
-    var category = yield Category
-        .find({})
-        .populate({
-            path: 'movies',
-            select: 'title poster',
-            options: { limit: 6 }
-        })
-        .exec()
-    return category
-}*/
-
 exports.findAll = function *() {
     var rows = yield p.query('SELECT t1.name,t1.movieId,t2.title,t2.poster,t2.id FROM category as t1, movie as t2 where t1.movieId = t2.id group by t1.name,t1.movieId')
     var cate = ''

@@ -5,7 +5,6 @@ var path = require('path')
 // index page
 exports.index = function *(next) {
   var categories = yield Movie.findAll()
-  console.log(categories)
   yield this.render('pages/index', {
     title: 'imooc 首页',
     categories: categories
@@ -17,7 +16,7 @@ exports.search = function *(next) {
   var catId = this.query.cat
   var q = this.query.q
   var page = parseInt(this.query.p, 10) || 0
-  var count = 2
+  var count = 3
   var index = page * count
 
   if (catId) {
@@ -36,7 +35,7 @@ exports.search = function *(next) {
     })
   }
   else {
-    var movies = Movie.searchByName(q)
+    var movies = yield Movie.searchByName(q)
     var results = movies.slice(index, index + count)
     yield this.render('pages/results', {
       title: 'imooc 结果列表页面',

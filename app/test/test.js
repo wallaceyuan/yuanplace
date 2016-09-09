@@ -20,6 +20,7 @@ pool.query('SELECT * FROM category group by name,movie',function(err,row){
 }, 0);
 console.log(total)*/
 
+/*
 pool.query('SELECT * FROM category LEFT JOIN movie on category.movieId = movie.id group by name,movieId',function(err,rows){
     var cate = ''
     var ccs = new Array()
@@ -49,6 +50,7 @@ pool.query('SELECT * FROM category LEFT JOIN movie on category.movieId = movie.i
     })
     console.log(ccs)
 })
+*/
 
 /*var aa = [1,2,3,4,5]
 var ad = aa.find(1)
@@ -168,3 +170,10 @@ function updateMovies(movie){
     });
 }*/
 
+/*pool.query('update movie set pv = pv +1 where id=1 ',function(err, row){
+    console.log(err,row)
+})*/
+
+pool.query('select * from movie where id=1 limit 1',function(err, row){
+    console.log(err,row)
+})

@@ -14,22 +14,21 @@ exports.detail = function *(next) {
 
   var id = this.params.id
   if(id == 'undefined') return
-  yield Movie.update({_id: id}, {$inc: {pv: 1}}).exec()
 
-  var movie = yield Movie.findOne({_id: id}).exec()
+  yield p.query('update movie set pv = pv +1 where id= ?',[id])
+
+  var movie = yield p.query('select * from movie where id=? limit 1',[id])
   //console.log(movie);
-  var comments = yield Comment
+/*  var comments = yield Comment
       .find({movie: id})
       .populate('from', 'name')
       .populate('reply.from reply.to', 'name')
-      .exec()
-
+      .exec()*/
   yield this.render('pages/detail', {
     title: 'imooc 详情页',
-    movie: movie,
-    comments: comments
+    movie: movie[0],
+    comments: ''
   })
-
 }
 
 // admin new page
