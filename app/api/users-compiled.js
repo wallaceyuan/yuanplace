@@ -41,4 +41,12 @@ exports.saveUser = function* (_user, _this) {
     }
 };
 
+exports.comparePassword = function (_password, password) {
+    return function (cb) {
+        bcrypt.compare(_password, password, function (err, isMatch) {
+            cb(err, isMatch);
+        });
+    };
+};
+
 //# sourceMappingURL=users-compiled.js.map

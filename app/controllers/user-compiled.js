@@ -40,15 +40,15 @@ exports.signin = function* (next) {
   var name = _user.name;
   var password = _user.password;
 
-  var user = yield User.findOne({ name: name });
+  var res = yield p.query('select id,name,password from users where name = ?', [name]);
+  var user = res[0];
 
   if (!user) {
     this.redirect('/signup');
-
     return next;
   }
 
-  var isMatch = yield user.comparePassword(password, user.password);
+  var isMatch = yield users.comparePassword(password, user.password);
 
   if (isMatch) {
     this.session.user = user;

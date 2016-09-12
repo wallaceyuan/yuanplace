@@ -43,3 +43,11 @@ exports.saveUser = function *(_user,_this) {
         return newUser
     }
 }
+
+exports.comparePassword = function(_password,password){
+    return function(cb){
+        bcrypt.compare(_password, password, function(err, isMatch) {
+            cb(err, isMatch)
+        })
+    }
+}
