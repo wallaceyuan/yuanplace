@@ -37,28 +37,9 @@ exports.saveUser = function *(_user,_this) {
     }else {
         var res = yield p.query('insert into users(name,password,createAt,updateAt) value(?,?,?,?)',[user.name,user.password,new Date(),new Date()])
         var newUser = {
-            _id:res.insertId,
+            id:res.insertId,
             name:user.name
         }
-        console.log(newUser,'insert done')
         return newUser
     }
-
-/*    if (this.isNew) {
-        this.meta.createAt = this.meta.updateAt = Date.now()
-    }
-    else {
-        this.meta.updateAt = Date.now()
-    }
-
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-        if (err) return next(err)
-
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            if (err) return next(err)
-
-            user.password = hash
-            next()
-        })
-    })*/
 }

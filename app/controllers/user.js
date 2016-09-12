@@ -29,13 +29,8 @@ exports.signup = function *(next) {
     var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
     var hash = bcrypt.hashSync(_user.password, salt);
     _user.password = hash
-   // var aaa = yield users.preSave(_user)
-    console.log(_user)
     var newUser = yield users.saveUser(_user)
-    console.log(newUser)
     this.session.user = newUser
-    console.log(this.session,'session')
-    console.log(1233)
     this.redirect('/')
   }
 }

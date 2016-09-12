@@ -14,6 +14,11 @@ var views = require('koa-views')
 var Router = require('koa-router');
 var router = new Router()
 var moment = require('moment')
+
+var conf = require('./config/conf')
+var pool = conf.pool
+var p = conf.p
+
 // models loading
 var dbUrl = 'mongodb://localhost/movie'
 mongoose.connect(dbUrl)
@@ -59,13 +64,12 @@ app.use(bodyParser());
 
 app.use(function *(next){
     var user = this.session.user
-    console.log(user)
-/*    if(user && user._id){
-        this.session.user = yield User.findOne({_id:user._id}).exec()
-        this.state.user = this.session.user
+    if(user && user.id){
+        var res = yield p.query('select id,name,password from users where id = ? limit 1',[user.id])
+        this.state.user = this.session.user = res[0]
     }else{
         this.state.user = null
-    }*/
+    }
     yield next
 })
 

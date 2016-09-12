@@ -1,12 +1,12 @@
 /**
  * Created by Yuan on 2016/9/7.
  */
-var conf = require('../../config/conf')
-var pool = conf.pool
-var p = conf.p
+var conf = require('../../config/conf');
+var pool = conf.pool;
+var p = conf.p;
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
-var moment = require('moment')
+var moment = require('moment');
 var _ = require('lodash');
 var co = require('co');
 
@@ -73,7 +73,6 @@ pool.query('SELECT * FROM movie where title LIKE ?',[ q + '%'],function(err,row,
     }
 })*/
 
-
 /*var aa = moment().format("YYYY-MM-DD HH:MM:SS");
 console.log(aa)
 pool.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[2,2,new Date(),new Date()],function(err,res){
@@ -122,10 +121,6 @@ pool.query('update movie set category = ? , coutry = ? ,summary = ? where id = ?
         console.log(row)
     }
 })*/
-
-
-
-
 
 /*updateMovies(movie)
 
@@ -188,7 +183,9 @@ pool.query('select * from movie where id=1 limit 1',function(err, row){
 /*pool.query('select id from users where name = ? limit 1',[1],function(err,res){
     console.log(err,res)
 })*/
-co(function *(){
-    var aa = yield p.query('select name,password from users where id = ? limit 1',[1])[0]
-    console.log(aa)
-})
+co(function* () {
+    var aa = yield p.query('select name,password from users where id = ? limit 1', [1])[0];
+    console.log(aa);
+});
+
+//# sourceMappingURL=test-compiled.js.map
