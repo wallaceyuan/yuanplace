@@ -14,11 +14,10 @@ var views = require('koa-views');
 var Router = require('koa-router');
 var router = new Router();
 var moment = require('moment');
-
+var staticServer = require('koa-static');
 var conf = require('./config/conf');
 var pool = conf.pool;
 var p = conf.p;
-
 // models loading
 var dbUrl = 'mongodb://localhost/movie';
 mongoose.connect(dbUrl);
@@ -50,6 +49,7 @@ app.use(views(__dirname + '/app/views', {
         moment: moment
     }
 }));
+app.use(staticServer(path.join(__dirname, 'public')));
 
 //session
 app.keys = ['some secret hurr'];

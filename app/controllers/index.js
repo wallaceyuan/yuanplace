@@ -6,7 +6,7 @@ var path = require('path')
 exports.index = function *(next) {
   var categories = yield Movie.findAll()
   yield this.render('pages/index', {
-    title: 'imooc 首页',
+    title: 'yuanMovie 首页',
     categories: categories
   })
 }

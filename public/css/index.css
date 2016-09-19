@@ -1,0 +1,11 @@
+.caption h4{
+    height: 40px;line-height: 20px;
+    overflow: hidden;
+}
+
+
+@media (min-width: 992px){
+    .col-md-2 .thumbnail img{
+        height: 230px;
+    }
+}

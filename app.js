@@ -2,7 +2,6 @@
  * Created by Yuan on 2016/6/28.
  */
 'use strict'
-
 var Koa = require('koa');
 var fs = require('fs')
 var app = new Koa();
@@ -14,11 +13,10 @@ var views = require('koa-views')
 var Router = require('koa-router');
 var router = new Router()
 var moment = require('moment')
-
+var staticServer = require('koa-static');
 var conf = require('./config/conf')
 var pool = conf.pool
 var p = conf.p
-
 // models loading
 var dbUrl = 'mongodb://localhost/movie'
 mongoose.connect(dbUrl)
@@ -47,7 +45,6 @@ walk(models_path)
 
 var User = mongoose.model('User')
 
-
 //视图
 app.use(views(__dirname + '/app/views',{
     extension:'jade',
@@ -55,6 +52,7 @@ app.use(views(__dirname + '/app/views',{
         moment:moment
     }
 }))
+app.use(staticServer(path.join(__dirname, 'public')));
 
 
 //session

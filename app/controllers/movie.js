@@ -13,12 +13,17 @@ var path = require('path')
 exports.detail = function *(next) {
 
   var id = this.params.id
+
   if(id == 'undefined') return
 
   yield p.query('update movie set pv = pv +1 where id= ?',[id])
 
   var movie = yield p.query('select * from movie where id=? limit 1',[id])
-  //console.log(movie);
+
+  var sqlS = 'select t1.id,t1.parent_id,t1.movie_id,t1.user_id,t1.createAt,t1.content,t2.`name` from comments as t1,users as t2 where t2.id = t1.user_id and t1.movie_id=?'
+
+  var comments = yield p.query(sqlS,[id])
+
 /*  var comments = yield Comment
       .find({movie: id})
       .populate('from', 'name')
@@ -27,7 +32,7 @@ exports.detail = function *(next) {
   yield this.render('pages/detail', {
     title: 'imooc 详情页',
     movie: movie[0],
-    comments: ''
+    comments: comments
   })
 }
 

@@ -7,7 +7,7 @@
 var Index = require('../app/controllers/index')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
-var Comment = require('../app/controllers/comment')
+var Comment = require('../app/api/comments')
 var Category = require('../app/controllers/category')
 
 //wechat
