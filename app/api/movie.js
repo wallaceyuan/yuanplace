@@ -63,6 +63,7 @@ function updateMovies(movie){
         json:true
     }
     var db = function *(genre,data){
+        genre?genre:'暂无分类'
         var cate = p.query('SELECT id FROM category where movieId = ? limit 1',[movie.id])
         if(cate && cate.length > 0){
             yield p.query('update category set updateAt = ? where movieId = ?',[new Date(),movie.id])

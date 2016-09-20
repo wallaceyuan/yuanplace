@@ -47,18 +47,18 @@ exports.new = function *(next) {
 
 // admin update page
 exports.update = function *(next) {
-  var id = this.params.id
-
-  if (id) {
-    var movie = yield Movie.findOne({_id: id}).exec()
-
-    var categories = yield Category.find({}).exec()
-    yield this.render('pages/admin', {
-      title: 'imooc 后台更新页',
-      movie: movie,
-      categories: categories
-    })
-  }
+    var id = this.params.id
+    if (id) {
+        var movie = yield p.query('select * from movie where id = ?',[id])
+        movie = movie[0]
+        console.log(movie)
+        var categories = yield p.query('SELECT name from category GROUP BY name')
+        yield this.render('pages/admin', {
+            title: 'movie 后台更新页',
+            movie: movie,
+            categories: categories
+        })
+    }
 }
 
 var util = require('../../libs/util')
@@ -89,14 +89,17 @@ exports.save = function *(next) {
     if (this.poster) {
         movieObj.poster = this.poster
     }
+    if (movieObj.id) {
+        console.log('movieObj',movieObj)
+        //var movie = yield Movie.findOne({_id: movieObj._id}).exec()
+        var movie = yield p.query('select * from movie where id = ?',[movieObj.id])
 
-    if (movieObj._id) {
-        var movie = yield Movie.findOne({_id: movieObj._id}).exec()
+        _movie = _.extend(movie[0], movieObj)
 
-        _movie = _.extend(movie, movieObj)
-        yield _movie.save()
+        console.log('_movie',_movie)
+        //yield _movie.save()
 
-        this.redirect('/movie/' + movie._id)
+        //this.redirect('/movie/' + movie._id)
     }
     else {
         _movie = new Movie(movieObj)

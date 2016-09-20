@@ -14,6 +14,9 @@ var moment = require('moment')
 //var aa = moment(new Date()).format('Y-M-D H:mm:ss')
 
 pool.query('select * from movie ')
+
+var aa = /爱情/g.test('剧情,爱情,情色')
+console.log(aa)
 /*
 pool.query('SELECT * FROM category group by name,movie',function(err,row){
     console.log(err,row)
