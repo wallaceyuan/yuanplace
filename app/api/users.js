@@ -16,7 +16,6 @@ var pool = conf.pool
 var p = conf.p
 
 
-
 exports.preSave = function *(_user){
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         if (err) return next(err)
@@ -35,7 +34,7 @@ exports.saveUser = function *(_user,_this) {
     if(res && res.length > 0){
         yield p.query('update users set updateAt = ? where name = ?',[new Date(),user.name])
     }else {
-        var res = yield p.query('insert into users(name,password,createAt,updateAt) value(?,?,?,?)',[user.name,user.password,new Date(),new Date()])
+        var res = yield p.query('insert into users(name,password,createAt,updateAt,role) value(?,?,?,?,?)',[user.name,user.password,new Date(),new Date(),11])
         var newUser = {
             id:res.insertId,
             name:user.name

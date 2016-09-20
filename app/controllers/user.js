@@ -4,6 +4,10 @@ var User = mongoose.model('User')
 var users = require('../api/users')
 var bcrypt = require('bcryptjs')
 var SALT_WORK_FACTOR = 10
+var conf = require('../../config/conf')
+var pool = conf.pool
+var p = conf.p
+
 
 // signup
 exports.showSignup = function *(next) {
@@ -41,7 +45,7 @@ exports.signin = function *(next) {
   var name = _user.name
   var password = _user.password
 
-  var res  = yield p.query('select id,name,password from users where name = ?',[name])
+  var res  = yield p.query('select id,name,password,role from users where name = ?',[name])
   var user = res[0]
 
   if (!user) {
@@ -72,7 +76,9 @@ exports.logout =  function *(next) {
 
 // userlist page
 exports.list = function *(next) {
-  var users = yield  User.find({}).sort('meta.updateAt').exec()
+  var users = yield p.query('select * from users order by updateAt desc')
+  console.log(users)
+  //var users = yield  User.find({}).sort('meta.updateAt').exec()
   yield this.render('pages/userlist', {
     title: 'imooc 用户列表页',
     users: users

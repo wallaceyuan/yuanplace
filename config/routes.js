@@ -17,16 +17,7 @@ var koaBody = require('koa-body')
 
 module.exports = function(router) {
 
-    // pre handle user
-/*
-    app.use(function(req, res, next) {
-        var _user = req.session.user
 
-        app.locals.user = _user
-
-        next()
-    })
-*/
     // Index
     router.get('/', Index.index)
 

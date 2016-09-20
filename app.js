@@ -60,6 +60,7 @@ app.keys = ['some secret hurr'];
 app.use(session(app));
 app.use(bodyParser());
 
+// pre handle user
 app.use(function *(next){
     var user = this.session.user
     if(user && user.id){

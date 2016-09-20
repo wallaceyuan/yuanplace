@@ -10,6 +10,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`id`)
 )
 
+alter table comments add parent_name varchar(255)
+
+
 
 CREATE TABLE movie
 (
@@ -22,7 +25,7 @@ country varchar(255),
 summary varchar(255),
 flash varchar(255),
 poster varchar(255),
-year int,
+year varchar(255),
 coutry varchar(255),
 pv int NOT NULL DEFAULT 0,
 category int,
@@ -31,6 +34,7 @@ updateAt datetime,
 genres varchar(255),
 PRIMARY KEY (id)
 )
+alter table movie modify year varchar(255)
 
 
 CREATE TABLE category

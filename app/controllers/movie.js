@@ -1,4 +1,3 @@
-
 'use strict'
 
 var mongoose = require('mongoose')
@@ -8,32 +7,32 @@ var Comment = mongoose.model('Comment')
 var _ = require('lodash')
 var fs = require('fs')
 var path = require('path')
+var moment = require('moment')
 
 // detail page
 exports.detail = function *(next) {
 
-  var id = this.params.id
+    var id = this.params.id
 
-  if(id == 'undefined') return
+    if(id == 'undefined') return
 
-  yield p.query('update movie set pv = pv +1 where id= ?',[id])
+    yield p.query('update movie set pv = pv +1 where id= ?',[id])
 
-  var movie = yield p.query('select * from movie where id=? limit 1',[id])
+    var movie = yield p.query('select * from movie where id=? limit 1',[id])
 
-  var sqlS = 'select t1.id,t1.parent_id,t1.movie_id,t1.user_id,t1.createAt,t1.content,t2.`name` from comments as t1,users as t2 where t2.id = t1.user_id and t1.movie_id=?'
+    var sqlS = 'select t1.id,t1.parent_id,t1.parent_name,t1.movie_id,t1.user_id,t1.createAt,t1.content,t2.`name` from comments as t1,users as t2 where t2.id = t1.user_id and t1.movie_id=?'
 
-  var comments = yield p.query(sqlS,[id])
+    var comments = yield p.query(sqlS,[id])
 
-/*  var comments = yield Comment
-      .find({movie: id})
-      .populate('from', 'name')
-      .populate('reply.from reply.to', 'name')
-      .exec()*/
-  yield this.render('pages/detail', {
-    title: 'imooc 详情页',
-    movie: movie[0],
-    comments: comments
-  })
+    comments.map(function(cmt){
+        cmt.createAt = moment(cmt.createAt).format('Y-M-D H:mm:ss')
+    })
+
+    yield this.render('pages/detail', {
+        title: 'imooc 详情页',
+        movie: movie[0],
+        comments: comments
+    })
 }
 
 // admin new page
@@ -131,14 +130,22 @@ exports.save = function *(next) {
 }
 // list page
 exports.list = function *(next) {
-  var movies = yield Movie.find({})
-    .populate('category', 'name')
-    .exec()
+    var page = parseInt(this.query.p, 10) || 1
+    page = page?page:1
 
-   yield this.render('pages/list', {
-    title: 'imooc 列表页',
-    movies: movies
-  })
+    var count = 10
+    var sql = 'select * from movie limit '+(page-1) * count+','+count
+
+    var movies = yield p.query(sql)
+    var total = yield p.query('select count(*) as count from movie')
+    total = total[0].count
+
+    yield this.render('pages/list', {
+        totalPage: Math.ceil(total / count),
+        title: 'movie 列表页',
+        movies: movies,
+        currentPage: page
+    })
 }
 
 // list page

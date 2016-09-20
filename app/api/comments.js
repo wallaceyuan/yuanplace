@@ -17,38 +17,17 @@ var p = conf.p
 // comment
 exports.save = function *(next) {
     var _comment = this.request.body.comment
-    console.log(_comment)
-
+    var tid = _comment.tid?_comment.tid:0
     var cid = _comment.cid?_comment.cid:0
+    if(tid){
+        var name = yield  p.query('select name from users where id = ?',[tid])
+        name = name[0].name
+    }else{
+        name = ''
+    }
+    var c_v = [cid,name,_comment.movie,_comment.from,new Date(),new Date(),_comment.content,'']
 
-    var c_v = [cid,_comment.movie,_comment.from,new Date(),new Date(),_comment.content,'']
-
-    var res = yield p.query('insert into comments(parent_id,movie_id,user_id,createAt,updateAt,content,thread) value(?,?,?,?,?,?,?)',c_v)
-
-    console.log(res)
+    yield p.query('insert into comments(parent_id,parent_name,movie_id,user_id,createAt,updateAt,content,thread) value(?,?,?,?,?,?,?,?)',c_v)
 
     this.body = { success :1 }
-    /*  var movieId = _comment.movie
-
-     if (_comment.cid) {
-
-     let comment = yield Comment.findOne({_id: _comment.cid}).exec()
-     var reply = {
-     from: _comment.from,
-     to: _comment.tid,
-     content: _comment.content
-     }
-     comment.reply.push(reply)
-     yield comment.save()
-     this.body = { success :1 }
-     }
-     else {
-     var comment = new Comment({
-     movie:_comment.movie,
-     from:_comment.from,
-     content:_comment.content
-     })
-     yield comment.save()
-     this.body = { success :1 }
-     }*/
 }

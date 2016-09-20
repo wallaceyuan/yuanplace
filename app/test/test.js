@@ -9,7 +9,11 @@ var request = Promise.promisify(require('request'));
 var moment = require('moment')
 var _ = require('lodash');
 var co = require('co');
+var moment = require('moment')
 
+//var aa = moment(new Date()).format('Y-M-D H:mm:ss')
+
+pool.query('select * from movie ')
 /*
 pool.query('SELECT * FROM category group by name,movie',function(err,row){
     console.log(err,row)
@@ -188,7 +192,9 @@ pool.query('select * from movie where id=1 limit 1',function(err, row){
 /*pool.query('select id from users where name = ? limit 1',[1],function(err,res){
     console.log(err,res)
 })*/
+/*
 co(function *(){
     var aa = yield p.query('select name,password from users where id = ? limit 1',[1])[0]
     console.log(aa)
 })
+*/
