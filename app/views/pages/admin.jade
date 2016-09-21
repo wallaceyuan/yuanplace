@@ -15,13 +15,13 @@ block content
           .col-sm-10
             input#inputCategory.form-control(type="text", name="genres", value=movie.genres)
         .form-group
-          label.col-sm-2.control-label 分类选择
+          label.col-sm-2.control-label 新增分类选择
           each cat in categories
             label.radio-inline
               if movie.genres
                 input(type="checkbox", name="category", value=cat.name, checked=eval('/'+cat.name +'/g').test(movie.genres))
               else
-                input(type="radio", name="category", value=cat.name)
+                input(type="checkbox", name="category", value=cat.name)
               | #{cat.name}
         .form-group
           label.col-sm-2.control-label(for="inputTitle") 电影名字
@@ -64,6 +64,31 @@ block content
           button.btn.btn-default(type="submit") 录入
   script.
       $(function () {
+          $('.radio-inline input').on('click',function(){
+              var cateValue = $('#inputCategory').val()
+              var value = $(this).val()
+              var checked = this.checked
+              if(checked){
+                var add = cateValue.length?','+value:value
+                $('#inputCategory').val(cateValue+add)
+              }else{
+                var index = cateValue.indexOf(value)
+                var add = index ? ',' + value : value+','
+                var patt1 = new RegExp(add)
+                var res = cateValue.replace(patt1,'')
+                $('#inputCategory').val(res)
+              }
+          })
+          $('#inputCategory').on('blur',function(){
+              var values = $(this).val().split(',')
+              $('.radio-inline input').prop('checked', false);
+              values.map(function(v){
+                  $('.radio-inline input').each(function(){
+                      $(this).val() == v?$(this).prop('checked', true):''
+                  })
+              })
+          })
+
           $('#douban').blur(function () {
               var douban = $(this)
               var id = douban.val()

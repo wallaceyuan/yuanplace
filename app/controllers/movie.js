@@ -3,7 +3,6 @@
 var mongoose = require('mongoose')
 var Movie = mongoose.model('Movie')
 var Category = mongoose.model('Category')
-var Comment = mongoose.model('Comment')
 var _ = require('lodash')
 var fs = require('fs')
 var path = require('path')
@@ -51,7 +50,6 @@ exports.update = function *(next) {
     if (id) {
         var movie = yield p.query('select * from movie where id = ?',[id])
         movie = movie[0]
-        console.log(movie)
         var categories = yield p.query('SELECT name from category GROUP BY name')
         yield this.render('pages/admin', {
             title: 'movie 后台更新页',
@@ -82,7 +80,7 @@ exports.savePoster = function *(next) {
 
 // admin post movie
 exports.save = function *(next) {
-    console.log('save');
+    //console.log('save');
     var movieObj = this.request.body.fields || {}
     var _movie
 
@@ -90,16 +88,48 @@ exports.save = function *(next) {
         movieObj.poster = this.poster
     }
     if (movieObj.id) {
-        console.log('movieObj',movieObj)
-        //var movie = yield Movie.findOne({_id: movieObj._id}).exec()
+        var id = movieObj.id
         var movie = yield p.query('select * from movie where id = ?',[movieObj.id])
+        delete movieObj.id
+        delete movieObj.category
+        var dataList = []
+        for(var k in movieObj){
+            dataList.push(movieObj[k])
+        }
+        dataList.push(new Date(),id)
+        //更新movie
+        var sql = "UPDATE movie SET genres = ?,title=?,director=?,country=?,language=?,poster=?,flash=?,year=?,summary=?,updateAt=? where id=?";
+        yield p.query(sql,dataList)
 
-        _movie = _.extend(movie[0], movieObj)
+        //更新category
+        var newG = movieObj.genres.split(',')// 新
+        var res = yield p.query('SELECT name from category WHERE movieId = ?',[id])
+        var genres = []//旧
+        res.map(function(v){
+            genres.push(v.name)
+        })
 
-        console.log('_movie',_movie)
-        //yield _movie.save()
+        var cs = _.difference(newG,genres)//新增
 
-        //this.redirect('/movie/' + movie._id)
+        var ds = _.difference(genres,newG)//删除
+
+        var queryArray = []
+        cs.map(function(c){
+            queryArray.push(function *(){
+                yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[c,id,new Date(),new Date()])
+            })
+        })
+        yield queryArray
+
+        var dsArray = []
+        ds.map(function (d){
+            dsArray.push(function *(){
+                yield p.query('delete from category where movieId =? and name=?',[id,d])
+            })
+        })
+        yield dsArray
+
+        this.redirect('/movie/' + id)
     }
     else {
         _movie = new Movie(movieObj)
@@ -154,14 +184,14 @@ exports.list = function *(next) {
 // list page
 exports.del = function *(next) {
   var id = this.query.id
-
   if (id) {
     try{
-      yield Movie.remove({_id: id}).exec()
-      this.body = {success: 1}
+        yield p.query('delete from category where movieId=?',[id])
+        yield p.query('delete from movie where id=?',[id])
+        this.body = {success: 1}
     }catch(err){
-      //res.json({success: 0})
-      this.body = {success: 0}
+        console.log(err)
+        this.body = {success: 0}
     }
   }
 }

@@ -16,8 +16,6 @@ var Wechat = require('../app/controllers/wechat')
 var koaBody = require('koa-body')
 
 module.exports = function(router) {
-
-
     // Index
     router.get('/', Index.index)
 

@@ -17,6 +17,19 @@ pool.query('select * from movie ')
 
 var aa = /爱情/g.test('剧情,爱情,情色')
 console.log(aa)
+
+var a = ['剧情','爱情','情色']
+
+var b = ['爱情','情色','二次元']
+
+var c = _.difference(a,b)
+
+var d = _.difference(b,a)
+
+console.log(c,d)
+//let difference = a.concat(b).filter(v => !a.includes(v) || !b.includes(v))
+
+
 /*
 pool.query('SELECT * FROM category group by name,movie',function(err,row){
     console.log(err,row)
