@@ -18,23 +18,23 @@ alter table comments add parent_name varchar(255)
 
 CREATE TABLE movie
 (
-id int NOT NULL AUTO_INCREMENT,
-director varchar(255),
-title varchar(255),
-language varchar(255),
-doubanId varchar(255),
-country varchar(255),
-summary varchar(255),
-flash varchar(255),
-poster varchar(255),
-year varchar(255),
-coutry varchar(255),
-pv int NOT NULL DEFAULT 0,
-category int,
-createAt datetime,
-updateAt datetime,
-genres varchar(255),
-PRIMARY KEY (id)
+  id int NOT NULL AUTO_INCREMENT,
+  director varchar(255),
+  title varchar(255),
+  language varchar(255),
+  doubanId varchar(255),
+  country varchar(255),
+  summary mediumtext(0),
+  flash varchar(255),
+  poster varchar(255),
+  year varchar(255),
+  coutry varchar(255),
+  pv int NOT NULL DEFAULT 0,
+  category int,
+  createAt datetime,
+  updateAt datetime,
+  genres varchar(255),
+  PRIMARY KEY (id)
 )
 alter table movie modify year varchar(255)
 

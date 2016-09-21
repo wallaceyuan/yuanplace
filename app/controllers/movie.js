@@ -36,12 +36,12 @@ exports.detail = function *(next) {
 
 // admin new page
 exports.new = function *(next) {
-  var categories = yield Category.find({}).exec()
-  yield this.render('pages/admin', {
-    title: 'imooc 后台录入页',
-    categories: categories,
-    movie: {}
-  })
+    var categories = yield p.query('SELECT name from category GROUP BY name')
+    yield this.render('pages/admin', {
+        title: 'movie 后台录入页',
+        categories: categories,
+        movie: {}
+    })
 }
 
 // admin update page
@@ -87,15 +87,19 @@ exports.save = function *(next) {
     if (this.poster) {
         movieObj.poster = this.poster
     }
+
+    var dataList = []
+    delete movieObj.id
+    delete movieObj.category
+    for(var k in movieObj){
+        dataList.push(movieObj[k])
+    }
+
     if (movieObj.id) {
         var id = movieObj.id
         var movie = yield p.query('select * from movie where id = ?',[movieObj.id])
-        delete movieObj.id
-        delete movieObj.category
-        var dataList = []
-        for(var k in movieObj){
-            dataList.push(movieObj[k])
-        }
+
+
         dataList.push(new Date(),id)
         //更新movie
         var sql = "UPDATE movie SET genres = ?,title=?,director=?,country=?,language=?,poster=?,flash=?,year=?,summary=?,updateAt=? where id=?";
@@ -132,20 +136,20 @@ exports.save = function *(next) {
         this.redirect('/movie/' + id)
     }
     else {
-        _movie = new Movie(movieObj)
-
-        var categoryId = movieObj.category
-        var categoryName = movieObj.categoryName
-
-        var movie = yield _movie.save()
-
-        if (categoryId) {
+        dataList.push(new Date())
+        console.log(dataList)
+        var sql = "insert into movie(genres,title,director,country,language,poster,flash,year,summary,createAt) value(?,?,?,?,?,?,?,?,?,?)";
+        var row = yield p.query(sql,dataList)
+        var id = row.insertId
+        console.log(row,id)
+        yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[movieObj.genre,id,new Date(),new Date()])
+        this.redirect('/movie/' + id)
+        /*if (categoryId) {
             let category = yield Category.findOne({_id: categoryId}).exec()
 
             category.movies.push(movie._id)
             yield category.save()
 
-            this.redirect('/movie/' + movie._id)
         }
         else if (categoryName) {
             let category = new Category({
@@ -158,7 +162,7 @@ exports.save = function *(next) {
             yield movie.save()
 
             this.redirect('/movie/' + movie._id)
-        }
+        }*/
     }
 }
 // list page
