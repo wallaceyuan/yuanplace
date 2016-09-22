@@ -7,6 +7,9 @@ var _ = require('lodash')
 var fs = require('fs')
 var path = require('path')
 var moment = require('moment')
+var conf = require('../../config/conf')
+var ip = conf.ip
+
 
 // detail page
 exports.detail = function *(next) {
@@ -15,22 +18,26 @@ exports.detail = function *(next) {
 
     if(id == 'undefined') return
 
-    yield p.query('update movie set pv = pv +1 where id= ?',[id])
 
     var movie = yield p.query('select * from movie where id=? limit 1',[id])
 
-    var sqlS = 'select t1.id,t1.parent_id,t1.parent_name,t1.movie_id,t1.user_id,t1.createAt,t1.content,t2.`name` from comments as t1,users as t2 where t2.id = t1.user_id and t1.movie_id=?'
+    if(movie.length){
 
-    var comments = yield p.query(sqlS,[id])
+        yield p.query('update movie set pv = pv +1 where id= ?',[id])
 
-    comments.map(function(cmt){
-        cmt.createAt = moment(cmt.createAt).format('Y-M-D H:mm:ss')
-    })
+        var sqlS = 'select t1.id,t1.parent_id,t1.parent_name,t1.movie_id,t1.user_id,t1.createAt,t1.content,t2.`name` from comments as t1,users as t2 where t2.id = t1.user_id and t1.movie_id=?'
+
+        var comments = yield p.query(sqlS,[id])
+
+        comments.map(function(cmt){
+            cmt.createAt = moment(cmt.createAt).format('Y-M-D H:mm:ss')
+        })
+    }
 
     yield this.render('pages/detail', {
         title: 'imooc 详情页',
-        movie: movie[0],
-        comments: comments
+        movie: movie[0] || {},
+        comments: comments || ''
     })
 }
 
@@ -63,18 +70,18 @@ var util = require('../../libs/util')
 
 // admin poster
 exports.savePoster = function *(next) {
-  var posterData = this.request.body.files.uploadPoster
-  var filePath = posterData.path
-  var name = posterData.name
-  if (name) {
-    var data = yield util.readFileAsync(filePath)
-    var timestamp = Date.now()
-    var type = posterData.type.split('/')[1]
-    var poster = timestamp + '.' + type
-    var newPath = path.join(__dirname, '../../', '/public/upload/' + poster)
-    yield util.writeFileAsync(newPath,data)
-    this.poster = poster
-  }
+    var posterData = this.request.body.files.uploadPoster
+    var filePath = posterData.path
+    var name = posterData.name
+    if (name) {
+        var data = yield util.readFileAsync(filePath)
+        var timestamp = Date.now()
+        var type = posterData.type.split('/')[1]
+        var poster = timestamp + '.' + type
+        var newPath = path.join(__dirname, '../../', '/public/upload/' + poster)
+        yield util.writeFileAsync(newPath,data)
+        this.poster = ip+'/upload/'+poster
+    }
     yield next
 }
 
@@ -83,6 +90,8 @@ exports.save = function *(next) {
     //console.log('save');
     var movieObj = this.request.body.fields || {}
     var _movie
+
+    var id = movieObj.id
 
     if (this.poster) {
         movieObj.poster = this.poster
@@ -95,12 +104,12 @@ exports.save = function *(next) {
         dataList.push(movieObj[k])
     }
 
-    if (movieObj.id) {
-        var id = movieObj.id
+    if (id) {
+
         var movie = yield p.query('select * from movie where id = ?',[movieObj.id])
 
-
         dataList.push(new Date(),id)
+
         //更新movie
         var sql = "UPDATE movie SET genres = ?,title=?,director=?,country=?,language=?,poster=?,flash=?,year=?,summary=?,updateAt=? where id=?";
         yield p.query(sql,dataList)
@@ -136,33 +145,13 @@ exports.save = function *(next) {
         this.redirect('/movie/' + id)
     }
     else {
+        console.log('insert',movieObj.poster)
         dataList.push(new Date())
-        console.log(dataList)
         var sql = "insert into movie(genres,title,director,country,language,poster,flash,year,summary,createAt) value(?,?,?,?,?,?,?,?,?,?)";
         var row = yield p.query(sql,dataList)
         var id = row.insertId
-        console.log(row,id)
         yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[movieObj.genre,id,new Date(),new Date()])
         this.redirect('/movie/' + id)
-        /*if (categoryId) {
-            let category = yield Category.findOne({_id: categoryId}).exec()
-
-            category.movies.push(movie._id)
-            yield category.save()
-
-        }
-        else if (categoryName) {
-            let category = new Category({
-                name: categoryName,
-                movies: [movie._id]
-            })
-
-            yield category.save()
-            movie.category = category._id
-            yield movie.save()
-
-            this.redirect('/movie/' + movie._id)
-        }*/
     }
 }
 // list page

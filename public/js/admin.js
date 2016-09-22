@@ -2,16 +2,21 @@
  * Created by yuan on 2016/9/21.
  */
 $(function(){
-    $('button').on('click',function(){
+    $('button.moviedel').on('click',function(){
         var id = $(this).attr('data-id')
-        delMovie(id)
+        var url = '/admin/movie/list?id='+id
+        delMovie(url)
+    })
+    $('button.userdel').on('click',function(){
+        var id = $(this).attr('data-id')
+        var url = '/admin/user/list?id='+id
+        delMovie(url)
     })
 })
 
-function delMovie(id){
-    console.log(id)
+function delMovie(url){
     $.ajax({
-        url: '/admin/movie/list?id='+id,
+        url: url,
         type: 'DELETE',
         success: function(response) {
             if(response.success == 1){

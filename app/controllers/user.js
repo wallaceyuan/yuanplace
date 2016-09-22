@@ -70,19 +70,62 @@ exports.signin = function *(next) {
 exports.logout =  function *(next) {
   delete this.session.user
   //delete app.locals.user
-
   this.redirect('/')
 }
 
+
 // userlist page
 exports.list = function *(next) {
-  var users = yield p.query('select * from users order by updateAt desc')
-  console.log(users)
+  var users = yield p.query('select t1.id,t1.name,t1.password,t1.role,t2.name as roleName from users as t1 ,roles as t2 where t2.role_id = t1.role order by updateAt desc')
   //var users = yield  User.find({}).sort('meta.updateAt').exec()
   yield this.render('pages/userlist', {
     title: 'imooc 用户列表页',
     users: users
   })
+}
+
+exports.del =  function *(next){
+  var id = this.query.id
+  if (id) {
+    try{
+      yield p.query('delete from users where id=?',[id])
+      this.body = {success: 1}
+    }catch(err){
+      console.log(err)
+      this.body = {success: 0}
+    }
+  }
+}
+
+exports.update = function *(next){
+  var id = this.params.id
+  if(id){
+    var roles = yield p.query('select name,role_id from roles')
+    var users = yield p.query('select t1.id,t1.name,t1.password,t1.role,t2.name as roleName from users as t1 ,roles as t2 where t2.role_id = t1.role and t1.id = ?',[id])
+    yield this.render('pages/userupdate',{
+      title: 'imooc 用户列表页',
+      users: users[0],
+      roles: roles
+    })
+  }
+}
+
+exports.save = function *(next){
+
+  var userObj = this.request.body.fields || {}
+
+  var id = userObj.id
+
+  if (id) {
+
+    yield p.query("UPDATE users SET name = ?,role=? where id=?",[userObj.name,userObj.inputRole,id])
+
+  }else{
+
+  }
+
+  this.redirect('/admin/user/list')
+
 }
 
 // midware for user

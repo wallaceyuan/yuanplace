@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+   .container
+      .row
+         form.form-horizontal(method="post", action="/admin/user", enctype="multipart/form-data")
+            .form-group
+               label.col-sm-2.control-label 姓名
+               .col-sm-10
+                  input#name.form-control(type="text", name="name", value=users.name)
+            if users.id
+               input(type="hidden", name="id", value=users.id)
+            .form-group
+               label.col-sm-2.control-label(for="inputRole") 用户分类
+               .col-sm-10
+                  each val in roles
+                     label.radio-inline
+                        input(type="radio",name="inputRole",value=val.role_id,checked=users.roleName == val.name)
+                        | #{val.name}
+            .form-group
+               .col-sm-offset-2.col-sm-10
+               button.btn.btn-default(type="submit") 提交
