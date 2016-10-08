@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-   .container
+   .col-md-8
       .row
          form.form-horizontal(method="post", action="/admin/user", enctype="multipart/form-data")
             .form-group
@@ -18,5 +18,5 @@ block content
                         input(type="radio",name="inputRole",value=val.role_id,checked=users.roleName == val.name)
                         | #{val.name}
             .form-group
-               .col-sm-offset-2.col-sm-10
+               .col-sm-10
                button.btn.btn-default(type="submit") 提交

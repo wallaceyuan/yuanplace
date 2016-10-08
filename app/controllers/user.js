@@ -80,7 +80,8 @@ exports.list = function *(next) {
   //var users = yield  User.find({}).sort('meta.updateAt').exec()
   yield this.render('pages/userlist', {
     title: 'imooc 用户列表页',
-    users: users
+    users: users,
+    type: 'admin'
   })
 }
 
@@ -105,7 +106,8 @@ exports.update = function *(next){
     yield this.render('pages/userupdate',{
       title: 'imooc 用户列表页',
       users: users[0],
-      roles: roles
+      roles: roles,
+      type: 'admin'
     })
   }
 }

@@ -13,3 +13,7 @@ address,cite,code,em,th,i{font-weight:normal; font-style:normal;}
 .clearfix{*zoom:1;}
 .clearfix:after{display:block; overflow:hidden; clear:both; height:0; visibility:hidden; content:".";}
 a:link,a:visited,a:hover,a:active{color:#252525; text-decoration:none;}
+
+.navLeft{
+    margin-top:147px;
+}

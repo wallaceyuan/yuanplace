@@ -23,7 +23,7 @@ exports.save = function *(next) {
 exports.list = function *(next) {
   var catetories = yield Category.fetch()
   yield this.render('pages/categorylist', {
-    title: 'imooc 分类列表页',
+    title: 'movie 分类列表页',
     catetories: catetories
   })
 }

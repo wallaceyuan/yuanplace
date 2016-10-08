@@ -47,7 +47,8 @@ exports.new = function *(next) {
     yield this.render('pages/admin', {
         title: 'movie 后台录入页',
         categories: categories,
-        movie: {}
+        movie: {},
+        type: 'admin'
     })
 }
 
@@ -61,7 +62,8 @@ exports.update = function *(next) {
         yield this.render('pages/admin', {
             title: 'movie 后台更新页',
             movie: movie,
-            categories: categories
+            categories: categories,
+            type: 'admin'
         })
     }
 }
@@ -170,6 +172,7 @@ exports.list = function *(next) {
         totalPage: Math.ceil(total / count),
         title: 'movie 列表页',
         movies: movies,
+        type:'admin',
         currentPage: page
     })
 }
