@@ -1,8 +1,8 @@
 'use strict'
 
-var mongoose = require('mongoose')
-var Movie = mongoose.model('Movie')
-var Category = mongoose.model('Category')
+//var mongoose = require('mongoose')
+//var Movie = mongoose.model('Movie')
+//var Category = mongoose.model('Category')
 var _ = require('lodash')
 var fs = require('fs')
 var path = require('path')

@@ -7,7 +7,7 @@ var fs = require('fs')
 var app = new Koa();
 var path = require('path');
 var session = require('koa-session')
-var mongoose = require('mongoose')
+//var mongoose = require('mongoose')
 var bodyParser = require('koa-bodyparser');
 var views = require('koa-views')
 var Router = require('koa-router');
@@ -18,8 +18,8 @@ var conf = require('./config/conf')
 var pool = conf.pool
 var p = conf.p
 // models loading
-var dbUrl = 'mongodb://localhost/movie'
-mongoose.connect(dbUrl)
+/*var dbUrl = 'mongodb://localhost/movie'
+mongoose.connect(dbUrl)*/
 
 var models_path = __dirname + '/app/models'
 
@@ -43,7 +43,7 @@ var walk = function(path) {
 walk(models_path)
 
 
-var User = mongoose.model('User')
+//var User = mongoose.model('User')
 
 //视图
 app.use(views(__dirname + '/app/views',{
