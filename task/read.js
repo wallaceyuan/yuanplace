@@ -1,4 +1,3 @@
-var weiboLoginModule = require("./weiboLogin");
 var Request = require('request');
 var Promise = require('bluebird')
 var request = Promise.promisify(require('request'))
@@ -7,26 +6,22 @@ var cheerio = require('cheerio')
 var cUrl = "http://weibo.com/aj/v6/comment/big?id="
 var aaa = 'http://weibo.cn/comment/Ec2EOcu7y?uid=1845864154&rl=0#cmtfrm'
 var cRequest = ''
-var wUrl = 'http://weibo.cn/kankanews'
 
 exports.readNews = function (uri,callback) {
-
     var options = {
-        uri:wUrl,
+        uri:uri,
         encoding:null,
         headers: {
             'User-Agent': 'spider'
         }
     }
-
     request(options).then(function(response){
         var result = iconv.decode(response.body,'utf8');
-        console.log(result)
-/*        fetchUserWeibo(result,function (err,weibo) {
-            getComment(weibo,function (err,comment) {
+        fetchWebContent(result,function (err,weibo) {
+/*            getComment(weibo,function (err,comment) {
                 console.log('comment')
-            })
-        })*/
+            })*/
+        })
     })
 }
 
@@ -38,11 +33,6 @@ function getComment(body,callback) {
         uri:cUrl+body.mid,
         json:true
     }
-    cRequest.get(options,function(err,response,body){
-        console.log(body)
-        //cRequest(options).then(function(response){
-        //var result = iconv.decode(response.body,'utf8');
-    })
 }
 
 
@@ -59,11 +49,18 @@ function fetchUserWeibo(body,callback) {
 
 function fetchWebContent(body,callback) {
     var $ = cheerio.load(body);
-    var item = $(".c span.ctt")[0]
-    callback(null,getWeibo($,item));
+    var item = $(".c .ctt")[0]
+    callback(null,getWeiboC($,item));
+/*    $(".c .ctt").map(function (index,item) {
+        callback(null,getWeiboC($,item));
+    })*/
 }
 
-
+function getWeiboC($,feedSelector){
+    var weiboDiv = $(feedSelector);
+    console.log(weiboDiv.text())
+    
+}
 
 function getWeibo($,feedSelector){
     var weiboDiv = $(feedSelector);
