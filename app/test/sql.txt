@@ -1,3 +1,23 @@
+CREATE TABLE IF NOT EXISTS `kWeibo` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `tbinfo` varchar(255),
+    `mid` int(30),
+    `minfo` varchar(255),
+    `omid` int(30),
+    `text` mediumtext(0),
+    `sendAt` datetime,
+    `forward` int(30),
+)
+
+CREATE TABLE IF NOT EXISTS `KweiboF` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255),
+    `id` varchar(255),
+    `text` mediumtext(0),
+    `sendAt` datetime
+)
+
+
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255),
