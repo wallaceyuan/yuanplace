@@ -21,7 +21,7 @@ exports.kNews = function(list,callback){
 exports.kComment = function(list,callback){
     async.forEach(list,function(item,cb){
         debug('保存文章',JSON.stringify(item));
-        pool.query('replace into p_weibo(mid,userName,content) values(?,?,?)',[item.mid,item.userName,item.content],function(err,result){
+        pool.query('replace into p_weibo(cid,mid,userName,content) values(?,?,?,?)',[item.cid,item.mid,item.userName,item.content],function(err,result){
             cb();
         });
     },callback);

@@ -41,7 +41,16 @@ exports.kComment = function (kn,cb) {
         $(".c").map(function (index,item) {
             var id = $(item).attr("id")
             if(id && id.match(/C_/)){
+                var cid
+                $(item).find("a").map(function(id,it){
+                    var str = $(it).attr('href')
+                    if(str && str.match(/reply/g)){
+                        var arr = str.match(/\/([0-9]+)?/g).pop()
+                        cid = arr.toString().replace(/\//,'')
+                    }
+                })
                 var cInfo = {
+                    "cid":cid,
                     "mid":kn.mid,
                     "userName":$(item).find("a").eq(0).text(),
                     "content":$(item).find(".ctt").text()

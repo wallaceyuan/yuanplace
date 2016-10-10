@@ -32,7 +32,7 @@ async.waterfall([
     if(err)
         console.log(err)
     else
-        //console.log('所有任务都完成了')
+        console.log('所有任务都完成了')
         debug('所有的任务完成了');
 })
 

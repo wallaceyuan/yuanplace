@@ -28,8 +28,18 @@ var d = _.difference(b,a)
 
 console.log(c,d)
 //let difference = a.concat(b).filter(v => !a.includes(v) || !b.includes(v))
+var str = '/comments/reply/EcaDjeKXF/4029033097983302?rl=1&st=55907d'
+var arr = str.match(/\/([0-9]+)?/g).pop()
+console.log(arr.toString().replace(/\//,''))
+console.log(str.match(/\/([0-9]+)?/g))
 
 
+/*var d = "1[ddd]sfdsaf[ccc]fdsaf[bbbb]";
+var patt = /\[\/^\]]+\]/g;
+
+var pattern =/\/(\d+.+?)?/g;
+
+console.log(str.match(pattern))*/
 /*
 pool.query('SELECT * FROM category group by name,movie',function(err,row){
     console.log(err,row)
