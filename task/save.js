@@ -17,6 +17,27 @@ exports.kNews = function(list,callback){
     },callback);
 }
 
+exports.kNewscom = function(list,callback){
+    async.forEach(list,function(item,cb){
+        debug('保存新闻',JSON.stringify(item));
+        var data = [item.tbinfo,item.mid,item.isforward,item.minfo,item.omid,item.text,item.sendAt]
+        if(item.forward){
+            var fo = item.forward
+            data = data.concat([fo.name,fo.id,fo.text,fo.sendAt])
+        }else{
+            data = data.concat(['','','',new Date()])
+        }
+
+        pool.query('replace into kWeibo(tbinfo,mid,isforward,minfo,omid,text,sendAt,fname,fid,ftext,fsendAt) values(?,?,?,?,?,?,?,?,?,?,?)',data,function(err,result){
+            if(err){
+                console.log(err)
+            }
+            cb();
+        });
+    },callback);
+}
+
+
 //把文章列表存入数据库
 exports.kComment = function(list,callback){
     async.forEach(list,function(item,cb){

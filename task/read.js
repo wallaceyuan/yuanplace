@@ -1,11 +1,34 @@
 var Request = require('request');
+var weiboLoginModule = require("./weiboLogin");
+
 var Promise = require('bluebird')
 var request = Promise.promisify(require('request'))
 var iconv = require('iconv-lite')
 var cheerio = require('cheerio')
-var cUrl = "http://weibo.com/aj/v6/comment/big?id="
+var cUrl = "http://weibo.com/aj/v6/comment/big?ajwvr=6&id=4029056448434573&filter=0&__rnd=1476089815665"
 var async = require('async');
 var kComments = [];
+
+
+/*weiboLoginModule.login("yuanfang_yff@163.com","wallace741130",function(err,cookieColl){
+    if(!err){
+        var request = Request.defaults({jar: cookieColl});
+
+        request.get({url:cUrl},function(err,response,body){
+            console.log(body)
+        })
+        var userColl = db.get("users");
+        var dailyPost = db.get("dailyWeibo");
+
+        userColl.find({},{stream:true}).each(function(doc){
+            fetchUserWeibo(request,doc.uId,function(err,weibo){
+                dailyPost.insert(weibo);
+            });
+        }).error(function(err){
+            console.log(err);
+        });
+    }
+});*/
 
 exports.kNews = function (uri,callback) {
     var options = {
@@ -24,6 +47,27 @@ exports.kNews = function (uri,callback) {
         callback(null,kNews);
     })
 }
+
+
+exports.kNewscom = function (uri,callback) {
+    var options = {
+        uri:uri,
+        encoding:null,
+        headers: {
+            'User-Agent': 'spider'
+        }
+    }
+    request(options).then(function(response){
+        var kNews = [];
+        var result = iconv.decode(response.body,'utf8');
+        fetchWeb(result,function (err,weibo) {
+            kNews.push(weibo)
+        })
+        callback(null,kNews);
+    })
+}
+
+
 
 exports.kComment = function (kn,cb) {
     var kComment = []
@@ -61,6 +105,14 @@ exports.kComment = function (kn,cb) {
         cb(null,kComment)
     })
 }
+
+function fetchWeb(body,cb) {
+    var $ = cheerio.load(body);
+    $("div[action-type=feed_list_item]").map(function (index,item) {
+        cb(null,getWeibo($,item))
+    })
+}
+
 
 function fetchWebContent(body,cb) {
     var $ = cheerio.load(body);
@@ -112,7 +164,6 @@ function getWeibo($,feedSelector){
             };
         }
     }
-
     return weiboInfo;
 }
 
