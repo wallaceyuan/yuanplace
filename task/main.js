@@ -5,22 +5,34 @@ var site = "http://weibo.com/rmrb";
 var wUrl = 'http://weibo.cn/kankanews'
 var async = require('async')
 var debug = require('debug')('crawl:main')
+var kNews = []
+var kComment = []
 
-var kNews = [];
-var kComments = [];
-
-async.series([
+async.waterfall([
     function (done) {
-        read.readNews(wUrl,function(err,list){
+        read.kNews(wUrl,function(err,list){
             kNews = list
-            done(err)
+            done(err,kNews)
         })
+    },
+    function (res,done) {
+        save.kNews(res,done)
+    },
+    function (done) {
+        async.forEach(kNews,function(kn,next){
+            read.kComment(kn,function (err,list) {
+                kComment = kComment.concat(list)
+                next();
+            })
+        },done)
+    },function (done) {
+        save.kComment(kComment,done)
     }
-],function(err,result){
+],function(err,res){
     if(err)
         console.log(err)
     else
-        console.log('所有任务都完成了')
+        //console.log('所有任务都完成了')
         debug('所有的任务完成了');
 })
 
