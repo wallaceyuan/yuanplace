@@ -36,13 +36,26 @@ exports.kNewscom = function(list,callback){
         });
     },callback);
 }
-
-
 //把文章列表存入数据库
 exports.kComment = function(list,callback){
     async.forEach(list,function(item,cb){
         debug('保存文章',JSON.stringify(item));
         pool.query('replace into p_weibo(cid,mid,userName,content) values(?,?,?,?)',[item.cid,item.mid,item.userName,item.content],function(err,result){
+            cb();
+        });
+    },callback);
+}
+
+
+//把文章列表存入数据库
+exports.kCommentCom = function(list,callback){
+    async.forEach(list,function(item,cb){
+        debug('保存文章',JSON.stringify(item));
+        var data = [item.news_id,item.comment_id,item.name,item.isReply,item.repName,item.content]
+        pool.query('replace into kweibo_c(news_id,comment_id,name,isReply,repName,content) values(?,?,?,?,?,?)',data,function(err,result){
+            if(err){
+                console.log(err)
+            }
             cb();
         });
     },callback);

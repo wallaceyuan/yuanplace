@@ -26,6 +26,17 @@ var c = _.difference(a,b)
 
 var d = _.difference(b,a)
 
+
+
+var str = "回复@homeboy_ding:他说的是他在上海的老乡吧。310开头的有多少会没事跑到宜家去睡觉，要么吃饱了撑着没事做。上海也有那么差素质的人，他的老乡当记首功。"
+var repName = str.match(/@(.+?):/i);
+var cc = str.match(/:(.+?)$/i);
+console.log('repName',repName)
+console.log('xx',cc,str)
+
+
+
+
 console.log(c,d)
 //let difference = a.concat(b).filter(v => !a.includes(v) || !b.includes(v))
 /*

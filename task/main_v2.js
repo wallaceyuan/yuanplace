@@ -1,8 +1,8 @@
 var read = require('./read')
 var save = require('./save')
-var uri = "http://weibo.com/kankanews?profile_ftype=1&is_all=1#_0"
-var site = "http://weibo.com/rmrb";
-var wUrl = 'http://weibo.cn/kankanews'
+var Request = require('request');
+var weiboLoginModule = require("./weiboLogin");
+var uri = "http://weibo.com/kankanews"
 var async = require('async')
 var debug = require('debug')('crawl:main')
 var kNews = []
@@ -17,17 +17,22 @@ async.waterfall([
     },
     function (res,done) {
         save.kNewscom(res,done)
-    }/*,
+    },
     function (done) {
-        async.forEach(kNews,function(kn,next){
-            read.kComment(kn,function (err,list) {
-                kComment = kComment.concat(list)
-                next();
-            })
-        },done)
+        weiboLoginModule.login('1272864289@qq.com','wallace7411302',function(err,cookieColl){
+            if(!err){
+                var request = Request.defaults({jar: cookieColl});
+                async.forEach(kNews,function(kn,next){
+                    read.kCommentCom({"kn":kn,"request":request},function (err,list) {
+                        kComment = kComment.concat(list)
+                        next();
+                    })
+                },done)
+            }
+        })
     },function (done) {
-        save.kComment(kComment,done)
-    }*/
+        save.kCommentCom(kComment,done)
+    }
 ],function(err,res){
     if(err)
         console.log(err)

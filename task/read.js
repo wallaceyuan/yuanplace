@@ -1,34 +1,10 @@
-var Request = require('request');
-var weiboLoginModule = require("./weiboLogin");
-
 var Promise = require('bluebird')
 var request = Promise.promisify(require('request'))
 var iconv = require('iconv-lite')
 var cheerio = require('cheerio')
-var cUrl = "http://weibo.com/aj/v6/comment/big?ajwvr=6&id=4029056448434573&filter=0&__rnd=1476089815665"
 var async = require('async');
-var kComments = [];
+var cBU = 'http://weibo.com/aj/v6/comment/big?ajwvr=6&id='
 
-
-/*weiboLoginModule.login("yuanfang_yff@163.com","wallace741130",function(err,cookieColl){
-    if(!err){
-        var request = Request.defaults({jar: cookieColl});
-
-        request.get({url:cUrl},function(err,response,body){
-            console.log(body)
-        })
-        var userColl = db.get("users");
-        var dailyPost = db.get("dailyWeibo");
-
-        userColl.find({},{stream:true}).each(function(doc){
-            fetchUserWeibo(request,doc.uId,function(err,weibo){
-                dailyPost.insert(weibo);
-            });
-        }).error(function(err){
-            console.log(err);
-        });
-    }
-});*/
 
 exports.kNews = function (uri,callback) {
     var options = {
@@ -47,27 +23,6 @@ exports.kNews = function (uri,callback) {
         callback(null,kNews);
     })
 }
-
-
-exports.kNewscom = function (uri,callback) {
-    var options = {
-        uri:uri,
-        encoding:null,
-        headers: {
-            'User-Agent': 'spider'
-        }
-    }
-    request(options).then(function(response){
-        var kNews = [];
-        var result = iconv.decode(response.body,'utf8');
-        fetchWeb(result,function (err,weibo) {
-            kNews.push(weibo)
-        })
-        callback(null,kNews);
-    })
-}
-
-
 
 exports.kComment = function (kn,cb) {
     var kComment = []
@@ -106,13 +61,62 @@ exports.kComment = function (kn,cb) {
     })
 }
 
+exports.kNewscom = function (uri,callback) {
+    var options = {
+        uri:uri,
+        encoding:null,
+        headers: {
+            'User-Agent': 'spider'
+        }
+    }
+    request(options).then(function(response){
+        var kNews = [];
+        var result = iconv.decode(response.body,'utf8');
+        fetchWeb(result,function (err,weibo) {
+            kNews.push(weibo)
+        })
+        callback(null,kNews);
+    })
+}
+
+exports.kCommentCom = function(obj,cb){
+    var kComment = []
+    var url = cBU+obj.kn.mid+"&filter=0"
+    var request = obj.request
+    request.get({url:url},function(err,response,body){
+        var data = JSON.parse(body)
+        var htmlT = data.data.html
+        var $ = cheerio.load(htmlT);
+        $("div.list_li").map(function (index,item) {
+            var comDiv = $(item)
+            var content = comDiv.find('.WB_text').text().trim()
+            var arr = content.split('：')
+            var repName = '',content = arr[1],isReply = ''
+            if(arr[1].match(/回复@/)){
+                repName = arr[1].match(/@(.+?):/i)[1]
+                content = arr[1].match(/:(.+?)$/i)?arr[1].match(/:(.+?)$/i)[1]:""
+                isReply = 1
+            }
+            var comInfo = {
+                "news_id":obj.kn.mid,
+                "comment_id":comDiv.attr("comment_id"),
+                "name":comDiv.find('.WB_text').find('a').eq(0).text().trim(),
+                "isReply":isReply,
+                "repName":repName,
+                "content":content,
+            }
+            kComment.push(comInfo)
+        })
+        cb(null,kComment)
+    })
+}
+
 function fetchWeb(body,cb) {
     var $ = cheerio.load(body);
     $("div[action-type=feed_list_item]").map(function (index,item) {
         cb(null,getWeibo($,item))
     })
 }
-
 
 function fetchWebContent(body,cb) {
     var $ = cheerio.load(body);
