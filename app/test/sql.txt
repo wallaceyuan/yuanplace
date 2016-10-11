@@ -13,22 +13,8 @@ CREATE TABLE IF NOT EXISTS `p_weibo` (
     PRIMARY KEY (cid)
 )
 
-CREATE TABLE IF NOT EXISTS `kWeibo` (
-    `tbinfo` varchar(255),
-    `mid` varchar(255),
-    `isforward` varchar(255),
-    `minfo` varchar(255),
-    `omid` varchar(255),
-    `text` mediumtext,
-    `sendAt` datetime,
-    `fname` varchar(255),
-    `fid` varchar(255),
-    `ftext` mediumtext,
-    `fsendAt` datetime,
-    PRIMARY KEY (mid)
-)
-
 CREATE TABLE IF NOT EXISTS `kweibo` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `tbinfo` varchar(255),
     `mid` varchar(255),
     `isforward` varchar(255),
@@ -40,18 +26,19 @@ CREATE TABLE IF NOT EXISTS `kweibo` (
     `fid` varchar(255),
     `ftext` mediumtext,
     `fsendAt` datetime,
-    PRIMARY KEY (mid)
+    primary key (id)
 )
 
 
 CREATE TABLE IF NOT EXISTS `kweibo_c` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `news_id` varchar(255),
     `comment_id` varchar(255),
     `name` varchar(255),
     `isReply` varchar(100),
     `repName` varchar(255),
     `content` varchar(255),
-    PRIMARY KEY (comment_id)
+    primary key (id)
 )
 
 

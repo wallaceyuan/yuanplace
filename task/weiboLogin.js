@@ -21,7 +21,7 @@ function getJsonObj(body){
 
 
 function log(msg){
-    console.log(msg);
+    //console.log(msg);
 }
 
 function login(userName,password,loginCallback) {
@@ -120,14 +120,14 @@ function login(userName,password,loginCallback) {
 
         },
         function (responseCode, body, callback) {
-            console.log("登录完成");
+            //console.log("登录完成");
             var responseJson = getJsonObj(body);
-            console.log(responseJson);
+            //console.log(responseJson);
 
             loginCallback(null,cookieColl);
         }
     ], function (err) {
-        console.log(err)
+        //console.log(err)
         loginCallback(err);
     });
 }

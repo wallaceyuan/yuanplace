@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+    head
+        - var name = 'Jade'
+        title= name
+        meta(charset="utf-8")
+        link(href="/css/public.css",rel="stylesheet")
+        link(rel="stylesheet", type="text/css" href="/css/crawler.css")
+    body
+        h1 Jade - node template engine
+        #container.col
+            if name === 'Jade'
+                p #{name} is very cool
+            else
+                p Get on Jade
+        footer
+            p.
+                Jade is a terse and simplae
+                templating language with a
+                strong focus on performance
+                and powerful features.

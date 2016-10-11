@@ -152,7 +152,16 @@ exports.save = function *(next) {
         var sql = "insert into movie(genres,title,director,country,language,poster,flash,year,summary,createAt) value(?,?,?,?,?,?,?,?,?,?)";
         var row = yield p.query(sql,dataList)
         var id = row.insertId
-        yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[movieObj.genre,id,new Date(),new Date()])
+
+        var newG = movieObj.genres.split(',')// 新
+        var queryArray = []
+        newG.map(function(c){
+            queryArray.push(function *(){
+                yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[c,id,new Date(),new Date()])
+            })
+        })
+        yield queryArray
+        //yield p.query('insert into category(name,movieId,createAt,updateAt) value(?,?,?,?)',[movieObj.genre,id,new Date(),new Date()])
         this.redirect('/movie/' + id)
     }
 }

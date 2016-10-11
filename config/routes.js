@@ -13,6 +13,8 @@ var Category = require('../app/controllers/category')
 //wechat
 var Game = require('../app/controllers/game')
 var Wechat = require('../app/controllers/wechat')
+var Crawler = require('../app/controllers/crawler')
+
 var koaBody = require('koa-body')
 
 module.exports = function(router) {
@@ -56,7 +58,10 @@ module.exports = function(router) {
     router.post('/admin/category', User.signinRequired, User.adminRequired, Category.save)
     router.get('/admin/category/list', User.signinRequired, User.adminRequired, Category.list)
 */
-
     // results
     router.get('/results', Index.search)
+
+    //weibo crawler
+    router.get('/crawler', Crawler.index)
+
 }
