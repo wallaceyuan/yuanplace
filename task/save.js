@@ -62,7 +62,7 @@ exports.kCommentCom = function(list,callback){
     var connection = list.connection
     async.forEach(list.res,function(item,cb){
         debug('保存评论',JSON.stringify(item));
-        var data = [item.news_id,item.comment_id,item.name,item.isReply,item.repName,item.content]
+        var data = [item.news_id,item.comment_id,item.name,item.isReply,item.repName,escape(item.content)]
         connection.query('select * from kweibo_c where comment_id = ?',[item.comment_id],function (err,res) {
             if(res &&res.length){
                 console.log('存在评论,不插入')
@@ -70,6 +70,7 @@ exports.kCommentCom = function(list,callback){
             }else{
                 connection.query('insert into kweibo_c(news_id,comment_id,name,isReply,repName,content) values(?,?,?,?,?,?)',data,function(err,result){
                     if(err){
+                        console.log(item.news_id,item.comment_id,item)
                         console.log('kCommentCom',err)
                     }
                     cb();

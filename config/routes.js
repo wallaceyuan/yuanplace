@@ -32,7 +32,6 @@ module.exports = function(router) {
     router.post('/admin/user',User.adminRequired, koaBody({multipart:true}),User.save)
     router.delete('/admin/user/list', User.signinRequired, User.adminRequired, User.del)
 
-
     // Movie
     router.get('/movie/:id', Movie.detail)
     router.get('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new)
@@ -40,7 +39,6 @@ module.exports = function(router) {
     router.post('/admin/movie',User.adminRequired, koaBody({multipart:true}), Movie.savePoster,  Movie.save)
     router.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list)
     router.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del)
-
 
     //weixin
     router.get('/wechat/movie',Game.guess)

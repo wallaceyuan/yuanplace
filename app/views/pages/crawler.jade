@@ -4,18 +4,53 @@ html(lang="en")
         - var name = 'Jade'
         title= name
         meta(charset="utf-8")
-        link(href="/css/public.css",rel="stylesheet")
         link(rel="stylesheet", type="text/css" href="/css/crawler.css")
     body
-        h1 Jade - node template engine
-        #container.col
-            if name === 'Jade'
-                p #{name} is very cool
-            else
-                p Get on Jade
-        footer
-            p.
-                Jade is a terse and simplae
-                templating language with a
-                strong focus on performance
-                and powerful features.
+        .j-container
+            aside.j-aside
+                a.j-logo(href="/crawler") Jayier's web-notes
+                h4.j-title Jayier's web-notes
+                p.j-say 每天进步一点点!
+                .j-social
+                    a(class="fa fa-github" href="https://github.com/Jayier" target="_blank" )
+                    a(class="fa fa-weixin" href="javascript:;" target="_blank")
+                    a(class="fa fa-envelope" href="mailto:jay_f2e@163.com" target="_blank")
+                    img.weixin(src="/images/weixin.png" alt="" class="weixin")
+                nav.j-nav
+                    ul.j-menu
+                        li
+                            a(href="/about") About
+                        li
+                            a(href="/archives") archives
+            .j-main
+                section#post-Jade.post-item
+                    header.post-header
+                        h3.post-title(itemprop="name") 信息展示
+                    article.post-content
+                        each val in crawlists
+                            .WB_feed_detail.clearfix(node-type="feed_content")
+                                .WB_face.W_fl
+                                    .face
+                                        a(target="_blank")
+                                            img(usercard="id=1791489070&amp;type=0&amp;refer_flag=1005055010_" src="http://tva4.sinaimg.cn/crop.0.0.180.180.50/6ac7f42ejw1e8qgp5bmzyj2050050aa8.jpg" width="50" height="50" alt="wallace_圆圆嗒" class="W_face_radius")
+                                .WB_detail
+                                    .WB_info
+                                        p(class="W_f14 W_fb S_txt1" usercard="id=1791489070&amp;type=0&amp;refer_flag=1005055010_" suda-uatrack="key=noload_singlepage&amp;value=user_name") wallace_圆圆嗒
+                                    .WB_from.S_txt2
+                                        span #{moment(val.sendAt).format('YYYY年MM月DD日 HH:mm')}
+                                        .WB_text(node-type="feed_list_reason")
+                                            p.
+                                                #{val.text}
+                            .comments(data=#{val.mid}) 评论
+        ul.pagination
+            - for (var i = 0; i < totalPage; i++) {
+            - if (currentPage == (i + 1)) {
+            li.active
+                span #{currentPage}
+            - }
+            - else {
+            li
+                a(href='/admin/movie/list?&p=#{i + 1}') #{i + 1}
+            - }
+            - }
+    script()
