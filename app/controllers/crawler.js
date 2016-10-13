@@ -10,7 +10,7 @@ exports.index = function *(next) {
     var sql = 'select * from kweibo limit '+(page-1) * count+','+count
 
     var crawlists = yield p.query(sql)
-    var total = yield p.query('select count(*) as count from movie')
+    var total = yield p.query('select count(*) as count from kweibo')
     total = total[0].count
     //console.log(crawlists)
     yield this.render('pages/crawler', {
