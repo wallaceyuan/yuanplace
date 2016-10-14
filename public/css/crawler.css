@@ -218,7 +218,17 @@ a {
     border-bottom-style: solid;
     border-color: #d9d9d9;
 }
-
+.WB_cardmore{
+    color: #333;
+    line-height: 35px;
+    display: inline-block;
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+}
 
 .pagination {
     display: inline-block;
