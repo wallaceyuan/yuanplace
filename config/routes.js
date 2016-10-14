@@ -61,5 +61,5 @@ module.exports = function(router) {
 
     //weibo crawler
     router.get('/crawler', Crawler.index)
-
+    router.get('/crawler/small/:mid',Crawler.commentS)
 }

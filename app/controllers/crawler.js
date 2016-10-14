@@ -7,7 +7,7 @@ exports.index = function *(next) {
     page = page?page:1
 
     var count = 10
-    var sql = 'select * from kweibo limit '+(page-1) * count+','+count
+    var sql = 'select * from kweibo order by sendAt desc limit '+(page-1) * count+','+count
 
     var crawlists = yield p.query(sql)
     var total = yield p.query('select count(*) as count from kweibo')
@@ -19,4 +19,21 @@ exports.index = function *(next) {
         crawlists: crawlists,
         currentPage: page
     })
+}
+
+
+exports.commentS = function *(next) {
+    var mid = this.params.mid
+    if (mid) {
+        var coments = yield p.query('select * from kweibo_c where news_id = ? limit 0,10',[mid])
+        coments.map(function (com) {
+            com.content = unescape(com.content)
+        })
+        var json = JSON.stringify(coments)
+        this.body = json
+
+    }else{
+        var json = "{\"err_code\":200,\"err_message\":\"Wrong \"}";
+        return json
+    }
 }

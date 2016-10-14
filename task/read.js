@@ -98,6 +98,7 @@ exports.kCommentCom = function(obj,cb){
                 isReply = 1
             }
             var comInfo = {
+                "poster":comDiv.find('.WB_face img').attr('src'),
                 "news_id":obj.kn.mid,
                 "comment_id":comDiv.attr("comment_id"),
                 "name":comDiv.find('.WB_text').find('a').eq(0).text().trim(),
