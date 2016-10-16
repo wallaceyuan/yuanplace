@@ -38,7 +38,8 @@ html(lang="en")
                                         .WB_info
                                             p(class="W_f14 W_fb S_txt1" usercard="id=1791489070&amp;type=0&amp;refer_flag=1005055010_" suda-uatrack="key=noload_singlepage&amp;value=user_name") wallace_圆圆嗒
                                         .WB_from.S_txt2
-                                            span #{moment(val.sendAt).format('YYYY年MM月DD日 HH:mm')}
+                                            a(href="http://127.0.0.1:3000/crawler/content/#{val.mid}")
+                                                span #{moment(val.sendAt).format('YYYY年MM月DD日 HH:mm')}
                                             .WB_text(node-type="feed_list_reason")
                                                 p.
                                                     #{val.text}

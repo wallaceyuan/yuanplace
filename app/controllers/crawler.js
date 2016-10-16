@@ -1,5 +1,6 @@
 
 var crawler = require('../api/crawler')
+var util = require('../libs/util')
 
 exports.index = function *(next) {
     var page = parseInt(this.query.p, 10) || 1
@@ -20,7 +21,6 @@ exports.index = function *(next) {
     })
 }
 
-
 exports.commentS = function *(next) {
     var mid = this.params.mid
     if (mid) {
@@ -36,12 +36,57 @@ exports.commentS = function *(next) {
         this.body = json
     }
 }
+
+exports.commentB = function *(next){
+    var query = this.query
+    var id = query.id
+    var page = parseInt(this.query.page, 10) || 1
+    page = page?page:1
+
+    var count = 10
+    var sql = 'select * from kweibo_c where news_id = ? order by id desc limit '+(page-1) * count+','+count
+
+    var data = yield p.query(sql,[id])
+    var total = yield p.query('select count(*) as count from kweibo_c where news_id = ?',[id])
+    total = total[0].count
+
+    var tmp = ''
+    data.map(function (dd) {
+        var rep = ''
+        if(dd.isReply)
+            rep = `<em class="name">@${dd.name}</em>`
+        tmp += `
+            <div comment_id="${dd.comment_id}" class="list_li S_line1 clearfix">
+                <div class="WB_face W_fl">
+                    <img width="30" height="30" alt="${dd.name}" src="${dd.poster}" usercard="id=2020917841" ucardconf="type=1">
+                </div>
+                <div node-type="replywrap" class="list_con">
+                    <div class="WB_text">
+                        <span class="name">${dd.name} :</span>
+                        <span class="content">
+                            ${rep}
+                            ${dd.content}
+                        </span>
+                    </div>
+                </div>
+            </div>
+                `
+    })
+
+    var json = {}
+    json.code = 200,json.msg = "",json.data.html = tmp
+    json.page.totalpage = Math.ceil(total/10)
+    json.page.pagenum = page
+
+    this.body  = json
+}
+
 exports.content = function *(next) {
     var mid = this.params.mid
     var sql = 'select * from kweibo where mid = ?'
     var content = yield p.query(sql,[mid])
     yield this.render('pages/crawContent', {
         title: 'content',
-        content: content[0],
+        content: content[0]
     })
 }

@@ -49,4 +49,16 @@ html(lang="en")
                                         .repeat_list
     script(src="/vendor/jquery.js")
     script(src="/js/smallC.js")
+    script.
+        $(function(){
+            $.ajax({
+                url: 'http://127.0.0.1:3000/crawler/big/?id=#{content.mid}&page=1',
+                type: 'get',
+                success: function (data) {
 
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        })

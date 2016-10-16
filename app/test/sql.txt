@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `kweibo_c` (
     `name` varchar(255),
     `isReply` varchar(100),
     `repName` varchar(255),
-    `content` varchar(255),
+    `content` mediumtext,
     `poster` varchar(255),
     primary key (id)
 )
@@ -111,12 +111,14 @@ CREATE TABLE category(
 
 
 CREATE TABLE users(
+    id int NOT NULL AUTO_INCREMENT,
     name varchar(255),
     password varchar(255),
     role int NOT NULL DEFAULT 0,
     createAt datetime,
     updateAt datetime,
-    UNIQUE (name)
+    UNIQUE (name),
+    PRIMARY KEY (id)
 )
 
 

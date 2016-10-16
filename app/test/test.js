@@ -2,6 +2,8 @@
  * Created by Yuan on 2016/9/7.
  */
 var conf = require('../../config/conf')
+var util = require('../../libs/util')
+
 var pool = conf.pool
 var p = conf.p
 var Promise = require('bluebird');
@@ -10,6 +12,11 @@ var moment = require('moment')
 var _ = require('lodash');
 var co = require('co');
 var moment = require('moment')
+
+util.pageNav(1,16,1111)
+
+
+
 
 //var aa = moment(new Date()).format('Y-M-D H:mm:ss')
 

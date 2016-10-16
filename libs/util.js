@@ -62,3 +62,14 @@ exports.sign = function(ticket, url) {
     }
 }
 
+exports.pageNav = function (page,total,id) {
+    var preHtml = `<a class="page prev S_txt1 S_line1" href="javascript:void(0);" >
+                <span action-type="feed_list_page" action-data="id=${id}&page=${page}">上一页</span>
+        </a>`
+    var nextHtml = `<a class="page prev S_txt1 S_line1" href="javascript:void(0);" >
+                <span action-type="feed_list_page" action-data="id=${id}&page=${page+1}">上一页</span>
+        </a>`
+    page == 1?'':preHtml
+    page == total?'':nextHtml
+
+}
