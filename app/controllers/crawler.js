@@ -1,6 +1,6 @@
 
 var crawler = require('../api/crawler')
-var util = require('../libs/util')
+var util = require('../../libs/util')
 
 exports.index = function *(next) {
     var page = parseInt(this.query.p, 10) || 1
@@ -65,7 +65,7 @@ exports.commentB = function *(next){
                         <span class="name">${dd.name} :</span>
                         <span class="content">
                             ${rep}
-                            ${dd.content}
+                            ${unescape(dd.content)}
                         </span>
                     </div>
                 </div>
@@ -73,10 +73,19 @@ exports.commentB = function *(next){
                 `
     })
 
-    var json = {}
-    json.code = 200,json.msg = "",json.data.html = tmp
-    json.page.totalpage = Math.ceil(total/10)
-    json.page.pagenum = page
+    var re =  util.pageNav(page,Math.ceil(total/count),id)
+    tmp += re
+    var json = {
+        "code":200,
+        "msg": "",
+        "data":{
+            "html":tmp
+        },
+        "page":{
+            "totalpage":Math.ceil(total/count),
+            "pagenum":page
+        }
+    }
 
     this.body  = json
 }

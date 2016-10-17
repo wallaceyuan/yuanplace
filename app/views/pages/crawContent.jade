@@ -50,15 +50,28 @@ html(lang="en")
     script(src="/vendor/jquery.js")
     script(src="/js/smallC.js")
     script.
-        $(function(){
+        function comGet(mid,page) {
             $.ajax({
-                url: 'http://127.0.0.1:3000/crawler/big/?id=#{content.mid}&page=1',
+                url: 'http://127.0.0.1:3000/crawler/big/?id='+mid+'&page='+page,
                 type: 'get',
                 success: function (data) {
-
+                    $('.repeat_list').html('')
+                    $('.repeat_list').append(data.data.html)
                 },
                 error: function (err) {
                     console.log(err)
                 }
+            })
+        }
+        $(function(){
+            comGet(#{content.mid},1)
+            $(document).on('click','.W_pages a.S_bg2,.W_pages a.S_line1 span',function (){
+                var data = $(this).attr('action-data')
+                var andA = data.split('&')
+                var parmBox = []
+                andA.map(function (aa) {
+                    parmBox.push(aa.split('=')[1])
+                })
+                comGet(parmBox[0],parmBox[1])
             })
         })

@@ -64,12 +64,58 @@ exports.sign = function(ticket, url) {
 
 exports.pageNav = function (page,total,id) {
     var preHtml = `<a class="page prev S_txt1 S_line1" href="javascript:void(0);" >
-                <span action-type="feed_list_page" action-data="id=${id}&page=${page}">上一页</span>
+                <span action-type="feed_list_page" action-data="id=${id}&page=${page-1}">上一页</span>
         </a>`
     var nextHtml = `<a class="page prev S_txt1 S_line1" href="javascript:void(0);" >
-                <span action-type="feed_list_page" action-data="id=${id}&page=${page+1}">上一页</span>
+                <span action-type="feed_list_page" action-data="id=${id}&page=${page+1}">下一页</span>
         </a>`
-    page == 1?'':preHtml
-    page == total?'':nextHtml
+    var pH = page == 1?'':preHtml
+    var nH = page == total?'':nextHtml
+    var nav = ''
+    if(total<6){
+         for(var i = 0;i<total;i++){
+            nav+= `
+                <a action-data="id=${id}&page=${i+1}" class="page S_txt1 S_bg2" href="javascript:void(0);" action-type="feed_list_page">${i+1}</a>
+                `
+         }
+    }else{
+        if(page<6){
+            console.log('tou')
+            for(var i = 0;i<6;i++){
+                nav+= `
+                <a action-data="id=${id}&page=${i+1}" class="page S_txt1 S_bg2" href="javascript:void(0);" action-type="feed_list_page">${i+1}</a>
+                `
+            }
+            nav += '<a href="javascript:void(0);" class="page S_txt2 page_dis">...</a>'
+        }else if(page+6>total){
+            console.log('wei')
+            nav += `
+                    <a action-data="id=${id}&page=1" class="page S_txt1 S_bg2" href="javascript:void(0);" action-type="feed_list_page">1</a>
+                    <a href="javascript:void(0);" class="page S_txt2 page_dis">...</a>
+                    `
+            for(var i = total-6;i<total;i++){
+                nav += `
+                        <a action-data="id=${id}&page=${i+1}" class="page S_txt1 S_bg2" href="javascript:void(0);" action-type="feed_list_page">${i+1}</a>
+                        `
+            }
+        }else{
+            console.log('mid')
+            nav += `
+                    <a action-data="id=${id}&page=1" class="page S_txt1 S_bg2" href="javascript:void(0);" action-type="feed_list_page">1</a>
+                    <a href="javascript:void(0);" class="page S_txt2 page_dis">...</a>
+                    `
+            for(var i = page-3;i<page+2;i++) {
+                nav += `
+                        <a action-data="id=${id}&page=${i + 1}" class="page S_txt1 S_bg2" href="javascript:void(0);" action-type="feed_list_page">${i + 1}</a>
+                    `
+            }
+            nav += `
+                    <a href="javascript:void(0);" class="page S_txt2 page_dis">...</a>
+                    <a action-data="id=${id}&page=${total}" class="page S_txt1 S_bg2" href="javascript:void(0);" action-type="feed_list_page">${total}</a>
+                    `
+        }
+    }
 
+    var nav = `<div class="WB_cardpage S_line1"><div class="W_pages">${pH+nav+nH}</div></div>`
+    return nav
 }
