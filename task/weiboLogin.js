@@ -100,7 +100,7 @@ function login(userName,password,loginCallback) {
 
             if (errorLoginMatch) {
                     var reason = getErrReason(errorLoginMatch[1]);
-                    callback("登录失败,原因:" + reason);
+                    callback("fail,reason:" + reason);
             }
             else{
                 var urlReg = /location\.replace\(\'(.*?)\'\)./;
@@ -135,25 +135,25 @@ function login(userName,password,loginCallback) {
 function getErrReason(errCode){
     switch(errCode){
         case "4038":
-            return "登录次数过于频繁";
+            return "登录次数过于频繁4038";
         case "4049":
-            return "请填写验证码";
+            return "请填写验证码4049";
         case "4010":
-            return "帐号尚未激活。";
+            return "帐号尚未激活。4010";
         case "4090":
-            return "此帐号未激活，请登录原帐号";
+            return "此帐号未激活，请登录原帐号4090";
         case "5024":
-            return "请填写正确的微盾动态码";
+            return "请填写正确的微盾动态码5024";
         case "5025":
-            return "动态码有误，请重新输入";
+            return "动态码有误，请重新输入5025";
         case "5":
-            return "尚未注册微博";
+            return "尚未注册微博5";
         case "101":
-            return "用户名或密码错误。"
+            return "用户名或密码错误。101"
         case "4098":
-            return "您的帐号还没有设置密码，为方便登录请";
+            return "您的帐号还没有设置密码，为方便登录请4098";
         case "9999":
-            return "当前网络超时，请稍后再试";
+            return "当前网络超时，请稍后再试9999";
         default :
             return "未知登录错误，请手动登录测试"
     }

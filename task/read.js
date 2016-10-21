@@ -80,6 +80,7 @@ exports.kNewscom = function (uri,callback) {
 }
 
 exports.kCommentCom = function(obj,cb){
+    console.log(obj)
     var kComment = []
     var url = cBU+obj.kn.mid+"&filter=0"
     var request = obj.request

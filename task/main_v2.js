@@ -24,7 +24,8 @@ pool.getConnection(function(err, connection) {
             save.kNewscom({"connection":connection,"res":res},done)
         },
         function (done) {
-            weiboLoginModule.login('1272864289@qq.com','wallace7411302',function(err,cookieColl){
+            console.log('login')
+            weiboLoginModule.login('yuanfang_yff@163.com','wallace741130',function(err,cookieColl){
                 if(!err){
                     var request = Request.defaults({jar: cookieColl});
                     async.forEach(kNews,function(kn,next){
@@ -33,6 +34,8 @@ pool.getConnection(function(err, connection) {
                             next();
                         })
                     },done)
+                }else{
+                    console.log(err)
                 }
             })
         },function (done) {

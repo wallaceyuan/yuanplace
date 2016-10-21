@@ -18,8 +18,10 @@ var Crawler = require('../app/controllers/crawler')
 var koaBody = require('koa-body')
 
 module.exports = function(router) {
-    // Index
-    router.get('/', Index.index)
+
+    router.get('/',Index.index)
+    //movie  Index
+    router.get('/movie', Index.movie)
 
     // User
     router.post('/user/signup', User.signup)

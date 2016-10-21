@@ -2,10 +2,21 @@
 var Movie = require('../api/movie')
 var path = require('path')
 
-// index page
+
+//movie index page
 exports.index = function *(next) {
-  var categories = yield Movie.findAll()
+  //var categories = yield Movie.findAll()
   yield this.render('pages/index', {
+    title: '袁圆的个人网站-wallaceyuan\'s Personal Website'
+    //categories: categories
+  })
+}
+
+
+//movie index page
+exports.movie = function *(next) {
+  var categories = yield Movie.findAll()
+  yield this.render('pages/mindex', {
     title: 'yuanMovie 首页',
     categories: categories
   })

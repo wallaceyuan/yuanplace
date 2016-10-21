@@ -1,24 +1,21 @@
-extends ../layout
-
-block content
-  link(href="/css/index.css", rel="stylesheet")
-  .container
-    .row
-      each cat in categories
-        .panel.panel-default
-          .panel-heading
-            h3
-              a(href='/results?cat=#{cat.name}&p=0') #{cat.name}
-          .panel-body
-            if cat.movies && cat.movies.length > 0
-              each item in cat.movies
-                .col-md-2
-                  .thumbnail
-                    a(href="/movie/#{item.id}")
-                      if item.poster.indexOf('http:') > -1
-                        img(src="#{item.poster}", alt="#{item.title}")
-                      else
-                        img(src="#{item.poster}", alt="#{item.title}")
-                    .caption
-                      h4 #{item.title}
-                      p: a.btn.btn-primary(href="/movie/#{item.id}", role="button") 观看预告片
+doctype html
+html(lang="en")
+    head
+        - var name = 'Jade'
+        title= name
+        meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css" href="/css/home.css")
+    body(id="classic-website" class="mt-main-index one-column")
+        #container
+            .container-inner
+                #header
+                    #header-inner
+                        #header-content
+                            h1 袁圆的个人网站
+                            p wallaceyuan 's Personal Website
+                #content
+                    #content-inner
+                        #page-alpha(style="margin-bottom:2em;")
+                            p
+                                a(href="movie/") |movie
+                                a(href="crawler/") |crawler
