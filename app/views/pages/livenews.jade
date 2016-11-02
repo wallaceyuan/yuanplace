@@ -1,0 +1,53 @@
+doctype
+html(lang="en")
+    head
+    meta(charset="UTF-8")
+    title #{title}
+    link(rel="stylesheet", type="text/css" href="/css/crawler.css")
+    style.
+        .iframeW {
+            width: 100%;
+            height: 667px;
+            background: url('/images/iphone.png') no-repeat top center;
+            background-size: 100% 100%;
+            padding: 100px 10px 100px 20px;
+        }
+        .iframeInner {
+            margin: 0 auto;
+            height: 100%;
+            width: 395px;
+        }
+        iframe[name=testIframe]{overflow-x:scroll;overflow-y:hidden;width:100%;height:100%;}
+    body
+        .j-container
+            aside.j-aside
+                a.j-logo(href="/crawler") Jayier's web-notes
+                h4.j-title Jayier's web-notes
+                p.j-say 每天进步一点点!
+                .j-social
+                    a(class="fa fa-github" href="https://github.com/Jayier" target="_blank" )
+                    a(class="fa fa-weixin" href="javascript:;" target="_blank")
+                    a(class="fa fa-envelope" href="mailto:jay_f2e@163.com" target="_blank")
+                    img.weixin(src="/images/weixin.png" alt="" class="weixin")
+                nav.j-nav
+                    ul.j-menu
+                        li
+                            a(href="/about") About
+                        li
+                            a(href="/archives") archives
+            .j-main
+                .iframeInner
+                    .iframeW
+                        iframe(src='http://127.0.0.1:3000/livepage/' name="testIframe" frameborder="0" style="" scrolling="yes")
+                input(ype="text" name="num")
+                button 提交
+    script(src='/vendor/jquery.js' type="text/javascript")
+    script.
+        var url = 'http://127.0.0.1:3000/livepage/'
+        $('button').on('click',function(){
+            var value = $('input[name="num"]').val()
+            if(!value) return
+            $('input[name="num"]').val('')
+            var ifUrl = url + '?id='+value
+            $('iframe').attr('src',ifUrl)
+        })

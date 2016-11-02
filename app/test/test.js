@@ -13,8 +13,8 @@ var _ = require('lodash');
 var co = require('co');
 var moment = require('moment')
 
-var re = util.pageNav(10,25,1111)
-console.log(re)
+/*var re = util.pageNav(10,25,1111)
+console.log(re)*/
 
 
 
@@ -42,11 +42,16 @@ var cc = str.match(/:(.+?)$/i);*/
 //console.log('xx',cc,str)
 
 
-pool.query('select * from kweibo where mid = ?',[4029132301983536],function (err,res) {
+var str = "<iframe height='450' width='530' src='http://player.kankanews.com/embed/2016-10-19_0017729885' frameBorder='0' allowFullScreen />"
+//var cc = str.match(/[http(.+?)$/i);
+var patt = /http(.*?)'/gi;
+var iUrl = str.match(patt)[0].split('\'')[0]
+console.log(iUrl)
+/*pool.query('select * from kweibo where mid = ?',[4029132301983536],function (err,res) {
     if(res.length){
         console.log(res[0].text)
     }
-})
+})*/
 
 //console.log(c,d)
 //let difference = a.concat(b).filter(v => !a.includes(v) || !b.includes(v))

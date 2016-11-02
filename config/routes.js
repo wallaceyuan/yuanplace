@@ -9,6 +9,7 @@ var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
 var Comment = require('../app/api/comments')
 var Category = require('../app/controllers/category')
+var livenews = require('../app/controllers/livenews')
 
 //wechat
 var Game = require('../app/controllers/game')
@@ -66,4 +67,11 @@ module.exports = function(router) {
     router.get('/crawler/big',Crawler.commentB)
     router.get('/crawler/small/:mid',Crawler.commentS)
     router.get('/crawler/content/:mid',Crawler.content)
+
+
+
+    //liveNews
+    router.get('/livenews',livenews.index)
+    router.get('/livepage',livenews.page)
+
 }
