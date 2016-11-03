@@ -4,24 +4,11 @@ html(lang="en")
         - var name = 'Jade'
         title= name
         meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css" href="/css/font-awesome.min.css")
         link(rel="stylesheet", type="text/css" href="/css/crawler.css")
     body
         .j-container
-            aside.j-aside
-                a.j-logo(href="/crawler") Jayier's web-notes
-                h4.j-title Jayier's web-notes
-                p.j-say 每天进步一点点!
-                .j-social
-                    a(class="fa fa-github" href="https://github.com/Jayier" target="_blank" )
-                    a(class="fa fa-weixin" href="javascript:;" target="_blank")
-                    a(class="fa fa-envelope" href="mailto:jay_f2e@163.com" target="_blank")
-                    img.weixin(src="/images/weixin.png" alt="" class="weixin")
-                nav.j-nav
-                    ul.j-menu
-                        li
-                            a(href="/about") About
-                        li
-                            a(href="/archives") archives
+            include ../includes/leftside
             .j-main
                 section#post-Jade.post-item
                     header.post-header
