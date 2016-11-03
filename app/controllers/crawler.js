@@ -11,14 +11,15 @@ exports.index = function *(next) {
 
     var crawlists = yield p.query(sql)
     var total = yield p.query('select count(*) as count from kweibo')
-    total = total[0].count
-    //console.log(crawlists)
+    var total = total[0].count
+    var navtmp =  util.pageIndex(page,Math.ceil(total/count),'crawler')
+
     yield this.render('pages/crawler', {
-        totalPage: Math.ceil(total / count),
-        title: 'crawler',
-        crawlists: crawlists,
-        currentPage: page
+        title       : 'crawler',
+        crawlists   : crawlists,
+        navtmp      : navtmp
     })
+
 }
 
 exports.commentS = function *(next) {
