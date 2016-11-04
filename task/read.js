@@ -80,11 +80,11 @@ exports.kNewscom = function (uri,callback) {
 }
 
 exports.kCommentCom = function(obj,cb){
-    console.log(obj)
     var kComment = []
     var url = cBU+obj.kn.mid+"&filter=0"
     var request = obj.request
     request.get({url:url},function(err,response,body){
+        //console.log(body)
         var data = JSON.parse(body)
         var htmlT = data.data.html
         var $ = cheerio.load(htmlT);

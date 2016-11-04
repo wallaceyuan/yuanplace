@@ -32,7 +32,7 @@ exports.kNewscom = function(list,callback){
                 console.log(err)
             }
             if(res && res.length){
-                console.log('has news')
+                //console.log('has news')
                 cb();
             }else{
                 connection.query('insert into kweibo(tbinfo,mid,isforward,minfo,omid,text,sendAt,fname,fid,ftext,fsendAt) values(?,?,?,?,?,?,?,?,?,?,?)',data,function(err,result){
@@ -65,7 +65,7 @@ exports.kCommentCom = function(list,callback){
         var data = [item.news_id,item.comment_id,item.name,item.isReply,item.repName,escape(item.content),item.poster]
         connection.query('select * from kweibo_c where comment_id = ?',[item.comment_id],function (err,res) {
             if(res &&res.length){
-                console.log('has comment')
+                //console.log('has comment')
                 cb();
             }else{
                 connection.query('insert into kweibo_c(news_id,comment_id,name,isReply,repName,content,poster) values(?,?,?,?,?,?,?)',data,function(err,result){

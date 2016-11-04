@@ -39,7 +39,7 @@ html(lang="en")
     script.
         function comGet(mid,page) {
             $.ajax({
-                url: 'http://127.0.0.1:3000/crawler/big/?id='+mid+'&page='+page,
+                url: '/crawler/big/?id='+mid+'&page='+page,
                 type: 'get',
                 success: function (data) {
                     $('.repeat_list').html('')

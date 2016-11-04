@@ -31,7 +31,7 @@ function getComment(parma,url) {
                                 `
                 })
                 tmp += `
-                        <a bpfilter="page_frame" href="http://127.0.0.1:3000/crawler/content/${id}" class="WB_cardmore S_txt1 S_line1 clearfix"><span class="more_txt">点击查看更多评论></span></a>
+                        <a bpfilter="page_frame" href="/crawler/content/${id}" class="WB_cardmore S_txt1 S_line1 clearfix"><span class="more_txt">点击查看更多评论></span></a>
                         `
                 var nextDom = $(_that).parent('.WB_row_line').next()
                 nextDom.css('display','block').find('.repeat_list').html(tmp)
@@ -48,6 +48,6 @@ $(function () {
         var cur = $(this).attr('cur')
         console.log(cur)
         cur?$(this).removeAttr('cur'):$(this).attr('cur','cur')
-        cur?$(this).parent('.WB_row_line').next().css('display','none').find('.repeat_list').html(''):getComment(this,'http://127.0.0.1:3000/crawler/small/')
+        cur?$(this).parent('.WB_row_line').next().css('display','none').find('.repeat_list').html(''):getComment(this,'/crawler/small/')
     });
 })

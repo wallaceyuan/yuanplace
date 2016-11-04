@@ -33,6 +33,9 @@ function login(userName,password,loginCallback) {
     async.waterfall([
         function (callback) {
             request({
+                "headers": {
+                    'User-Agent': 'spider'
+                },
                 "uri": preLoginUrl,
                 "encoding": "utf-8"
             }, callback);
@@ -84,6 +87,9 @@ function login(userName,password,loginCallback) {
             log("pwd:" + loginPostData.sp);
 
             request.post({
+                "headers": {
+                    'User-Agent': 'spider'
+                },
                 "uri": loginUrl,
                 "encoding": null,  //GBK编码 需要额外收到处理,
                 form: loginPostData
@@ -109,6 +115,9 @@ function login(userName,password,loginCallback) {
                 if (urlLoginAgain) {
 
                     request({
+                        "headers": {
+                            'User-Agent': 'spider'
+                        },
                         "uri": urlLoginAgain[1],
                         "encoding": "utf-8"
                     }, callback);

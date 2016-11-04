@@ -5,12 +5,15 @@ var weiboLoginModule = require("./weiboLogin");
 var uri = "http://weibo.com/kankanews"
 var async = require('async')
 var debug = require('debug')('crawl:main')
+var util = require('../libs/util')
+
 
 var conf = require('../config/conf')
 var pool = conf.pool
 
 var kNews = []
 var kComment = []
+var cookie
 
 pool.getConnection(function(err, connection) {
     async.waterfall([
@@ -24,21 +27,43 @@ pool.getConnection(function(err, connection) {
             save.kNewscom({"connection":connection,"res":res},done)
         },
         function (done) {
-            console.log('login')
-            weiboLoginModule.login('yuanfang_yff@163.com','wallace741130',function(err,cookieColl){
-                if(!err){
-                    var request = Request.defaults({jar: cookieColl});
-                    async.forEach(kNews,function(kn,next){
-                        read.kCommentCom({"kn":kn,"request":request},function (err,list) {
-                            kComment = kComment.concat(list)
-                            next();
-                        })
-                    },done)
-                }else{
-                    console.log(err)
-                }
-            })
+            console.log('start read comment')
+            if(cookie){
+                console.log('有cookie')
+                async.forEach(kNews,function(kn,next){
+                    read.kCommentCom({"kn":kn,"request":request},function (err,list) {
+                        kComment = kComment.concat(list)
+                        next();
+                    })
+                },done)
+            }else{
+                console.log('无cookie')
+                weiboLoginModule.login('1272864289@qq.com','wallace7411302',function(err,cookieColl){
+                    if(!err){
+                        cookie = cookieColl
+                        console.log(cookie)
+                        util.writeFileAsync('./cookie.json',JSON.stringify(cookieColl))
+                        var request = Request.defaults({jar: cookie});
+                        async.forEach(kNews,function(kn,next){
+                            read.kCommentCom({"kn":kn,"request":request},function (err,list) {
+                                kComment = kComment.concat(list)
+                                next();
+                            })
+                        },done)
+                    }else{
+                        console.log(err)
+                    }
+                })
+            }
+/*            var cookie = util.readFileAsync('./cookie.json','utf-8').then((data)=>{
+                console.log('cookie',data)
+                console.log(typeof(JSON.parse(data)) )
+                var request = Request.defaults({jar: JSON.parse(data)});
+
+            })*/
+
         },function (done) {
+            console.log('start save comment')
             save.kCommentCom({"connection":connection,"res":kComment},done)
         }
     ],function(err,res){
