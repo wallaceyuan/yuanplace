@@ -26,6 +26,7 @@ exports.signup = function *(next) {
   var _user = this.request.body.user
   var res = yield p.query('select * from users where name=? limit 1',[_user.name])
   if (res && res.length > 0) {
+    this.flash('error', '用户名已存在'); //放置失败信息
     this.redirect('/signin')
     yield next
   }
@@ -35,7 +36,8 @@ exports.signup = function *(next) {
     _user.password = hash
     var newUser = yield users.saveUser(_user)
     this.session.user = newUser
-    this.redirect('/')
+    this.flash('success', '注册成功'); //放置失败信息
+    this.redirect('/movie')
   }
 }
 
@@ -49,6 +51,7 @@ exports.signin = function *(next) {
   var user = res[0]
 
   if (!user) {
+    this.flash('error','没有这个用户，请注册')
     this.redirect('/signup')
     return next
   }
@@ -56,11 +59,13 @@ exports.signin = function *(next) {
   var isMatch = yield users.comparePassword(password,user.password)
 
   if (isMatch) {
+    this.flash('success','登录成功')
     this.session.user = user
-    return this.redirect('/')
+    return this.redirect('/movie')
     yield next
   }
   else {
+    this.flash('error','密码错误')
     return this.redirect('/signin')
     yield next
   }
@@ -69,8 +74,8 @@ exports.signin = function *(next) {
 // logout
 exports.logout =  function *(next) {
   delete this.session.user
-  //delete app.locals.user
-  this.redirect('/')
+  this.flash('success', '登出成功'); //放置失败信息
+  this.redirect('/movie')
 }
 
 

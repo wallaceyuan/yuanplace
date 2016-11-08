@@ -5,8 +5,8 @@ block content
   .container
     .row
       each cat in categories
-        .panel.panel-default
-          .panel-heading
+        .divToplistHot
+          .dis_hottoper
             h3
               a(href='/results?cat=#{cat.name}&p=0') #{cat.name}
           .panel-body
@@ -21,4 +21,4 @@ block content
                         img(src="#{item.poster}", alt="#{item.title}")
                     .caption
                       h4 #{item.title}
-                      p: a.btn.btn-primary(href="/movie/#{item.id}", role="button") 观看预告片
+                      //p: a.btn.btn-primary(href="/movie/#{item.id}", role="button") 观看预告片

@@ -1,4 +1,9 @@
-
+style.
+  .container{position: relative}
+  .alert{
+    position: absolute;
+    top:0px;left:0px;width: 100%;
+  }
 if type  === 'admin'
   .navLeft.col-md-2
     .list-group
@@ -8,6 +13,10 @@ if type  === 'admin'
 
 div(class=  type === 'admin'?"col-md-10":"container")
   .row
+    if error
+      div(class="alert alert-danger" role="alert") !{error}
+    else if success
+      div(class="alert alert-success" role="alert") !{success}
     .page-header.clearfix
       h1= title
       .col-md-4
@@ -62,3 +71,9 @@ div(class=  type === 'admin'?"col-md-10":"container")
         .modal-footer
           button.btn.btn-default(type="button", data-dismiss="modal") 关闭
           button.btn.btn-success(type="submit") 提交
+script.
+  if($('.alert').length){
+    setTimeout(function () {
+      $('.alert').css('display','none')
+    },2000)
+  }

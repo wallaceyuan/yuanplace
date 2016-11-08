@@ -11,6 +11,8 @@ var session = require('koa-session')
 var bodyParser = require('koa-bodyparser');
 var views = require('koa-views')
 var Router = require('koa-router');
+var flash = require('koa-connect-flash');
+
 var router = new Router()
 var moment = require('moment')
 var staticServer = require('koa-static');
@@ -59,6 +61,7 @@ app.use(staticServer(path.join(__dirname, 'public')));
 app.keys = ['some secret hurr'];
 app.use(session(app));
 app.use(bodyParser());
+app.use(flash());
 
 // pre handle user
 app.use(function *(next){
@@ -69,6 +72,8 @@ app.use(function *(next){
     }else{
         this.state.user = null
     }
+    this.state.success = this.flash('success').toString();
+    this.state.error = this.flash('error').toString();
     yield next
 })
 
@@ -86,7 +91,7 @@ console.log('Listening');
 
 var spawn = require('child_process').spawn;
 var cronJob = require('cron').CronJob;
-var job = new cronJob('1 1 * * * *',function(){
+var job = new cronJob('1 */15 * * * *',function(){
     console.log('start crawler')
     //创建一个子进程
     console.log(1111)

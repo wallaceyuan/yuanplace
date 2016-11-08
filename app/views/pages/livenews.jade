@@ -26,11 +26,11 @@ html(lang="en")
                     button(class="btn btn-default") 提交
                 .iframeInner
                     .iframeW
-                        iframe(src='http://127.0.0.1:3000/livepage/' name="testIframe" frameborder="0" style="" scrolling="yes")
+                        iframe(src='/livepage/' name="testIframe" frameborder="0" style="" scrolling="yes")
 
     script(src='/vendor/jquery.js' type="text/javascript")
     script.
-        var url = 'http://127.0.0.1:3000/livepage/'
+        var url = '/livepage/'
         $('button').on('click',function(){
             ifUrlChange()
         })
