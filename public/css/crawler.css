@@ -68,6 +68,9 @@ aside a{color:#37a096;text-decoration:none;opacity:1;-webkit-transition:all .3s 
 .WB_text .name{color:#eb7350;vertical-align:top;word-spacing:normal;word-wrap:break-word;letter-spacing:normal;}
 .WB_text em{margin-right:5px;}
 .repeat_list .list_li{overflow:hidden;margin-right:20px;margin-left:80px;padding:0 20px 0 80px;padding:5px 0 7px 0;border-color:#d9d9d9;border-bottom-width:1px;border-bottom-style:solid;}
+.repeat_list .list_li .WB_face img{
+    border-radius: 50%;
+}
 .WB_cardmore{display:inline-block;width:100%;color:#333;vertical-align:top;text-align:center;word-spacing:normal;letter-spacing:normal;font-size:12px;line-height:35px;}
 .WB_cardpage{margin:0 -20px -6px;}
 .W_pages{padding:4px 0;}

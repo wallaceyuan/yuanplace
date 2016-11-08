@@ -28,9 +28,10 @@ var pool = mysql.createPool({
 p = wrapper(pool);
 
 module.exports = {
-    ip:ip,
-    pool:pool,
-    p:p,
-    host:host
+    ip    : ip,
+    pool  : pool,
+    p     : p,
+    host  : host,
+    photo : 5
 }
 

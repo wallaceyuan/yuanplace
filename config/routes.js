@@ -68,7 +68,6 @@ module.exports = function(router) {
     router.get('/crawler/small/:mid',Crawler.commentS)
     router.get('/crawler/content/:mid',Crawler.content)
 
-
     //liveNews
     router.get('/livenews',livenews.index)
     router.get('/livepage',livenews.page)

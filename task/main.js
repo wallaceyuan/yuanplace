@@ -19,6 +19,15 @@ async.waterfall([
         save.kNews(res,done)
     },
     function (done) {
+        read.kNewscom(uri,function(err,list){
+            kNews = list
+            done(err,kNews)
+        })
+    },
+    function (res,done) {
+        save.kNewscom({"connection":connection,"res":res},done)
+    },
+    function (done) {
         async.forEach(kNews,function(kn,next){
             read.kComment(kn,function (err,list) {
                 kComment = kComment.concat(list)

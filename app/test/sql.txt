@@ -6,11 +6,12 @@ CREATE TABLE IF NOT EXISTS `c_weibo` (
 )
 
 CREATE TABLE IF NOT EXISTS `p_weibo` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `mid` varchar(255),
     `userName` varchar(255),
     `content` varchar(255),
     `cid` varchar(255),
-    PRIMARY KEY (cid)
+    PRIMARY KEY (id)
 )
 
 CREATE TABLE IF NOT EXISTS `kweibo` (
@@ -28,6 +29,8 @@ CREATE TABLE IF NOT EXISTS `kweibo` (
     `fsendAt` datetime,
     primary key (id)
 )
+alter table kweibo add cid varchar(255)
+alter table kweibo add clink varchar(255)
 
 
 CREATE TABLE IF NOT EXISTS `kweibo_c` (

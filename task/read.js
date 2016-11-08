@@ -7,6 +7,7 @@ var cBU = 'http://weibo.com/aj/v6/comment/big?ajwvr=6&id='
 
 
 exports.kNews = function (uri,callback) {
+    console.log('m news')
     var options = {
         uri:uri,
         encoding:null,
@@ -25,10 +26,11 @@ exports.kNews = function (uri,callback) {
 }
 
 exports.kComment = function (kn,cb) {
+    console.log(kn)
     var kComment = []
     var options = {
         "method":"GET",
-        uri:kn.cLink,
+        uri:kn.clink,
         encoding:null,
         headers: {
             'User-Agent': 'spider'
@@ -62,6 +64,7 @@ exports.kComment = function (kn,cb) {
 }
 
 exports.kNewscom = function (uri,callback) {
+    console.log('web news')
     var options = {
         uri:uri,
         encoding:null,

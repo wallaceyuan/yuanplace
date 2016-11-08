@@ -19,14 +19,13 @@ exports.kNewscom = function(list,callback){
     var connection = list.connection
     async.forEach(list.res,function(item,cb){
         debug('save news',JSON.stringify(item));
-        var data = [item.tbinfo,item.mid,item.isforward,item.minfo,item.omid,item.text,item.sendAt]
+        var data = [item.tbinfo,item.mid,item.isforward,item.minfo,item.omid,item.text,item.sendAt,item.cid,item.clink]
         if(item.forward){
             var fo = item.forward
             data = data.concat([fo.name,fo.id,fo.text,fo.sendAt])
         }else{
             data = data.concat(['','','',new Date()])
         }
-
         connection.query('select * from kweibo where mid = ?',[item.mid],function (err,res) {
             if(err){
                 console.log(err)
@@ -35,7 +34,7 @@ exports.kNewscom = function(list,callback){
                 //console.log('has news')
                 cb();
             }else{
-                connection.query('insert into kweibo(tbinfo,mid,isforward,minfo,omid,text,sendAt,fname,fid,ftext,fsendAt) values(?,?,?,?,?,?,?,?,?,?,?)',data,function(err,result){
+                connection.query('insert into kweibo(tbinfo,mid,isforward,minfo,omid,text,sendAt,cid,clink,fname,fid,ftext,fsendAt) values(?,?,?,?,?,?,?,?,?,?,?,?,?)',data,function(err,result){
                     if(err){
                         console.log('kNewscom',err)
                     }
@@ -47,9 +46,10 @@ exports.kNewscom = function(list,callback){
 }
 //把文章列表存入数据库
 exports.kComment = function(list,callback){
-    async.forEach(list,function(item,cb){
+    var connection = list.connection
+    async.forEach(list.res,function(item,cb){
         debug('save article',JSON.stringify(item));
-        pool.query('replace into p_weibo(cid,mid,userName,content) values(?,?,?,?)',[item.cid,item.mid,item.userName,item.content],function(err,result){
+        connection.query('replace into p_weibo(cid,mid,userName,content) values(?,?,?,?)',[item.cid,item.mid,item.userName,item.content],function(err,result){
             cb();
         });
     },callback);
