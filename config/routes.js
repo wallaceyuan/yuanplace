@@ -23,6 +23,7 @@ module.exports = function(router) {
     router.get('/',Index.index)
     //movie  Index
     router.get('/movie', Index.movie)
+    router.get('/movie/list/:id', Index.more)
 
     // User
     router.post('/user/signup', User.signup)

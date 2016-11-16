@@ -23,6 +23,9 @@ exports.findAll = function *() {
         if (cate.match(reg)) {
             category.map(function(cc){
                 if(cc.name == row.name){
+                    if(cc.movies.length >=6){
+                        return
+                    }
                     cc.movies.push(row)
                 }
             })
@@ -36,6 +39,12 @@ exports.findAll = function *() {
         }
     })
     return category
+}
+
+exports.findCates = function *(cat) {
+    if(!cat) return []
+    var rows = yield p.query('SELECT t1.name,t2.title,t2.poster,t2.id,t2.summary,t2.year FROM category as t1, movie as t2 where t1.name = ? and t1.movieId = t2.id',[cat])
+    return rows
 }
 
 // search page

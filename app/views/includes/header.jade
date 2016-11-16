@@ -1,15 +1,32 @@
-style.
-  .container{position: relative}
-  .alert{
-    position: absolute;
-    top:0px;left:0px;width: 100%;
-  }
+link(href="/css/nav.css", rel="stylesheet")
 if type  === 'admin'
   .navLeft.col-md-2
     .list-group
       a(href="/admin/user/list", class="list-group-item active") 用户列表
       a(href="/admin/movie/list", class="list-group-item") 电影列表
       a(href="/admin/movie/new", class="list-group-item") 新增电影
+#topbar
+  div(class="headbar head-mini" id="headbar")
+    .headbarnav
+      dd
+        a(href="/") 首页
+      dd
+        a(href="/movie") 电影
+      dd
+        a(href="/crawler") 爬虫
+      dd
+        a(href="/livenews") 新闻
+    div(class="headtool" id="searchbox")
+      a(href="javascript:void(0)" class="headzoom")
+        em(class="zoom" title="搜索" pan="M16_HeadNav_Sreach_Tool_Zoom")
+      div(class="headsearch" style={display: 'none'})
+        div.topsearch
+
+          form(method='GET', action='/results' class="searchshadow")
+            input(type="text" class="text c_a5" value="" name="q" autocomplete="off")
+            a(href="javascript:void(0);" class="button __r_c_" title="搜索" pan="M16_HeadNav_Search_Btn_0")
+              button(type="submit")
+          .showsearch(style={display:'none'})
 
 div(class=  type === 'admin'?"col-md-10":"container")
   .row
@@ -17,16 +34,7 @@ div(class=  type === 'admin'?"col-md-10":"container")
       div(class="alert alert-danger" role="alert") !{error}
     else if success
       div(class="alert alert-success" role="alert") !{success}
-    .page-header.clearfix
-      h1= title
-      .col-md-4
-        small 重度科幻迷
-      .col-md-8
-        form(method='GET', action='/results')
-          .input-group.col-sm-4.pull-right
-            input.form-control(type='text', name='q')
-            span.input-group-btn
-              button.btn.btn-default(type='submit') 搜索
+
 .navbar.navbar-default.navbar-fixed-bottom
   .container
     .navbar-header
@@ -77,3 +85,24 @@ script.
       $('.alert').css('display','none')
     },2000)
   }
+  var hW = document.body.clientWidth
+  $('.headsearch').css('width',hW * 0.2)
+
+  $('.headzoom').on('click',function () {
+    var em = $(this).find('em')
+    var pan = em.attr('pan')
+    if(pan == 'M16_HeadNav_Sreach_Tool_Zoom'){
+      em.addClass('cancel').removeClass('zoom').attr('title', '取消').attr('pan','M16_HeadNav_Sreach_Tool_Cancel')
+      $('.headsearch').css('display', 'block')
+    }else{
+      em.addClass('zoom').removeClass('cancel').attr('title', '搜索').attr('pan','M16_HeadNav_Sreach_Tool_Zoom')
+      $('.headsearch').css('display', 'none')
+    }
+  })
+  $('input.text').on('focus',function () {
+    $('a.button').addClass('cur')
+  })
+  $('input.text').on('blur', function () {
+    $('a.button').removeClass('cur')
+  })
+

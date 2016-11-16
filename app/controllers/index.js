@@ -22,6 +22,16 @@ exports.movie = function *(next) {
   })
 }
 
+exports.more = function *(next) {
+  var cat = this.params.id
+  var categories = yield Movie.findCates(cat)
+  yield this.render('pages/movies/more',{
+    cat        : cat,
+    title      : 'yuanMovie',
+    categories : categories
+  })
+}
+
 // search page
 exports.search = function *(next) {
   var catId = this.query.cat

@@ -2,23 +2,25 @@ extends ../layout
 
 block content
   link(href="/css/index.css", rel="stylesheet")
-  .container
-    .row
+  .dis_conshadow
+    .__r_c_
       each cat in categories
         .divToplistHot
           .dis_hottoper
             h3
               a(href='/results?cat=#{cat.name}&p=0') #{cat.name}
-          .panel-body
+          ul(class="clearfix")
             if cat.movies && cat.movies.length > 0
               each item in cat.movies
-                .col-md-2
-                  .thumbnail
+                li
+                  .img
                     a(href="/movie/#{item.id}")
                       if item.poster.indexOf('http:') > -1
-                        img(src="#{item.poster}", alt="#{item.title}")
+                        img(src="#{item.poster}", alt="#{item.title}" width="140" height="210")
                       else
-                        img(src="#{item.poster}", alt="#{item.title}")
+                        img(src="#{item.poster}", alt="#{item.title}" width="140" height="210")
                     .caption
-                      h4 #{item.title}
+                      h3 #{item.title}
                       //p: a.btn.btn-primary(href="/movie/#{item.id}", role="button") 观看预告片
+        dd(class="tr px14 mt15")
+          a(target="_blank" style="" href="/movie/list/#{cat.name}") 更多 &gt;&gt;
