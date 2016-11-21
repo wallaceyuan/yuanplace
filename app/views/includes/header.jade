@@ -10,24 +10,40 @@ if type  === 'admin'
     .headbarnav
       dd
         a(href="/") 首页
+          i
       dd
         a(href="/movie") 电影
+          i
       dd
         a(href="/crawler") 爬虫
+          i
       dd
         a(href="/livenews") 新闻
+          i
+    div(class="headtool" id="loginbox")
+      if user
+        .headunlogin
+          p
+            span 欢迎您,#{user.name}
+            span &nbsp;|&nbsp;
+            a.navbar-link(href="/logout") 登出
+      else
+        i.line
+        .headunlogin
+          a(href="javascript:void(0);" data-toggle="modal", data-target="#signinModal") 登录
+            i
+          em
+          a(href="javascript:void(0);" data-toggle="modal", data-target="#signupModal") 注册
     div(class="headtool" id="searchbox")
       a(href="javascript:void(0)" class="headzoom")
         em(class="zoom" title="搜索" pan="M16_HeadNav_Sreach_Tool_Zoom")
       div(class="headsearch" style={display: 'none'})
         div.topsearch
-
           form(method='GET', action='/results' class="searchshadow")
             input(type="text" class="text c_a5" value="" name="q" autocomplete="off")
             a(href="javascript:void(0);" class="button __r_c_" title="搜索" pan="M16_HeadNav_Search_Btn_0")
               button(type="submit")
-          .showsearch(style={display:'none'})
-
+          .showsearch(style={display: 'none'})
 div(class=  type === 'admin'?"col-md-10":"container")
   .row
     if error
@@ -35,20 +51,6 @@ div(class=  type === 'admin'?"col-md-10":"container")
     else if success
       div(class="alert alert-success" role="alert") !{success}
 
-.navbar.navbar-default.navbar-fixed-bottom
-  .container
-    .navbar-header
-      a.navbar-brand(href="/") 重度科幻迷
-    if user
-      p.navbar-text.navbar-right
-        span 欢迎您,#{user.name}
-        span &nbsp;|&nbsp;
-        a.navbar-link(href="/logout") 登出
-    else
-      p.navbar-text.navbar-right
-        a.navbar-link(href="#", data-toggle="modal", data-target="#signupModal") 注册
-        span &nbsp;|&nbsp;
-        a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录
 #signupModal.modal.fade
   .modal-dialog
     .modal-content
