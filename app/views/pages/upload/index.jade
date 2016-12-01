@@ -1,0 +1,12 @@
+extends ../../layout
+
+block content
+
+    form.form-horizontal(method="post", action="/upload", enctype="multipart/form-data")
+        label.col-sm-2.control-label(for="uploadPoster") 海报上传
+        .col-sm-10
+            input#uploadPoster(type="file", name="uploadPoster")
+
+        .form-group
+            .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") 录入

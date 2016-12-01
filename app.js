@@ -17,6 +17,7 @@ var router = new Router()
 var moment = require('moment')
 var staticServer = require('koa-static');
 var conf = require('./config/conf')
+
 var pool = conf.pool
 var p = conf.p
 // models loading

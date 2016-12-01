@@ -26,12 +26,20 @@ var pool = mysql.createPool({
     connectTimeout:30000
 });
 p = wrapper(pool);
+var ACCESS_KEY = 'hnFPlvlB8QmBiBen8XTa8KEZ_soaiNbzpscllVvv'
+var SECRET_KEY = 'dWGPV89YN8eHM59qF4ehaahpWbz2FtvF65NVnPob'
+var bucket     = 'wallaceyuan'
+
+
 
 module.exports = {
     ip    : ip,
     pool  : pool,
     p     : p,
     host  : host,
-    photo : 5
+    photo : 5,
+    ACCESS_KEY:ACCESS_KEY,
+    SECRET_KEY:SECRET_KEY,
+    bucket:bucket
 }
 

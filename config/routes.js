@@ -4,6 +4,9 @@
 
 'use strict'
 
+var koaBody = require('koa-body')
+var multer = require('koa-multer');
+
 var Index = require('../app/controllers/index')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
@@ -16,15 +19,21 @@ var Game = require('../app/controllers/game')
 var Wechat = require('../app/controllers/wechat')
 var Crawler = require('../app/controllers/crawler')
 
-var koaBody = require('koa-body')
+//upload
+var upload = require('../app/controllers/upload')
 
-module.exports = function(router) {
+
+
+module.exports = function(router,mupload) {
 
     router.get('/',Index.index)
     //movie  Index
     router.get('/movie', Index.movie)
     router.get('/movie/list/:id', Index.more)
 
+    //upload
+    router.get('/upload',upload.index)
+    router.post('/upload',koaBody({multipart:true}),upload.qiniuUpload,upload.call)
     // User
     router.post('/user/signup', User.signup)
     router.post('/user/signin', User.signin)
@@ -72,5 +81,7 @@ module.exports = function(router) {
     //liveNews
     router.get('/livenews',livenews.index)
     router.get('/livepage',livenews.page)
+
+
 
 }
