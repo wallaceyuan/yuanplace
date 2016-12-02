@@ -33,7 +33,7 @@ module.exports = function(router,mupload) {
 
     //upload
     router.get('/upload',upload.index)
-    router.post('/upload',koaBody({multipart:true}),upload.qiniuUpload,upload.call)
+    router.post('/upload',koaBody({multipart:true}),upload.qiniuUpload/*,upload.call*/)
     // User
     router.post('/user/signup', User.signup)
     router.post('/user/signin', User.signin)

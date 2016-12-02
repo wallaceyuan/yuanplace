@@ -18,6 +18,7 @@ exports.qiniuUpload = function *(next){
     var that = this
     var posterData = this.request.body.files.uploadPoster
     var name = posterData.name
+    var res = {}
     if (name) {
         var timestamp = Date.now()
         var type = posterData.type.split('/')[1]
@@ -28,12 +29,17 @@ exports.qiniuUpload = function *(next){
         //要上传文件的本地路径
         var filePath = posterData.path
         //调用uploadFile上传
-        uploadFile(token, key, filePath,(res)=> {
-            //console.log(res)
-            this.poster = 'http://ohhtkbaxs.bkt.clouddn.com/1480586957212.png'
-            yield next
-        });
+        var res = yield uploadFile(token, key, filePath)
+
+        res.status = 200
+
+        res.poster = `http://ohhtkbaxs.bkt.clouddn.com/${res.key}`
+
+    }else{
+        res.status = 302
     }
+
+    this.body = res
     //yield next
 }
 
@@ -43,22 +49,21 @@ function uptoken(bucket, key) {
     return putPolicy.token();
 }
 
+
 //构造上传函数
-function uploadFile(uptoken, key, localFile,cb) {
+/*function cb(err, res) {
+    if (err) return reject(err);
+    if (arguments.length > 2) res = slice.call(arguments, 1);
+    resolve(res);
+}*/
+
+function uploadFile(uptoken, key, localFile){
     var extra = new qiniu.io.PutExtra();
-    qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
-        if(!err) {
-            console.log('success')
-            // 上传成功， 处理返回值
-            //console.log(ret.hash, ret.key, ret.persistentId);
-            cb(ret.key)
-        } else {
-            console.log('error')
-            // 上传失败， 处理返回代码
-            console.log(err);
-            cb(err)
-        }
-    });
+    return function(cb){
+        qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
+            cb(err, ret)
+        });
+    }
 }
 
 exports.index = function *(next) {
