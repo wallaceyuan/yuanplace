@@ -30,5 +30,10 @@ var config = {
     }
 }
 
-module.exports = config;
+var client   = require("redis").createClient();
+
+module.exports = {
+    config:config,
+    client:client
+};
 

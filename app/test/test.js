@@ -3,6 +3,7 @@
  */
 var conf = require('../../config/conf')
 var util = require('../../libs/util')
+var client  = conf.client;
 
 var pool = conf.pool
 var p = conf.p
@@ -23,8 +24,13 @@ var p3 = new Promise((resolve, reject) => {
 Promise.all([p1, p2, p3]).then(values => {
     console.log(values); // [3, 1337, "foo"]
 });
-
-
+client.hgetall('ABcFEBwopzc6CAagmNYcNEqHVZwRef4xoWfsRPowPv8j0G4cacsvGlhwXcFWSyoppaIgpm86Bpoc4zWJeLWIrikCAlrJC96fLXASF0Ldthl2lVa4WcQryXiggWfowXArK1BWbaCCdSFCHVHVCK6Qq6hYw1W24ATLLcRDiulQ', function (err, obj) {
+    if(err){
+        console.log(err)
+    }else{
+        console.log(obj)
+    }
+});
 /*var re = util.pageNav(10,25,1111)
 console.log(re)*/
 

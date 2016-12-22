@@ -3,10 +3,10 @@
  */
 'use strict'
 
-var config = require('../config')
+var config = require('./index')
 var Wechat = require('../wechat/wechat')
 var menu = require('./menu')
-var wechatApi = new Wechat(config.wechat);
+var wechatApi = new Wechat(config.wechatOptions.wechat);
 var Movie = require('../app/api/movie')
 /*wechatApi.deleteMenu().then(function(){
     return wechatApi.createMenu(menu)

@@ -31,15 +31,19 @@ var config = {
             data = JSON.stringify(data);
             return util.writeFileAsync(ticket_file,data)
         }
+    },
+    xcx:{
+        appId:'wxb442af437a754db6',
+        appSecret:'264d4ba77a8b296376c32dbf16f38233'
     }
 }
 
 exports.wechatOptions = {
-    wechat:config.wechat
+    wechat:config.wechat,
+    xcx:config.xcx
 }
 
 exports.getWechat = function(){
     var wechatApi = new Wechat(config.wechat);
-
     return wechatApi
 }

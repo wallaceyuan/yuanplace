@@ -18,18 +18,30 @@ var livenews = require('../app/controllers/livenews')
 var Game = require('../app/controllers/game')
 var Wechat = require('../app/controllers/wechat')
 var Crawler = require('../app/controllers/crawler')
-
 //upload
 var upload = require('../app/controllers/upload')
-
+//api
+var api = require('../app/controllers/api')
+//wxlogin
+var wxlogin = require('../app/controllers/wxlogin')
 
 
 module.exports = function(router,mupload) {
 
     router.get('/',Index.index)
+
+    router.get('/wxlogin',wxlogin.index)
+    router.get('/wxlogin/check',wxlogin.check)
+
+
     //movie  Index
     router.get('/movie', Index.movie)
     router.get('/movie/list/:id', Index.more)
+
+    //upload
+    router.get('/api',api.index)
+    router.get('/api/test',api.test)
+    router.post('/api/upload',koaBody({multipart:true}),upload.qiniuUpload)
 
     //upload
     router.get('/upload',upload.index)
@@ -81,7 +93,5 @@ module.exports = function(router,mupload) {
     //liveNews
     router.get('/livenews',livenews.index)
     router.get('/livepage',livenews.page)
-
-
 
 }
