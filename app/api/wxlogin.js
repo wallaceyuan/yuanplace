@@ -16,11 +16,12 @@ function makeid(param) {
     return text;
 }
 
-var appId = config.wechatOptions.xcx.appId
+var appID = config.wechatOptions.xcx.appID
 var appSecret = config.wechatOptions.xcx.appSecret
 
 exports.session_key = function *(code) {
-    var session_url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`
+    var session_url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appID}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`
+    console.log(session_url)
     return new Promise(function(resolve,reject){
         request({url:session_url,json:true}).then(function(response){
             //console.log('response body',response.body);
@@ -31,6 +32,7 @@ exports.session_key = function *(code) {
 }
 
 exports.save_key = function *(value) {
+    console.log('wxlogin save_key',value)
     var key = makeid(168)
     client.multi().HMSET(key, {session_key:value.session_key,openid:value.openid}).expire(key,300).exec(function (err, replies) {
         console.log("MULTI got " + replies.length + " replies");

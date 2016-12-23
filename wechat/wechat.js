@@ -12,6 +12,8 @@ var _ = require('lodash');
 
 var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 
+//var wx_prefix = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET'
+
 var api = {
     accessToken:prefix+'token?grant_type=client_credential',
     temporary:{
@@ -87,7 +89,6 @@ var api = {
         //https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=wx_card
         get:prefix+'ticket/getticket?'
     }
-
 }
 
 
@@ -103,10 +104,11 @@ function Wechat(opts){
 }
 
 Wechat.prototype.fecthAccessToken = function(opts){
-    console.log('fecthAccessToken',opts);
+    console.log('fecthAccessToken');
     var that = this;
     return this.getAccessToken()
         .then(function(data){
+            console.log('data',data)
             try{
                 data = JSON.parse(data);
             }
@@ -178,7 +180,7 @@ Wechat.prototype.isValidTicket = function(data){
 }
 
 Wechat.prototype.updateAccessToken = function(opts){
-    console.log('updateAccessToken',opts);
+    console.log('updateAccessToken');
     var appID = opts.appID;
     var appSecret = opts.appSecret;
     var url = api.accessToken + '&appid=' +appID+ '&secret='+appSecret;
@@ -1022,5 +1024,27 @@ Wechat.prototype.selfMenu = function(){
     })
 }
 
+Wechat.prototype.repTemplate = function(comp){
+    var that = this
+    console.log(comp)
+    return new Promise(function(resolve,reject) {
+        that
+            .fecthAccessToken()
+            .then(function (data) {
+                var access_token = data.access_token
+                var template_url = prefix+'message/wxopen/template/send?access_token='+access_token
+                var value = {
+                    "touser": comp.openid,
+                    "template_id": comp.template_id,
+                    "page": "0",
+                    "form_id": comp.formId,
+                }
+                request({"method":"POST","url":template_url,"json":true,body:value}).then(function(response){
+                    var _data = response.body;
+                    console.log(_data)
+                })
+            })
+    })
+}
 
 module.exports = Wechat;

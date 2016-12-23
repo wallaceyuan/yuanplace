@@ -10,6 +10,11 @@ var path = require('path');
 var util = require('../libs/util');
 var wechat_file = path.join(__dirname ,'../config/wechat.txt');
 var ticket_file = path.join(__dirname ,'../config/ticket.txt');
+
+
+var wx_wechat_file = path.join(__dirname,'../config/wx_wechat.txt')
+var wx_ticket_file = path.join(__dirname,'../config/wx_ticket.txt')
+
 var Wechat = require('../wechat/wechat');
 
 var config = {
@@ -33,8 +38,15 @@ var config = {
         }
     },
     xcx:{
-        appId:'wxb442af437a754db6',
-        appSecret:'264d4ba77a8b296376c32dbf16f38233'
+        appID:'wxb442af437a754db6',
+        appSecret:'264d4ba77a8b296376c32dbf16f38233',
+        getAccessToken:function(){
+            return util.readFileAsync(wx_wechat_file,'utf-8')
+        },
+        saveAccessToken:function(data){
+            data = JSON.stringify(data);
+            return util.writeFileAsync(wx_wechat_file,data)
+        }
     }
 }
 

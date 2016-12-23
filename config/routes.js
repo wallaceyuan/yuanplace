@@ -32,7 +32,7 @@ module.exports = function(router,mupload) {
 
     router.get('/wxlogin',wxlogin.index)
     router.get('/wxlogin/check',wxlogin.check)
-
+    router.post('/wxlogin/template',wxlogin.template)
 
     //movie  Index
     router.get('/movie', Index.movie)
