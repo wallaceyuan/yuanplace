@@ -1026,18 +1026,36 @@ Wechat.prototype.selfMenu = function(){
 
 Wechat.prototype.repTemplate = function(comp){
     var that = this
-    console.log(comp)
+    console.log('comp',comp)
     return new Promise(function(resolve,reject) {
         that
             .fecthAccessToken()
             .then(function (data) {
                 var access_token = data.access_token
                 var template_url = prefix+'message/wxopen/template/send?access_token='+access_token
+                console.log(template_url)
                 var value = {
                     "touser": comp.openid,
                     "template_id": comp.template_id,
-                    "page": "0",
-                    "form_id": comp.formId,
+                    "form_id": 'the formId is a mock one',
+                    "data":{
+                        "keyword1": {
+                            "value": "339208499",
+                            "color": "#173177"
+                        },
+                        "keyword2": {
+                            "value": "2015年01月05日 12:30",
+                            "color": "#173177"
+                        },
+                        "keyword3": {
+                            "value": "粤海喜来登酒店",
+                            "color": "#173177"
+                        } ,
+                        "keyword4": {
+                            "value": "广州市天河区天河路208号",
+                            "color": "#173177"
+                        }
+                    }
                 }
                 request({"method":"POST","url":template_url,"json":true,body:value}).then(function(response){
                     var _data = response.body;
