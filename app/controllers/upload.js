@@ -72,6 +72,36 @@ exports.index = function *(next) {
     })
 }
 
+exports.editor = function *(next) {
+    var files = this.request.body.files
+    var posterData = files['editormd-image-file']
+    var name = posterData.name
+    if (name) {
+        var timestamp = Date.now()
+        var type = posterData.type.split('/')[1]
+        //上传到七牛后保存的文件名
+        var key = timestamp + '.' + type
+        //生成上传 Token
+        token = uptoken(bucket, key);
+        //要上传文件的本地路径
+        var filePath = posterData.path
+        //调用uploadFile上传
+        var res = yield uploadFile(token, key, filePath)
+
+        res.success = 1
+
+        res.url = `http://ohhtkbaxs.bkt.clouddn.com/${res.key}`
+
+        res.message = 'done'
+
+    }else{
+        res.success = 0
+    }
+
+    this.body = res
+
+}
+
 exports.uploadSave = function *(next) {
     var posterData = this.request.body.files.uploadPoster
     var filePath = posterData.path

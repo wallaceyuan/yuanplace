@@ -1,0 +1,32 @@
+extends ../../layout
+
+block content
+    link(href="/editor/css/editormd.css", rel="stylesheet")
+    link(href="/css/editor.css", rel="stylesheet")
+    #layout
+        header
+            h1 Simple example
+        #test-editormd
+            textarea(style="display:none;")
+    button Click Me
+
+    script(src="/editor/editormd.min.js")
+    script.
+        var testEditor;
+        $(function () {
+            testEditor = editormd("test-editormd", {
+                width: "90%",
+                height: 640,
+                syncScrolling: "single",
+                saveHTMLToTextarea: true,
+                path: "/editor/lib/",
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "/upload/editor"
+            });
+            $('button').on('click',function () {
+                var getHtml = testEditor.getHTML();
+                console.log(getHtml)
+            })
+        });
+

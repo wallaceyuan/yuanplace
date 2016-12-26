@@ -26,6 +26,9 @@ var api = require('../app/controllers/api')
 var wxlogin = require('../app/controllers/wxlogin')
 
 
+//blog
+var blog = require('../app/controllers/blog')
+
 module.exports = function(router,mupload) {
 
     router.get('/',Index.index)
@@ -33,6 +36,9 @@ module.exports = function(router,mupload) {
     router.get('/wxlogin',wxlogin.index)
     router.get('/wxlogin/check',wxlogin.check)
     router.post('/wxlogin/template',wxlogin.template)
+
+    //blog
+    router.get('/blog',blog.index)
 
     //movie  Index
     router.get('/movie', Index.movie)
@@ -46,6 +52,8 @@ module.exports = function(router,mupload) {
     //upload
     router.get('/upload',upload.index)
     router.post('/upload',koaBody({multipart:true}),upload.qiniuUpload/*,upload.call*/)
+    router.post('/upload/editor',koaBody({multipart:true}),upload.editor)
+
     // User
     router.post('/user/signup', User.signup)
     router.post('/user/signin', User.signin)
