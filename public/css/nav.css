@@ -1,6 +1,9 @@
 body{
     background: #f9f9f9;
 }
+.mt50{
+    margin-top: 50px;
+}
 .container{position: relative}
 .alert{
     position: absolute;

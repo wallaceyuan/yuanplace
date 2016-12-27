@@ -1,0 +1,21 @@
+extends ../../layout
+
+block content
+    link(href="/editor/css/editormd.css", rel="stylesheet")
+    link(href="/css/editor.css", rel="stylesheet")
+
+    form.mt50(id="uploadForm" enctype="multipart/form-data",method="post",action="/blog")
+        input(type="hidden", name="id", value=blog.id)
+        #layout
+            #test-editormd
+                textarea(style="display:none;")
+
+        button.btn.btn-default 提交
+
+    script(src="/editor/editormd.min.js")
+    script(src="/js/editor/func.js")
+    script.
+        var testEditor;
+        var editor = new Editor
+        var id  = #{blog.id}
+        id?editor.load(id):editor.base()

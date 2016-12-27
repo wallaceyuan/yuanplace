@@ -29,6 +29,18 @@ CREATE TABLE IF NOT EXISTS `kweibo` (
     `fsendAt` datetime,
     primary key (id)
 )
+
+
+CREATE TABLE IF NOT EXISTS `blog` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `createAt` datetime,
+    `updateAt` datetime,
+    `content` mediumtext,
+    `pv` int NOT NULL DEFAULT 0,
+    `category` int(11),
+    primary key (id)
+)
+
 alter table kweibo add cid varchar(255)
 alter table kweibo add clink varchar(255)
 

@@ -1,4 +1,4 @@
-
+'use strict'
 var conf = require('../../config/conf')
 var util = require('../../libs/util')
 var path = require('path')
@@ -25,7 +25,8 @@ exports.qiniuUpload = function *(next){
         //上传到七牛后保存的文件名
         var key = timestamp + '.' + type
         //生成上传 Token
-        token = uptoken(bucket, key);
+        var token = uptoken(bucket, key);
+
         //要上传文件的本地路径
         var filePath = posterData.path
         //调用uploadFile上传
@@ -48,7 +49,6 @@ function uptoken(bucket, key) {
     var putPolicy = new qiniu.rs.PutPolicy(bucket+":"+key);
     return putPolicy.token();
 }
-
 
 //构造上传函数
 /*function cb(err, res) {
@@ -82,7 +82,7 @@ exports.editor = function *(next) {
         //上传到七牛后保存的文件名
         var key = timestamp + '.' + type
         //生成上传 Token
-        token = uptoken(bucket, key);
+        var token = uptoken(bucket, key);
         //要上传文件的本地路径
         var filePath = posterData.path
         //调用uploadFile上传

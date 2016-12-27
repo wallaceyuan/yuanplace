@@ -39,10 +39,10 @@ module.exports = function(router,mupload) {
 
     //blog
     router.get('/blog',blog.index)
-
-    //movie  Index
-    router.get('/movie', Index.movie)
-    router.get('/movie/list/:id', Index.more)
+    router.get('/blog/new',blog.new)
+    router.get('/blog/find/:id',blog.find)
+    router.get('/blog/update/:id',blog.update)
+    router.post('/blog',koaBody({multipart:true}),blog.save)
 
     //upload
     router.get('/api',api.index)
@@ -65,7 +65,9 @@ module.exports = function(router,mupload) {
     router.post('/admin/user',User.adminRequired, koaBody({multipart:true}),User.save)
     router.delete('/admin/user/list', User.signinRequired, User.adminRequired, User.del)
 
-    // Movie
+    //movie
+    router.get('/movie', Index.movie)
+    router.get('/movie/list/:id', Index.more)
     router.get('/movie/:id', Movie.detail)
     router.get('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new)
     router.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update)
