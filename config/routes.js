@@ -39,6 +39,7 @@ module.exports = function(router,mupload) {
 
     //blog
     router.get('/blog',blog.index)
+    router.get('/blog/p/:id',blog.page)
     router.get('/blog/new',blog.new)
     router.get('/blog/find/:id',blog.find)
     router.get('/blog/update/:id',blog.update)

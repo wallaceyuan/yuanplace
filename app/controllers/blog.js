@@ -10,8 +10,10 @@ var pool = conf.pool
 
 
 exports.index = function *(next) {
+    var blogs = yield p.query('select id,createAt,pv,title from blog ORDER BY createAt desc LIMIT 0,10')
     yield this.render('pages/blog/index', {
         title : 'blog',
+        blogs : blogs
     })
 }
 
@@ -43,13 +45,25 @@ exports.save = function *(next) {
     }
 }
 
+exports.page = function *(next) {
+    var id = this.params.id
+    if(id == 'undefined') return
+    var blog = yield p.query('select * from blog where id=? limit 1',[id])
+    if(blog.length){
+        yield p.query('update blog set pv = pv +1 where id= ?',[id])
+    }
+    yield this.render('pages/blog/page', {
+        title: 'blog',
+        blog: blog[0] || {},
+    })
+}
+
 exports.find = function *(next) {
     var id = this.params.id
     var h2m = ''
     if(id == 'undefined') return
-    var movie = yield p.query('select * from blog where id=? limit 1',[id])
-    if(movie.length){
-        yield p.query('update blog set pv = pv +1 where id= ?',[id])
+    var blog = yield p.query('select * from blog where id=? limit 1',[id])
+    if(blog.length){
         var sql = 'SELECT content,markdown from blog WHERE id = ?'
         var blog = yield p.query(sql,[id])
         h2m = blog[0].markdown

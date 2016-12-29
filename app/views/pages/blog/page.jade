@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+    head
+        - var name = 'Jade'
+        title= name
+        meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css" href="/css/font-awesome.min.css")
+        link(rel="stylesheet", type="text/css" href="/css/blog/index.css")
+    body.post
+        .j-container
+            include ../../includes/leftside
+        #show-note-container.imagebubble-container.imagebubble-mode-off
+            .post-bg#flag
+                .container
+                    .article
+                        .preview
+                            if blog.id
+                                h1.title #{blog.title}
+                                .meta-top
+                                    span.views-count #{blog.pv}
+                                .show-content
+                                    !{blog.content}
+                            else
+                                p 没有这篇博客~~
