@@ -144,7 +144,7 @@ exports.save = function *(next) {
         })
         yield dsArray
 
-        this.redirect('/movie/' + id)
+        this.redirect('/admin/movie/list')
     }
     else {
         console.log('insert',movieObj.poster)

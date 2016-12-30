@@ -124,6 +124,15 @@ CREATE TABLE category(
     FOREIGN KEY (movieId) REFERENCES movie(id)
 )
 
+CREATE TABLE `blog_category`(
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255),
+    blogId int,
+    createAt datetime,
+    updateAt datetime,
+    PRIMARY KEY (id),
+    FOREIGN KEY (blogId) REFERENCES blog(id)
+)
 
 CREATE TABLE users(
     id int NOT NULL AUTO_INCREMENT,

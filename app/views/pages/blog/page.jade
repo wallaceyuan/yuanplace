@@ -6,6 +6,7 @@ html(lang="en")
         meta(charset="utf-8")
         link(rel="stylesheet", type="text/css" href="/css/font-awesome.min.css")
         link(rel="stylesheet", type="text/css" href="/css/blog/index.css")
+        link(href="/editor/css/editormd.css", rel="stylesheet")
     body.post
         .j-container
             include ../../includes/leftside
@@ -13,12 +14,13 @@ html(lang="en")
             .post-bg#flag
                 .container
                     .article
-                        .preview
-                            if blog.id
-                                h1.title #{blog.title}
-                                .meta-top
-                                    span.views-count #{blog.pv}
-                                .show-content
-                                    !{blog.content}
-                            else
-                                p 没有这篇博客~~
+                        .markdown-body.editormd-preview-container
+                            .preview
+                                if blog.id
+                                    h1.title #{blog.title}
+                                    .meta-top
+                                        span.views-count #{blog.pv}
+                                    .show-content
+                                        | !{blog.content}
+                                else
+                                    p 没有这篇博客~~

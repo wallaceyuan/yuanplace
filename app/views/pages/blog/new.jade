@@ -7,8 +7,21 @@ block content
     form.mt50(id="uploadForm" enctype="multipart/form-data",method="post",action="/blog")
         input(type="hidden", name="id", value=blog.id)
         #layout
+            table
+                tr
+                    td 标题
+                    td
+                        input.title.mousetrap#note_title(name="note_title" type="text")
+                tr
+                    td 分类
+                    td
+                        each val in cats
+                            span
+                                input(name="checkbox" type="checkbox" value="#{val.id}")
+                                | #{val.name}
             #test-editormd
                 textarea(style="display:none;")
+
 
         button.btn.btn-default 提交
 

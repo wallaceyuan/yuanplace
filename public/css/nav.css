@@ -179,3 +179,17 @@ body{
 #headbar .topsearch a.button.cur{
     background: #1e7dd7 ;
 }
+a.func{
+    padding: 2px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #ffffff;
+    font-family: Verdana,Tahoma;
+    background-color: #86C31F;
+    line-height: 27px;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    display: block;
+    width: 80px;
+    text-align: center;
+}

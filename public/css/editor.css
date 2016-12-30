@@ -92,3 +92,32 @@ body {
 .btns button:hover, .btn:hover {
     background: #f6f6f6;
 }
+#uploadForm table{
+    width: 90%;margin: 0 auto;
+}
+#uploadForm .title {
+    width: 100%;
+    padding: 5px 20px 5px 30px;
+    margin-bottom: 0;
+    border: 1px solid #d9d9d9;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 0;
+    box-shadow: none;
+}
+#uploadForm tr{
+    margin-bottom: 5px;
+}
+#uploadForm tr td{
+    font-size: 14px;
+}
+#uploadForm tr span{
+    margin-right: 50px;
+}
+#uploadForm tr td input[name=checkbox]{
+    margin: 10px 10px 10px 0;
+}

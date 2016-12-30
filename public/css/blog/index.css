@@ -197,6 +197,9 @@ li {
 }
 .imagebubble-container {
     position: relative;
+    margin: 0px 100px 60px 250px;
+    padding: 0 50px;
+    min-width: 800px;
 }
 
 .container {
@@ -207,7 +210,7 @@ li {
     width: 700px;
 }
 .container .article {
-    padding: 80px 40px 10px;
+    padding: 0px 40px 10px;
 }
 .article .preview .title {
     word-break: break-all;

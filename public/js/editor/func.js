@@ -1,3 +1,4 @@
+
 function Editor() {
     
 }
@@ -21,15 +22,24 @@ Editor.prototype.base = function () {
 Editor.prototype.load = function (param) {
     $(function () {
         $.get("/blog/find/"+param, function (md) {
-            if(!md){
+            console.log(md)
+            if(md.status == 302){
                 $('#uploadForm').html('没有这个博客记录')
                 return
+            }else{
+                $('#note_title').val(md.title)
+                var genBox = md.category.split(',')
+                $('#layout td span input[name=checkbox]').each(function (i,obj) {
+                    if($.inArray($(obj).val(),genBox) != -1){
+                        $(obj).attr('checked',true)
+                    }
+                })
             }
             testEditor = editormd("test-editormd", {
                 width: "90%",
                 height: 740,
                 path: "/editor/lib/",
-                appendMarkdown: "\n" + md,
+                appendMarkdown: "\n" + md.md,
                 saveHTMLToTextarea: true,
                 watch: false,
                 htmlDecode: true,

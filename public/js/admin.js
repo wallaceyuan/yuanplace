@@ -10,11 +10,17 @@ $(function(){
     $('button.userdel').on('click',function(){
         var id = $(this).attr('data-id')
         var url = '/admin/user/list?id='+id
-        delMovie(url)
+        delItem(url)
+    })
+    $('button.blogdel').on('click',function () {
+        var id = $(this).attr('data-id')
+        var url = '/admin/blog/list?id='+id
+        delItem(url)
     })
 })
 
-function delMovie(url){
+
+function delItem(url){
     $.ajax({
         url: url,
         type: 'DELETE',
@@ -22,7 +28,7 @@ function delMovie(url){
             if(response.success == 1){
                 window.location.reload()
             }else{
-                alert('É¾³ýÊ§°Ü')
+                alert('åˆ é™¤å¤±è´¥')
             }
         }
     });
