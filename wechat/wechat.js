@@ -1026,7 +1026,7 @@ Wechat.prototype.selfMenu = function(){
 
 Wechat.prototype.repTemplate = function(comp){
     var that = this
-    console.log('comp',comp)
+    console.log('comp',comp,comp.formId)
     return new Promise(function(resolve,reject) {
         that
             .fecthAccessToken()
@@ -1037,7 +1037,7 @@ Wechat.prototype.repTemplate = function(comp){
                 var value = {
                     "touser": comp.openid,
                     "template_id": comp.template_id,
-                    "form_id": 'the formId is a mock one',
+                    "form_id": comp.formId,
                     "data":{
                         "keyword1": {
                             "value": "339208499",
@@ -1055,7 +1055,8 @@ Wechat.prototype.repTemplate = function(comp){
                             "value": "广州市天河区天河路208号",
                             "color": "#173177"
                         }
-                    }
+                    },
+                    "emphasis_keyword": "keyword1.DATA"
                 }
                 request({"method":"POST","url":template_url,"json":true,body:value}).then(function(response){
                     var _data = response.body;

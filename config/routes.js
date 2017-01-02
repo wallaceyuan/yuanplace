@@ -54,7 +54,7 @@ module.exports = function(router,mupload) {
 
     //upload
     router.get('/upload',upload.index)
-    router.post('/upload',koaBody({multipart:true}),upload.qiniuUpload/*,upload.call*/)
+    router.post('/upload',koaBody({multipart:true}),upload.qiniuUpload)
     router.post('/upload/editor',koaBody({multipart:true}),upload.editor)
 
     // User

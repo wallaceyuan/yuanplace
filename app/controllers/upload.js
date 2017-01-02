@@ -15,6 +15,7 @@ exports.call = function *(next) {
 }
 
 exports.qiniuUpload = function *(next){
+    console.log('qiniuUpload')
     var that = this
     var posterData = this.request.body.files.uploadPoster
     var name = posterData.name

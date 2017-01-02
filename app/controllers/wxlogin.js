@@ -30,6 +30,7 @@ exports.check = function *() {
 exports.template = function *() {
     var data = this.request.body
     var session = data.session
+    console.log('data',data)
     var redisData = yield wxlogin.check_key(session)
     var comp = _.assign(redisData,data);
     var result = yield wechatApi.repTemplate(comp);
