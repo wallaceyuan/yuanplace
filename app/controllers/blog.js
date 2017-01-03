@@ -10,10 +10,15 @@ var pool = conf.pool
 
 
 exports.index = function *(next) {
+    var page = parseInt(this.query.p, 10) || 1
+    page = page?page:1
+    var count = 2
+
     var cates = yield p.query('select id,name from cate_name')
     var id = this.params.id
     if(id){
-        var blogs = yield p.query('select blog.* from blog left join blog_category as cat on blog.id = cat.blogId where cat.cateId = ?',[id])
+        var sql = 'select blog.* from blog left join blog_category as cat on blog.id = cat.blogId where cat.cateId = ? limit '+''+(page-1) * count+','+count
+        var blogs = yield p.query(sql,[id])
     }else{
         var blogs = yield p.query('select id,createAt,pv,title from blog ORDER BY createAt desc LIMIT 0,10')
     }
