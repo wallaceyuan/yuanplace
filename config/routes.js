@@ -39,13 +39,17 @@ module.exports = function(router,mupload) {
 
     //blog
     router.get('/blog',blog.index)
+    router.get('/blog/:id',blog.index)
     router.post('/blog',koaBody({multipart:true}),blog.save)
     router.get('/blog/p/:id',blog.page)
     router.get('/blog/find/:id',blog.find)
     router.get('/admin/blog/list', User.signinRequired, User.adminRequired, blog.list)
     router.get('/admin/blog/new',User.signinRequired, User.adminRequired,blog.new)
     router.get('/admin/blog/update/:id',User.signinRequired, User.adminRequired,blog.update)
+    router.get('/admin/blog/cate',User.signinRequired, User.adminRequired,blog.cate)
     router.delete('/admin/blog/list', User.signinRequired, User.adminRequired, blog.del)
+    router.delete('/admin/blog/cate',User.signinRequired, User.adminRequired,blog.cate_del)
+    router.put('/admin/blog/cate',User.signinRequired, User.adminRequired,blog.cate_update)
 
     //upload
     router.get('/api',api.index)

@@ -29,6 +29,7 @@ Editor.prototype.load = function (param) {
             }else{
                 $('#note_title').val(md.title)
                 var genBox = md.category.split(',')
+                $('#uploadForm input[name=genres]').val(md.category)
                 $('#layout td span input[name=checkbox]').each(function (i,obj) {
                     if($.inArray($(obj).val(),genBox) != -1){
                         $(obj).attr('checked',true)

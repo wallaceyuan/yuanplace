@@ -5,7 +5,7 @@ $(function(){
     $('button.moviedel').on('click',function(){
         var id = $(this).attr('data-id')
         var url = '/admin/movie/list?id='+id
-        delMovie(url)
+        delItem(url)
     })
     $('button.userdel').on('click',function(){
         var id = $(this).attr('data-id')
@@ -15,6 +15,11 @@ $(function(){
     $('button.blogdel').on('click',function () {
         var id = $(this).attr('data-id')
         var url = '/admin/blog/list?id='+id
+        delItem(url)
+    })
+    $('button.catedel').on('click',function () {
+        var id = $(this).attr('data-id')
+        var url = '/admin/blog/cate?id='+id
         delItem(url)
     })
 })

@@ -189,7 +189,17 @@ a.func{
     line-height: 27px;
     vertical-align: middle;
     margin-bottom: 10px;
-    display: block;
+    display: inline-block;
+    margin-right: 10px;
     width: 80px;
     text-align: center;
+}
+.cateAdd{
+    margin-top: 10px;
+}
+.table .cancel{
+    margin-left: 10px;
+}
+.update{
+    display: none;
 }

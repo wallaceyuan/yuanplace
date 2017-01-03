@@ -13,9 +13,10 @@ html(lang="en")
             .list-container
                 ul(class="unstyled clearfix sort-nav")
                     li.active
-                        a.category(href="javascript:void(null);") 全部
-                    li
-                        a.category(data-category-id="66" href="javascript:void(null);") 小说精选
+                        a.category(href="/blog/") 全部
+                    each vat in cates
+                        li
+                            a.category(href="/blog/#{vat.id}") #{vat.name}
                 ul.article-list.thumbnails.clearfix
                     each val in blogs
                         li.have-img

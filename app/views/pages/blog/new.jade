@@ -5,6 +5,7 @@ block content
     link(href="/css/editor.css", rel="stylesheet")
 
     form.mt50(id="uploadForm" enctype="multipart/form-data",method="post",action="/blog")
+        input(type="hidden", name="genres",value)
         input(type="hidden", name="id", value=blog.id)
         #layout
             table
@@ -32,3 +33,4 @@ block content
         var editor = new Editor
         var id  = #{blog.id}
         id?editor.load(id):editor.base()
+

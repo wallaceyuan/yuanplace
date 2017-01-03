@@ -34,8 +34,14 @@ client.hgetall('ABcFEBwopzc6CAagmNYcNEqHVZwRef4xoWfsRPowPv8j0G4cacsvGlhwXcFWSyop
 /*var re = util.pageNav(10,25,1111)
 console.log(re)*/
 
+//var cs = _.difference([1],[])//新增
+var ds = _.difference([1],[2])//新增
 
-
+//console.log('cs',cs)
+console.log('ds',ds)
+console.log(_.difference([2, 1], [2, 3]))
+var aa = 1
+console.log('tostring',typeof(aa.toString()))
 //var aa = moment(new Date()).format('Y-M-D H:mm:ss')
 
 /*pool.query('select * from movie ')

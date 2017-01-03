@@ -3,6 +3,7 @@ block content
     .col-md-10.mt50
         .row
             a(class="func" href="/admin/blog/new") 编写文章
+            a(class="func" href="/admin/blog/cate") 编辑分类
             table.table.table-hover.table-bordered
                 thead
                     tr
@@ -20,8 +21,12 @@ block content
                             td #{item.title}
                             td #{moment(item.updateAt).format('MM/DD/YYYY')}
                             td #{item.pv}
-                            td: a(target="_blank", href="/blog/p/#{item.id}") 查看
-                            td: a(target="_blank", href="/admin/blog/update/#{item.id}") 修改
+                            td
+                                a(target="_blank", href="/blog/p/#{item.id}")
+                                    button.btn.btn.btn-success(type="button") 查看
+                            td
+                                a(target="_blank", href="/admin/blog/update/#{item.id}")
+                                    button.btn.btn.btn-primary(type="button") 修改
                             td
                                 button.btn.btn-danger.blogdel(type="button", data-id="#{item.id}") 删除
             ul.pagination
