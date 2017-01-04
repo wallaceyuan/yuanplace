@@ -84,9 +84,10 @@ exports.list = function *(next) {
   var users = yield p.query('select t1.id,t1.name,t1.password,t1.role,t2.name as roleName from users as t1 ,roles as t2 where t2.role_id = t1.role order by updateAt desc')
   //var users = yield  User.find({}).sort('meta.updateAt').exec()
   yield this.render('pages/userlist', {
-    title: 'movie 用户列表页',
-    users: users,
-    type: 'admin'
+    title : 'movie 用户列表页',
+    users : users,
+    type  : 'admin',
+    path  : 'user'
   })
 }
 

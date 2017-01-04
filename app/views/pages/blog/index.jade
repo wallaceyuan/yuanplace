@@ -4,6 +4,7 @@ html(lang="en")
         - var name = 'Jade'
         title= name
         meta(charset="utf-8")
+        link(href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css", rel="stylesheet")
         link(rel="stylesheet", type="text/css" href="/css/font-awesome.min.css")
         link(rel="stylesheet", type="text/css" href="/css/blog/index.css")
     body
@@ -12,10 +13,10 @@ html(lang="en")
         .j-main
             .list-container
                 ul(class="unstyled clearfix sort-nav")
-                    li.active
+                    li(class="#{id == 0 ? 'active' : ''}")
                         a.category(href="/blog/") 全部
                     each vat in cates
-                        li
+                        li(class="#{id == vat.id ? 'active' : ''}")
                             a.category(href="/blog/#{vat.id}") #{vat.name}
                 ul.article-list.thumbnails.clearfix
                     each val in blogs
@@ -33,3 +34,19 @@ html(lang="en")
                                     a(target="_blank" href="/blog/p/#{val.id}") 阅读 #{val.pv}
                                         span · 喜欢 330
                                         span · 打赏 2
+                ul.pagination.thumb
+                    - for (var i = 0; i < totalPage; i++) {
+                        - if (currentPage == (i + 1)) {
+                        li.active
+                            span #{currentPage}
+                        - }
+                        - else {
+                        li
+                            - if (id!=0){
+                                a(href='/blog/#{id}?&p=#{i + 1}') #{i + 1}
+                            - }
+                            - else {
+                                a(href='/blog/?&p=#{i + 1}') #{i + 1}
+                            - }
+                        - }
+                    - }

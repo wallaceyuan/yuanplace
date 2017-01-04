@@ -17,15 +17,23 @@ exports.index = function *(next) {
     var cates = yield p.query('select id,name from cate_name')
     var id = this.params.id
     if(id){
+        var total = yield p.query('select count(*) as count from blog left join blog_category as cat on blog.id = cat.blogId where cat.cateId = ?',[id])
+        total = total[0].count
         var sql = 'select blog.* from blog left join blog_category as cat on blog.id = cat.blogId where cat.cateId = ? limit '+''+(page-1) * count+','+count
         var blogs = yield p.query(sql,[id])
     }else{
-        var blogs = yield p.query('select id,createAt,pv,title from blog ORDER BY createAt desc LIMIT 0,10')
+        var total = yield p.query('select count(*) as count from blog')
+        total = total[0].count
+        var blogs = yield p.query('select id,createAt,pv,title from blog ORDER BY createAt desc limit '+(page-1) * count+','+count)
     }
     yield this.render('pages/blog/index', {
+        totalPage: Math.ceil(total / count),
+        currentPage: page,
         title : 'blog',
         blogs : blogs,
-        cates : cates
+        cates : cates,
+        total : total,
+        id    : id || 0
     })
 }
 
@@ -46,7 +54,8 @@ exports.list = function *(next) {
         title : 'blog',
         type  : 'admin',
         blogs : blogs,
-        total : total
+        total : total,
+        path  : 'blog'
     })
 }
 

@@ -178,11 +178,12 @@ exports.list = function *(next) {
     total = total[0].count
 
     yield this.render('pages/list', {
-        totalPage: Math.ceil(total / count),
-        title: 'movie 列表页',
-        movies: movies,
-        type:'admin',
-        currentPage: page
+        totalPage : Math.ceil(total / count),
+        currentPage : page,
+        title : 'movie 列表页',
+        movies : movies,
+        type :'admin',
+        path : 'movie'
     })
 }
 
