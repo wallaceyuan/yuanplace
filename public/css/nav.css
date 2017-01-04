@@ -4,6 +4,9 @@ body{
 .mt50{
     margin-top: 50px;
 }
+.mt10{
+    margin-top: 10px;
+}
 .container{position: relative}
 .alert{
     position: absolute;
@@ -202,4 +205,17 @@ a.func{
 }
 .update{
     display: none;
+}
+.userForm .password .operate,.userForm .password.oping .edit,.userForm .password .cancel{
+    display: none;
+}
+.userForm .password.oping .operate{
+    display: block;
+}
+.userForm .password .edit,.userForm .password.oping .cancel{
+    display: inline-block;
+}
+
+.userForm .edit,.userForm .cancel{
+    margin-top: 10px;
 }

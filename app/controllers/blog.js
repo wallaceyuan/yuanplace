@@ -112,7 +112,8 @@ exports.update = function *(next) {
     yield this.render('pages/blog/new', {
         title : 'blog',
         blog : {id:id},
-        cats : cats
+        cats : cats,
+        path : 'blog'
     })
 }
 
@@ -121,7 +122,8 @@ exports.cate = function *(){
     yield this.render('pages/blog/cate', {
         title : 'blog',
         cats : cats,
-        type : "admin"
+        type : "admin",
+        path : 'blog'
     })
 }
 

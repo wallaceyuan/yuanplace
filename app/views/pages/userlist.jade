@@ -3,6 +3,7 @@ extends ../layout
 block content
   .col-md-10.mt50
     .row
+      a(class="func" href="/admin/user/new") 增加用户
       table.table.table-hover.table-bordered
         thead
           tr
@@ -15,7 +16,7 @@ block content
           each item in users
             tr(class="item-id-#{item.id}")
               td #{item.name}
-              td #{moment(item.updateAt).format('MM/DD/YYYY')}
+              td #{moment(item.createAt).format('YYYY/MM/DD')}
               td #{item.roleName}
               td: a(target="_blank", href="/admin/user/update/#{item.id}") 修改
               td

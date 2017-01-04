@@ -8,7 +8,6 @@ var conf = require('../../config/conf')
 var pool = conf.pool
 var p = conf.p
 
-
 // signup
 exports.showSignup = function *(next) {
   yield this.render('pages/signup', {
@@ -81,7 +80,7 @@ exports.logout =  function *(next) {
 
 // userlist page
 exports.list = function *(next) {
-  var users = yield p.query('select t1.id,t1.name,t1.password,t1.role,t2.name as roleName from users as t1 ,roles as t2 where t2.role_id = t1.role order by updateAt desc')
+  var users = yield p.query('select t1.id,t1.name,t1.createAt,t1.password,t1.role,t2.name as roleName from users as t1 ,roles as t2 where t2.role_id = t1.role order by updateAt desc')
   //var users = yield  User.find({}).sort('meta.updateAt').exec()
   yield this.render('pages/userlist', {
     title : 'movie 用户列表页',
@@ -106,34 +105,70 @@ exports.del =  function *(next){
 
 exports.update = function *(next){
   var id = this.params.id
+  var roles = yield p.query('select name,role_id from roles')
   if(id){
-    var roles = yield p.query('select name,role_id from roles')
     var users = yield p.query('select t1.id,t1.name,t1.password,t1.role,t2.name as roleName from users as t1 ,roles as t2 where t2.role_id = t1.role and t1.id = ?',[id])
     yield this.render('pages/userupdate',{
       title: 'imooc 用户列表页',
       users: users[0],
       roles: roles,
-      type: 'admin'
+      type: 'admin',
+      path: 'user'
+    })
+  }else{
+    yield this.render('pages/userupdate',{
+      title: 'imooc 用户列表页',
+      users: {},
+      roles: roles,
+      type: 'admin',
+      path: 'user'
     })
   }
 }
 
 exports.save = function *(next){
-
   var userObj = this.request.body.fields || {}
-
   var id = userObj.id
-
   if (id) {
-
-    yield p.query("UPDATE users SET name = ?,role=? where id=?",[userObj.name,userObj.inputRole,id])
-
+    var new_p = userObj.new_p
+    var old_p = userObj.old_p
+    if(old_p == ''|| new_p == '' ){
+      yield p.query("UPDATE users SET name = ?,role=? where id=?",[userObj.name,userObj.inputRole,id])
+      this.flash('success','修改用户信息成功')
+      this.redirect('/admin/user/list')
+    }else{
+      var res = yield p.query('select password from users where id = ? limit 1',[id])
+      var isMatch = yield users.comparePassword(userObj.old_p,res[0].password)
+      if(isMatch){
+        var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
+        var hash = bcrypt.hashSync(new_p, salt);
+        new_p = hash
+        yield p.query("UPDATE users SET name = ?,role=?,password=? where id=?",[userObj.name,userObj.inputRole,new_p,id])
+        this.flash('success','修改用户信息成功')
+        this.redirect('/admin/user/list')
+      }else{
+        this.flash('error','旧密码错误')
+        this.redirect('/admin/user/update/'+id)
+      }
+    }
   }else{
-
+    var _user = userObj
+    var res = yield p.query('select * from users where name=? limit 1',[_user.name])
+    if (res && res.length > 0) {
+      this.flash('error', '用户名已存在'); //放置失败信息
+      this.redirect('/admin/user/new')
+      yield next
+    }
+    else {
+      var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
+      var hash = bcrypt.hashSync(_user.password, salt);
+      _user.password = hash
+      var newUser = yield users.saveUser(_user)
+      this.session.user = newUser
+      this.flash('success', '注册成功'); //放置失败信息
+      this.redirect('/admin/user/list')
+    }
   }
-
-  this.redirect('/admin/user/list')
-
 }
 
 // midware for user

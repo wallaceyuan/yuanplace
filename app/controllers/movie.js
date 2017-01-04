@@ -60,10 +60,11 @@ exports.update = function *(next) {
         movie = movie[0]
         var categories = yield p.query('SELECT name from category GROUP BY name')
         yield this.render('pages/admin', {
-            title: 'movie 后台更新页',
-            movie: movie,
-            categories: categories,
-            type: 'admin'
+            title : 'movie 后台更新页',
+            movie : movie,
+            categories : categories,
+            type : 'admin',
+            path : 'movie'
         })
     }
 }

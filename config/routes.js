@@ -67,9 +67,10 @@ module.exports = function(router,mupload) {
     router.get('/signin', User.showSignin)
     router.get('/signup', User.showSignup)
     router.get('/logout', User.logout)
+    router.get('/admin/user/new', User.signinRequired, User.adminRequired, User.update)
     router.get('/admin/user/update/:id', User.signinRequired, User.adminRequired, User.update)
     router.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list)
-    router.post('/admin/user',User.adminRequired, koaBody({multipart:true}),User.save)
+    router.post('/admin/user', User.adminRequired, koaBody({multipart:true}), User.save)
     router.delete('/admin/user/list', User.signinRequired, User.adminRequired, User.del)
 
     //movie

@@ -1,6 +1,4 @@
-/**
- * Created by yuan on 2016/9/21.
- */
+
 $(function(){
     $('button.moviedel').on('click',function(){
         var id = $(this).attr('data-id')
