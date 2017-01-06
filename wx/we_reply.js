@@ -19,6 +19,11 @@ exports.reply = function* (next){
         }
     }else if(message.MsgType === 'text'){
         this.body = message.Content
+    }else if(message.MsgType === 'image'){
+        this.body = {
+            type:'image',
+            cnt:'你发了一张图片'
+        }
     }
     yield next
 }

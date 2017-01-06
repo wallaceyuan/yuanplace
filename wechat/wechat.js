@@ -240,7 +240,7 @@ Wechat.prototype.replay = function(){
     var content = this.body//this.body = reply
     var message = this.weixin
 
-    console.log('message wechat replay',message);
+    //console.log('message wechat replay',message);
 
     var xml = util.tpl(content,message);
 

@@ -83,6 +83,7 @@ exports.tpl = function(content,message){
 }
 
 exports.xcx_tpl = function (content,message) {
+    //console.log('content',content ,'message',message)
     var info = {}
     var type = 'text'
     var fromUsername = message.FromUserName
@@ -97,6 +98,10 @@ exports.xcx_tpl = function (content,message) {
     if(type == 'text'){
         info.text = {
             "content": content
+        }
+    }else{
+        info.image = {
+            "media_id": message.MediaId
         }
     }
     return info
