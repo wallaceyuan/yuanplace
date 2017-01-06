@@ -8,7 +8,7 @@ var Wechat = require('../wechat/wechat')
 var menu = require('./menu')
 var wechatApi = new Wechat(config.wechatOptions.wechat);
 
-var help = '哈哈，你来到了贞德厨客服中心'
+var help = '哈哈，你来到了贞德厨客服中心，回复1给你看我的老婆~'
 
 exports.reply = function* (next){
     var message = this.weixin
@@ -18,7 +18,17 @@ exports.reply = function* (next){
             this.body = help
         }
     }else if(message.MsgType === 'text'){
-        this.body = message.Content
+        var content = message.Content;
+        var reply = content
+        if(content == 1){
+            var data = yield wechatApi.uploadMaterial('image', __dirname + '/vendor/2.jpg');
+            console.log('data',data)
+            reply = {
+                "type":'image',
+                "media_id":data.media_id
+            }
+        }
+        this.body = reply
     }else if(message.MsgType === 'image'){
         this.body = {
             type:'image',

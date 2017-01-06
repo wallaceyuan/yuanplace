@@ -83,7 +83,7 @@ exports.tpl = function(content,message){
 }
 
 exports.xcx_tpl = function (content,message) {
-    //console.log('content',content ,'message',message)
+    console.log('content',content ,'message',message)
     var info = {}
     var type = 'text'
     var fromUsername = message.FromUserName
@@ -100,8 +100,9 @@ exports.xcx_tpl = function (content,message) {
             "content": content
         }
     }else{
+        console.log('relpy image image', content.media_id || message.MediaId)
         info.image = {
-            "media_id": message.MediaId
+            "media_id": content.media_id || message.MediaId
         }
     }
     return info

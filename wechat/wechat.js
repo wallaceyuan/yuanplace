@@ -277,6 +277,7 @@ Wechat.prototype.uploadMaterial = function(type,material,permanent){
                 if(!permanent){
                     url += '&type=' + type
                 }
+                console.log('urlurlurlurlurl',url)
 
                 var option = {
                     "method":"POST",
