@@ -21,7 +21,6 @@ var appSecret = config.wechatOptions.xcx.appSecret
 
 exports.session_key = function *(code) {
     var session_url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appID}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`
-    console.log(session_url)
     return new Promise(function(resolve,reject){
         request({url:session_url,json:true}).then(function(response){
             //console.log('response body',response.body);

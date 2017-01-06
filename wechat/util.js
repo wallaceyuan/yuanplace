@@ -5,8 +5,17 @@
 
 var xml2js = require('xml2js');
 var Promise = require('bluebird');
+var request = Promise.promisify(require('request'));
 var tpl = require('./tpl');
 
+
+exports.getAse = function(option){
+    return new Promise((resolve,reject)=>{
+        request(option).then(response =>{
+            resolve(response.body)
+        })
+    })
+}
 
 exports.parseXMLAsync = function(xml){
     return new Promise(function(resolve,reject){
@@ -53,7 +62,8 @@ function formatMessage(result){
 exports.formatMessage = formatMessage
 
 exports.tpl = function(content,message){
-    //console.log('tpl','content',content);
+    //content 回复文本 message xml转为json
+    //console.log('tpl','content',content,message);
     var info = {}
     var type = 'text'
     var fromUsername = message.FromUserName
@@ -70,4 +80,24 @@ exports.tpl = function(content,message){
     info.fromUserName = toUsername
 
     return tpl.compiled(info);
+}
+
+exports.xcx_tpl = function (content,message) {
+    var info = {}
+    var type = 'text'
+    var fromUsername = message.FromUserName
+    var toUsername = message.ToUserName
+
+    if(Array.isArray(content)){
+        type = 'news'
+    }
+    type = content.type || type
+    info.msgtype = type
+    info.touser = fromUsername
+    if(type == 'text'){
+        info.text = {
+            "content": content
+        }
+    }
+    return info
 }

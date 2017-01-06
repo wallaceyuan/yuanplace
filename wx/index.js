@@ -1,9 +1,4 @@
-/**
- * Created by Yuan on 2016/8/7.
- */
-/**
- * Created by yuan on 2016/7/21.
- */
+
 'use strict'
 
 var path = require('path');
@@ -40,6 +35,7 @@ var config = {
     xcx:{
         appID:'wxb442af437a754db6',
         appSecret:'264d4ba77a8b296376c32dbf16f38233',
+        token:'Wallace746cEtzB7o7fk',
         getAccessToken:function(){
             return util.readFileAsync(wx_wechat_file,'utf-8')
         },

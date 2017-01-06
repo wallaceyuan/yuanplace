@@ -90,6 +90,10 @@ module.exports = function(router,mupload) {
     router.get('/wx',Wechat.hear)
     router.post('/wx',Wechat.hear)
 
+
+    router.get('/xcx',Wechat.xcxHear)
+    router.post('/xcx',Wechat.xcxHear)
+
     // Comment
     router.post('/user/comment', User.signinRequired, Comment.save)
 

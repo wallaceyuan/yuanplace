@@ -88,6 +88,10 @@ var api = {
     ticket:{
         //https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=wx_card
         get:prefix+'ticket/getticket?'
+    },
+    xcx:{
+        //https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN
+        service:prefix+'message/custom/send?'
     }
 }
 
@@ -211,12 +215,32 @@ Wechat.prototype.updateTicket = function(access_token){
     })
 }
 
+Wechat.prototype.we_reply = function (access_token) {
+    console.log('access_token',access_token)
+    var content = this.body//this.body = reply
+    var message = this.weixin
+    console.log('message wechat replay',message);
+    var form = util.xcx_tpl(content,message);
+    var url = api.xcx.service + 'access_token=' + access_token
+
+    var option = {
+        "method": "POST",
+        "url": url,
+        "json": true
+    }
+    option.body = form
+    request(option).then(function (response) {
+        console.log(response.body)
+    })
+}
+
+
 Wechat.prototype.replay = function(){
 
     var content = this.body//this.body = reply
     var message = this.weixin
 
-    //console.log('message',message);
+    console.log('message wechat replay',message);
 
     var xml = util.tpl(content,message);
 

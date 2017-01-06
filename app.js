@@ -76,7 +76,6 @@ app.use(function *(next){
 
 //路由
 require('./config/routes')(router)
-
 app
     .use(router.routes())
     .use(router.allowedMethods())
