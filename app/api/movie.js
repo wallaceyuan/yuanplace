@@ -60,13 +60,12 @@ exports.searchByCategory = function *(catId) {
 }
 
 exports.searchById = function *(id) {
-    var movie = yield Movie
-        .findOne({_id:id})
-        .exec()
+    var movie = yield p.query('SELECT * from movie where id= ? limit 1',[id])
     return movie
 }
 
 function updateMovies(movie){
+    //console.log('updateMovies',movie)
     var options = {
         url:'https://api.douban.com/v2/movie/subject/'+movie.doubanId,
         json:true
@@ -122,14 +121,18 @@ exports.searchByDouban = function *(q){
     if(_data && _data.subjects){
         subjects = _data.subjects
     }
+    //console.log(subjects)
     if(subjects.length > 0){
         var queryArray = []
         subjects.forEach(function(item){
             queryArray.push(function *(){
                 var movie = yield p.query('SELECT * from movie where doubanId = ? LIMIT 1;',[item.id])
+                //console.log('select movie',movie)
                 if(movie.length > 0){
-                    movies.push(movie)
+                    console.log('have this movies')
+                    movies.push(movie[0])
                 }else{
+                    console.log('not have this movies search')
                     var directors = item.directors || []
                     var director = directors[0] || " "
                     var name = director.name || "暂无"
@@ -150,10 +153,12 @@ exports.searchByDouban = function *(q){
         })
 
         yield queryArray
+        //console.log(movies)
         movies.forEach(function(movie){
             updateMovies(movie)
         });
     }
+    //console.log('movies',movies)
     return movies
 }
 

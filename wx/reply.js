@@ -18,7 +18,7 @@ var help = '哈哈，你订阅了一个微信号\r\n'+
     '回复 4，测试图文回复\n'+
     '回复 首页，回到电影首页\n'+
     '回复 电影名字，查询相关电影\n'+
-    '<a href="http://ltbho8ed41.proxy.qqbrowser.cc/movie">点击这里开始语音查电影</a>';
+    '<a href=`${config.wechatOptions.wechat.serverUrl}/movie`>点击这里开始语音查电影</a>';
 exports.reply = function* (next){
     var message = this.weixin
     if(message.MsgType === 'event'){
@@ -42,7 +42,7 @@ exports.reply = function* (next){
                         title:movie.title,
                         description:movie.description,
                         picUrl:movie.poster,
-                        url:'http://ltbho8ed41.proxy.qqbrowser.cc/wechat/movie/'+movie._id
+                        url:`${config.wechatOptions.wechat.serverUrl}/wechat/movie/${movie.id}`
                     })
                 })
             }else if(message.EventKey === 'movie_cold'){
@@ -53,7 +53,7 @@ exports.reply = function* (next){
                         title:movie.title,
                         description:movie.description,
                         picUrl:movie.poster,
-                        url:'http://ltbho8ed41.proxy.qqbrowser.cc/wechat/movie/'+movie._id
+                        url:`${config.wechatOptions.wechat.serverUrl}/wechat/movie/${movie.id}`
                     })
                 })
             }else if(message.EventKey === 'movie_crime' ){
@@ -63,7 +63,7 @@ exports.reply = function* (next){
                         title:movie.title,
                         description:movie.description,
                         picUrl:movie.poster,
-                        url:'http://ltbho8ed41.proxy.qqbrowser.cc/wechat/movie/'+movie._id
+                        url:`${config.wechatOptions.wechat.serverUrl}/wechat/movie/${movie.id}`
                     })
                 })
             }else if(message.EventKey === 'movie_cartoon' ){
@@ -73,7 +73,7 @@ exports.reply = function* (next){
                         title:movie.title,
                         description:movie.description,
                         picUrl:movie.poster,
-                        url:'http://ltbho8ed41.proxy.qqbrowser.cc/wechat/movie/'+movie._id
+                        url:`${config.wechatOptions.wechat.serverUrl}/wechat/movie/${movie.id}`
                     })
                 })
             }else if(message.EventKey === 'help' ){
@@ -264,27 +264,30 @@ exports.reply = function* (next){
         }else if(content == 16){
             wechatApi.createMenu(menu)
         }else {
+            //console.log('content text',content)
             var movies = yield Movie.searchByName(content)
             if(!movies || movies.length === 0){
                 movies = yield Movie.searchByDouban(content)
             }
+            //console.log('movies',movies)
             if(movies && movies.length > 0){
                 reply = []
-                movies = movies.slice(0,10)
-
+                movies = movies.slice(0,4)
+                //console.log('movies',movies)
                 movies.forEach( function(movie) {
+                    //console.log('movie',movie,movie.title)
                     reply.push({
                         title:movie.title,
                         description:movie.description,
                         picUrl:movie.poster,
-                        url:'http://ltbho8ed41.proxy.qqbrowser.cc/wechat/movie/'+movie._id
+                        url:`${config.wechatOptions.wechat.serverUrl}/wechat/movie/${movie.id}`
                     })
                 })
             }else{
                 reply = '没有查询到匹配的电影 换一个试试吧~'
             }
         }
-
+        //console.log('reply',reply)
         this.body = reply;
     }else if(message.MsgType === 'voice'){
         var voiceText = message.Recognition
@@ -302,7 +305,7 @@ exports.reply = function* (next){
                     title:movie.title,
                     description:movie.summary,
                     picUrl:movie.poster,
-                    url:'http://ltbho8ed41.proxy.qqbrowser.cc/wechat/movie/'+movie._id
+                    url:`${config.wechatOptions.wechat.serverUrl}/wechat/movie/${movie.id}`
                 })
             })
         }else{

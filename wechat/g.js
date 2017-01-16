@@ -38,7 +38,7 @@ module.exports = function(opts,handler){
             }
         }
         else if(this.method === 'POST'){
-            console.log('post')
+            //console.log('post')
             if(sha != signature){
                 this.body = 'wrong';
                 return false
