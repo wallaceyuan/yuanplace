@@ -41,6 +41,9 @@ CREATE TABLE IF NOT EXISTS `blog` (
     primary key (id)
 )
 
+alter table blog add titlepic varchar(255)
+
+
 alter table kweibo add cid varchar(255)
 alter table kweibo add clink varchar(255)
 

@@ -26,9 +26,9 @@ Promise.all([p1, p2, p3]).then(values => {
 });
 client.hgetall('ABcFEBwopzc6CAagmNYcNEqHVZwRef4xoWfsRPowPv8j0G4cacsvGlhwXcFWSyoppaIgpm86Bpoc4zWJeLWIrikCAlrJC96fLXASF0Ldthl2lVa4WcQryXiggWfowXArK1BWbaCCdSFCHVHVCK6Qq6hYw1W24ATLLcRDiulQ', function (err, obj) {
     if(err){
-        console.log(err)
+        //console.log(err)
     }else{
-        console.log(obj)
+        //console.log(obj)
     }
 });
 /*var re = util.pageNav(10,25,1111)
@@ -38,10 +38,10 @@ console.log(re)*/
 var ds = _.difference([1],[2])//新增
 
 //console.log('cs',cs)
-console.log('ds',ds)
-console.log(_.difference([2, 1], [2, 3]))
+//console.log('ds',ds)
+//console.log(_.difference([2, 1], [2, 3]))
 var aa = 1
-console.log('tostring',typeof(aa.toString()))
+//console.log('tostring',typeof(aa.toString()))
 //var aa = moment(new Date()).format('Y-M-D H:mm:ss')
 
 /*pool.query('select * from movie ')
@@ -70,7 +70,7 @@ var str = "<iframe height='450' width='530' src='http://player.kankanews.com/emb
 //var cc = str.match(/[http(.+?)$/i);
 var patt = /http(.*?)'/gi;
 var iUrl = str.match(patt)[0].split('\'')[0]
-console.log(iUrl)
+//console.log(iUrl)
 /*pool.query('select * from kweibo where mid = ?',[4029132301983536],function (err,res) {
     if(res.length){
         console.log(res[0].text)
@@ -88,8 +88,9 @@ console.log(str.match(/\/([0-9]+)?/g))
 
 var aaa = [1,2,3,4,5]
 var aaaaa = aaa.concat(['','','',''])
-console.log(aaaaa)
+//console.log(aaaaa)
 
+console.log(typeof ([1,2]),typeof (1))
 
 /*var d = "1[ddd]sfdsaf[ccc]fdsaf[bbbb]";
 var patt = /\[\/^\]]+\]/g;
@@ -281,3 +282,14 @@ co(function *(){
     console.log(aa)
 })
 */
+var  a = 5;
+
+function test(){
+    a = 0;
+    console.log(a);
+    console.log(this.a)
+    var a;
+    console.log(a)
+}
+test()
+new test()

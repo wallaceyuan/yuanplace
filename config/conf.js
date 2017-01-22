@@ -14,18 +14,17 @@ var pool = mysql.createPool({
     database:'yuan_place',
     connectTimeout:30000
 });
+
 p = wrapper(pool);
 
 var ACCESS_KEY = 'hnFPlvlB8QmBiBen8XTa8KEZ_soaiNbzpscllVvv'
 var SECRET_KEY = 'dWGPV89YN8eHM59qF4ehaahpWbz2FtvF65NVnPob'
 var bucket     = 'wallaceyuan'
 
-/*var client   = require("redis").createClient();*/
+var client   = require("redis").createClient();
 
-/*
-var client = require('redis').createClient();
-client.auth('wallace741130')
-*/
+/*var client = require('redis').createClient();
+client.auth('wallace741130')*/
 
 
 module.exports = {

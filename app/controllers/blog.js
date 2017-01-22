@@ -8,11 +8,10 @@ var conf = require('../../config/conf')
 var ip = conf.ip
 var pool = conf.pool
 
-
 exports.index = function *(next) {
     var page = parseInt(this.query.p, 10) || 1
     page = page?page:1
-    var count = 2
+    var count = 6
 
     var cates = yield p.query('select id,name from cate_name')
     var id = this.params.id
@@ -24,7 +23,7 @@ exports.index = function *(next) {
     }else{
         var total = yield p.query('select count(*) as count from blog')
         total = total[0].count
-        var blogs = yield p.query('select id,createAt,pv,title from blog ORDER BY createAt desc limit '+(page-1) * count+','+count)
+        var blogs = yield p.query('select id,createAt,pv,title,titlepic from blog ORDER BY createAt desc limit '+(page-1) * count+','+count)
     }
     yield this.render('pages/blog/index', {
         totalPage: Math.ceil(total / count),
@@ -133,14 +132,16 @@ exports.save = function *(next) {
     let id = blogObj.id
     let checkbox = blogObj.checkbox
     var cates
+    //console.log('blogObj',blogObj)
+    //console.log('checkbox',checkbox,typeof(checkbox),checkbox )
     if(checkbox){
-        cates = checkbox.length > 1?checkbox.join(','):checkbox[0]
-        checkbox = checkbox.length >1?checkbox:new Array(checkbox)
+        cates = typeof(checkbox) == 'object'? checkbox.join(','):checkbox
+        checkbox = typeof(checkbox) == 'object'? checkbox:[checkbox]
     }else{
         cates = ''
         checkbox = []
     }
-
+    //console.log('checkbox',checkbox )
     if(id!=0){
         //更新category
         var res = yield p.query('SELECT cateId from blog_category WHERE blogId = ?',[id])
@@ -154,6 +155,7 @@ exports.save = function *(next) {
         var ds = _.difference(genres,checkbox)//删除
 
         //console.log(genres,checkbox,cs,ds)
+
         var queryArray = []
         cs.map(function(c){
             queryArray.push(function *(){
@@ -171,12 +173,14 @@ exports.save = function *(next) {
 
         yield dsArray
 
-        var sql = "UPDATE blog SET title=?,updateAt=?,markdown=?,category=? where id=?";
-        yield p.query(sql,[title,new Date(),blogObj['test-editormd-markdown-doc'],cates,id])
+        var sql = "UPDATE blog SET title=?,updateAt=?,markdown=?,content=?,category=?,titlepic=? where id=?";
+        //console.log('markdown',blogObj['test-editormd-markdown-doc'])
+        //console.log('html',blogObj['test-editormd-html-code'])
+        yield p.query(sql,[title,new Date(),blogObj['test-editormd-markdown-doc'],blogObj['test-editormd-html-code'],cates,blogObj['titlepic'],id])
         this.redirect('/admin/blog/list')
     }else{
-        var sql = "insert into blog(title,createAt,updateAt,markdown,content,category) value(?,?,?,?,?,?)";
-        var row = yield p.query(sql,[title,new Date(),new Date(),blogObj['test-editormd-markdown-doc'],blogObj['test-editormd-html-code'],cates])
+        var sql = "insert into blog(title,createAt,updateAt,markdown,content,category,titlepic) value(?,?,?,?,?,?)";
+        var row = yield p.query(sql,[title,new Date(),new Date(),blogObj['test-editormd-markdown-doc'],blogObj['test-editormd-html-code'],blogObj['titlepic'],cates])
         var queryArray = []
         checkbox.map(function (c) {
             queryArray.push(function *() {
@@ -207,10 +211,10 @@ exports.find = function *(next) {
     if(id == 'undefined') return
     var blog = yield p.query('select * from blog where id=? limit 1',[id])
     if(blog.length){
-        var sql = 'SELECT content,markdown,category,title from blog WHERE id = ?'
+        var sql = 'SELECT content,markdown,category,title,titlepic from blog WHERE id = ?'
         var blog = yield p.query(sql,[id])
         blog = blog[0]
-        res.status = 200,res.md = blog.markdown,res.title = blog.title,res.category = blog.category
+        res.status = 200,res.md = blog.markdown,res.title = blog.title,res.category = blog.category, res.titlepic =  blog.titlepic
     }else{
         res.status = 302
     }

@@ -95,6 +95,76 @@ body {
 #uploadForm table{
     width: 90%;margin: 0 auto;
 }
+.cover-img-upload{
+    margin-top: 10px;
+    margin-bottom:10px;
+}
+.cover-img-upload label {
+    float: left;
+    display: block;
+    width: 75px;
+    text-align: left;
+    padding: 7px 0 15px 0px;
+    margin: 0 0 2px;
+    font-weight: normal;
+}
+.cover-img-upload input[type="text"] {
+    display: inline-block;
+    width: 264px;
+}
+.cover-file-input{
+    width: 75px;
+    height: 32px;
+    margin-left: 8px;
+    position: relative;
+    display: inline-block;
+}
+.cover-img-upload input[type="text"], .cover-img-upload input[type="number"] {
+    color: #999;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+.cover-img-upload .file-input{
+    width: 75px;
+    height: 32px;
+    margin-left: 8px;
+    position: relative;
+    display: inline-block;
+}
+.cover-img-upload  input[type="file"] {
+    width: 75px;
+    height: 32px;
+    opacity: 0;
+    cursor: pointer;
+    background: #000;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.cover-img-upload  input[type="submit"],.cancel-btn{
+    color: #666;
+    min-width: 75px;
+    cursor: pointer;
+    background: #fff;
+    padding: 7px 10px;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-transition: background 300ms ease-out;
+    -moz-transition: background 300ms ease-out;
+    transition: background 300ms ease-out;
+}
+.cancel-btn{
+    margin-left: 10px;
+}
+.editor-cover-form iframe {
+    display: none;
+}
 #uploadForm .title {
     width: 100%;
     padding: 5px 20px 5px 30px;

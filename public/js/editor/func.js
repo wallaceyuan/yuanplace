@@ -15,7 +15,6 @@ Editor.prototype.base = function () {
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
             imageUploadURL: "/upload/editor"
         });
-
     });
 }
 
@@ -28,8 +27,9 @@ Editor.prototype.load = function (param) {
                 return
             }else{
                 $('#note_title').val(md.title)
-                var genBox = md.category.split(',')
+                var genBox = md.category?md.category.split(','):[]
                 $('#uploadForm input[name=genres]').val(md.category)
+                $('#uploadForm input[name=titlepic]').val(md.titlepic)
                 $('#layout td span input[name=checkbox]').each(function (i,obj) {
                     if($.inArray($(obj).val(),genBox) != -1){
                         $(obj).attr('checked',true)
@@ -55,7 +55,6 @@ Editor.prototype.load = function (param) {
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL: "/upload/editor",
                 onload: function () {
-                    console.log('onload', this);
                     this.config("lineNumbers", false);
                     this.config({
                         toc: false,

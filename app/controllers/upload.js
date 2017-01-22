@@ -76,6 +76,8 @@ exports.index = function *(next) {
 exports.editor = function *(next) {
     var files = this.request.body.files
     var posterData = files['editormd-image-file']
+    //console.log('files',files)
+    //console.log('posterData',posterData)
     var name = posterData.name
     if (name) {
         var timestamp = Date.now()
@@ -98,7 +100,7 @@ exports.editor = function *(next) {
     }else{
         res.success = 0
     }
-
+    //console.log('res',res)
     this.body = res
 
 }
