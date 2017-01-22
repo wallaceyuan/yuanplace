@@ -179,8 +179,9 @@ exports.save = function *(next) {
         yield p.query(sql,[title,new Date(),blogObj['test-editormd-markdown-doc'],blogObj['test-editormd-html-code'],cates,blogObj['titlepic'],id])
         this.redirect('/admin/blog/list')
     }else{
-        var sql = "insert into blog(title,createAt,updateAt,markdown,content,category,titlepic) value(?,?,?,?,?,?)";
-        var row = yield p.query(sql,[title,new Date(),new Date(),blogObj['test-editormd-markdown-doc'],blogObj['test-editormd-html-code'],blogObj['titlepic'],cates])
+        console.log('insert')
+        var sql = "insert into blog(title,createAt,updateAt,markdown,content,category,titlepic) value(?,?,?,?,?,?,?)";
+        var row = yield p.query(sql,[title,new Date(),new Date(),blogObj['test-editormd-markdown-doc'],blogObj['test-editormd-html-code'],cates,blogObj['titlepic']])
         var queryArray = []
         checkbox.map(function (c) {
             queryArray.push(function *() {
