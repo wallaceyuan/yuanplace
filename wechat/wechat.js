@@ -92,6 +92,9 @@ var api = {
     xcx:{
         //https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN
         service:prefix+'message/custom/send?'
+    },
+    info:{
+        get: prefix+'user/info?'
     }
 }
 
@@ -233,7 +236,6 @@ Wechat.prototype.we_reply = function (access_token) {
         console.log(response.body)
     })
 }
-
 
 Wechat.prototype.replay = function(){
 
@@ -623,6 +625,27 @@ Wechat.prototype.delTag = function(id){
                     reject(err);
                 });
             })
+    })
+}
+
+Wechat.prototype.userInfo = function(openid){
+    //console.log('openid',openid)
+    var that = this;
+    var userInfoUrl = api.info.get
+    return new Promise(function (resolve,reject) {
+        that
+        .fecthAccessToken()
+        .then(function(data){
+            var url = userInfoUrl + '&access_token=' + data.access_token + '&openid=' + openid + '&lang=zh_CN'
+            console.log(url)
+            request({"method":"GET","url":url}).then(function(response){
+                console.log(response.body)
+                resolve(response.body)
+            })
+            .catch(function(err){
+                reject(err);
+            })
+        })
     })
 }
 

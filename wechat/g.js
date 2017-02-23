@@ -57,6 +57,7 @@ module.exports = function(opts,handler){
                 var message = util.formatMessage(content.xml);
 
                 this.weixin = message;
+                //console.log('message',message)
                 yield handler.call(this,next);
                 wechat.replay.call(this);
                 //console.log('g content',content);

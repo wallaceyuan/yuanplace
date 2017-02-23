@@ -263,6 +263,10 @@ exports.reply = function* (next){
             reply = 'userlist Done';
         }else if(content == 16){
             wechatApi.createMenu(menu)
+        }else if(content === 'openid'){
+            //reply = '您的openid是：' + message['FromUserName']
+            var userInfo = yield wechatApi.userInfo(message['FromUserName'])
+            reply = userInfo
         }else {
             //console.log('content text',content)
             var movies = yield Movie.searchByName(content)
