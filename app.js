@@ -54,7 +54,7 @@ app.use(staticServer(path.join(__dirname, 'public')));
 
 
 //session
-app.keys = ['some secret hurr'];
+app.keys = ['some secret things'];
 app.use(session(app));
 app.use(bodyParser());
 app.use(flash());
@@ -72,7 +72,6 @@ app.use(function *(next){
     this.state.error = this.flash('error').toString();
     yield next
 })
-
 
 //路由
 require('./config/routes')(router)

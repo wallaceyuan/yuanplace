@@ -1,7 +1,6 @@
 var read = require('./read')
 var save = require('./save')
 var uri = "http://weibo.com/kankanews?profile_ftype=1&is_all=1#_0"
-var site = "http://weibo.com/rmrb";
 var wUrl = 'http://weibo.cn/kankanews'
 var async = require('async')
 var debug = require('debug')('crawl:main')

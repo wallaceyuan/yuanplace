@@ -22,9 +22,9 @@ var Crawler = require('../app/controllers/crawler')
 var upload = require('../app/controllers/upload')
 //api
 var api = require('../app/controllers/api')
-//wxlogin
-var wxlogin = require('../app/controllers/wxlogin')
 
+//wxLogin
+var wxLogin = require('../app/controllers/wxlogin')
 
 //blog
 var blog = require('../app/controllers/blog')
@@ -33,9 +33,9 @@ module.exports = function(router,mupload) {
 
     router.get('/',Index.index)
 
-    router.get('/wxlogin',wxlogin.index)
-    router.get('/wxlogin/check',wxlogin.check)
-    router.post('/wxlogin/template',wxlogin.template)
+    router.get('/wxlogin',wxLogin.index)
+    router.get('/wxlogin/check',wxLogin.check)
+    router.post('/wxlogin/template',wxLogin.template)
 
     //blog
     router.get('/blog',blog.index)

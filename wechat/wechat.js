@@ -100,9 +100,8 @@ var api = {
 
 
 function Wechat(opts){
-    var that = this;
+    console.log('opts',opts)
     this.appid = opts.appID;
-    this.secret = opts.appSecret;
     this.getAccessToken = opts.getAccessToken;
     this.saveAccessToken = opts.saveAccessToken;
     this.fecthAccessToken(opts);

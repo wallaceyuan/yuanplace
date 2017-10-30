@@ -14,10 +14,10 @@ var Wechat = require('../wechat/wechat');
 
 var config = {
     wechat:{//
-        appID : 'wxe539b74f1500b34f',//'wxe539b74f1500b34f',//wx0527f87ddccbfe13//wxe539b74f1500b34f
-        appSecret:'247fbdaee6f89a225345f7a56b5398b4',//ba2de824eed86e2000980b68e383d9c9//247fbdaee6f89a225345f7a56b5398b4
+        appID : 'wx0527f87ddccbfe13',//wx0527f87ddccbfe13(开发者ID)//wxe539b74f1500b34f
+        appSecret:'57eb18e3355100fcd80b00f0b0169a28',//57eb18e3355100fcd80b00f0b0169a28(开发者appSecret)//247fbdaee6f89a225345f7a56b5398b4
         token:'Wallace746cEtzB7o7fk',
-        serverUrl:'http://ltbho8ed41.proxy.qqbrowser.cc',
+        serverUrl:'http://www.wallaceyuan.cn',
         getAccessToken:function(){
             return util.readFileAsync(wechat_file,'utf-8')
         },
