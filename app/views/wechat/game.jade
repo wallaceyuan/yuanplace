@@ -1,0 +1,151 @@
+extends ../wechat
+block content
+    h1 根据标题猜电影
+    h2 点击跳转
+    p#title
+    div#directors
+    div#year
+    div#poster
+
+    script.
+
+        setTimeout(function () {
+            alert(1)
+            window.location = 'kankanapp2://'
+        },500)
+
+        wx.config({
+            debug: false,
+            appId: 'wxe539b74f1500b34f',
+            timestamp: '#{timestamp}',
+            nonceStr: '#{noncestr}',
+            signature: '#{signature}',
+            jsApiList: [
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'previewImage', 'launch3rdApp','getInstallState','getLocation'
+            ]
+        });
+        wx.ready(function () {
+            WeixinJSBridge.invoke('getInstallState', {
+                'appid': 'wxe539b74f1500b34f', // 公众号appID
+                'packageUrl': 'kankanapp2://', // IOS必填，xxxx:// 开头的一个scheme
+                'packageName': 'kkl://aaa.cc?LIVE_ID=144' // android必填，包名
+            }, function (res) {
+                // alert(res.err_msg);
+            });
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    var speed = res.speed; // 速度，以米/每秒计
+                    var accuracy = res.accuracy; // 位置精度
+                    console.log('latitude',latitude)
+                }
+            });
+            wx.checkJsApi({
+                jsApiList: [
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone',
+                    'translateVoice',
+                    'startRecord',
+                    'stopRecord',
+                    'onVoiceRecordEnd',
+                    'previewImage','getInstallState'
+                ],
+                success: function (res) {
+                    console.log(res);
+                }
+            });
+            var shareContent = {
+                title: '',
+                desc: '',
+                link: '',
+                imgUrl: '',
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    alert('分享成功')
+                },
+                cancel: function () {
+                    alert('分享失败')
+                }
+            }
+            wx.on
+            wx.onMenuShareAppMessage(shareContent)
+            wx.onMenuShareTimeline(shareContent)
+            var isRecording = false
+            var slide
+            $('#poster').on('tap', function () {
+                wx.previewImage(slide);
+            });
+            $('h2').on('tap',function(){
+                WeixinJSBridge.invoke('launch3rdApp', {
+                    'appID': 'wxe539b74f1500b34f', // 公众号appID
+                    'messageExt': 'from=weixin_webview', // iOS使用此参数，第三方应用自定义简单数据
+                    'extInfo': 'from=weixin_webview' // Android使用此参数，第三方应用自定义简单数据
+                }, function (res) {
+                    //alert(res.err_msg);
+                });
+            })
+            $('h1').on('tap', function () {
+                if (!isRecording) {
+                    isRecording = true;
+                    wx.startRecord({
+                        cancel: function () {
+                            alert('那就不搜了哦');
+                        }
+                    });
+                    return
+                }
+                isRecording = false;
+                wx.stopRecord({
+                    success: function (res) {
+                        var localId = res.localId;
+                        wx.translateVoice({
+                            localId: localId, // 需要识别的音频的本地Id，由录音相关接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function (res) {
+                                var result = res.translateResult
+                                $.ajax({
+                                    type: 'get',
+                                    url: 'https://api.douban.com/v2/movie/search?q=' + result,
+                                    dataType: 'jsonp',
+                                    jsonp: 'callback',
+                                    success: function (data) {
+                                        var subject = data.subjects[0]
+                                        $('#year').html(subject.year)
+                                        $('#title').html(subject.title)
+                                        $('#directors').html(subject.directors.name)
+                                        $('#poster').html('<img src="' + data.subjects[0].images.large + '" />');
+                                        shareContent.title = subject.title
+                                        shareContent.desc = '我搜出来了' + subject.title
+                                        shareContent.link = 'http://wt8drrzc8w.proxy.qqbrowser.cc/movie'
+                                        shareContent.imgUrl = data.subjects[0].images.small
+                                        shareContent.type = 'link'
+                                        slide = {
+                                            current: data.subjects[0].images.small,
+                                            urls: [data.subjects[0].images.small]
+                                        }
+                                        data.subjects.forEach(function (item) {
+                                            slide.urls.push(item.images.large)
+                                        })
+                                    }
+                                })
+                            }
+                        });
+                    }
+                });
+            });
+        });

@@ -1,0 +1,89 @@
+extends ../../layout
+block content
+    .col-md-10.mt50
+        .row
+            table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th ID
+                        th 分类
+                        th 修改
+                        th 删除
+                tbody
+                    each item in cats
+                        tr
+                            td #{item.id}
+                            td.name #{item.name}
+                            td
+                                a(javascript:void(0))
+                                    button.btn.btn.btn-primary.edit(type="button" data-id="#{item.id}") 修改
+                                    span.update
+                                        button.btn.btn-default(type="button" onClick="update(#{item.id},this)") 更新
+                                        button.btn.btn-default.cancel(type="button") 取消
+                            td
+                                button.btn.btn-danger.catedel(type="button", data-id="#{item.id}") 删除
+            .addCate.col-md-4
+                input.form-control(type="text" name="cate" placeholder="输入分类")
+                
+                button.btn.btn-default.cateAdd(type="button") Default
+    script(src="/js/admin.js")
+    script.
+        
+        $('.edit').on('click',function(){
+            var obj = this
+            $(obj).css('display','none')
+            $(obj).next().css('display','block')
+            var tdEdit = $(this).parents('tr').find('.name')
+            var name = tdEdit.html()
+            tdEdit.attr('name',name).html("<input type='text' name='cate' class='form-control col-md-2' value="+name+">")
+        })
+
+        $('.cancel').on('click',function(){
+            var tdEdit = $(this).parents('tr').find('.name')
+            var edit = $(this).parents('tr').find('.edit')
+            tdEdit.html(tdEdit.attr('name'))
+            edit.css('display', 'block')
+            $(this).parents('tr').find('.update').css('display', 'none')
+        })
+
+        function update(id,obj) {
+            var cate = $(obj).parents('tr').find('.name input[name=cate]').val()
+            $.ajax({
+                url: '/admin/blog/cate',
+                type: 'PUT',
+                data: {
+                    'cate': cate,
+                    'id'  : id
+                },
+                success: function (result) {
+                    if (result == 200) {
+                        window.location.reload()
+                    } else {
+                        alert('输入错误')
+                    }
+                }
+            });
+        }
+
+        $('.cateAdd').on('click',function () {
+            var cate = $('input[name=cate]').val()
+            console.log(cate)
+            if(cate){
+                $.ajax({
+                    url : '/admin/blog/cate',
+                    type : 'PUT',
+                    data : {
+                        'cate':cate
+                    },
+                    success: function(result) {
+                        if(result == 200){
+                            window.location.reload()
+                        }else{
+                            alert('输入错误')
+                        }
+                    }
+                });
+            }else{
+                alert('请输入分类')
+            }
+        })

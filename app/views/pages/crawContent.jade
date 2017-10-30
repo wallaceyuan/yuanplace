@@ -1,0 +1,64 @@
+doctype html
+html(lang="en")
+    head
+        - var name = 'Jade'
+        title= name
+        meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css" href="/css/font-awesome.min.css")
+        link(rel="stylesheet", type="text/css" href="/css/crawler.css")
+    body
+        .j-container
+            include ../includes/leftside
+            .j-main
+                section#post-Jade.post-item
+                    header.post-header
+                        h3.post-title(itemprop="name") 信息展示
+                    article.post-content
+                        .WB_feed_wrapper
+                            .WB_feed_detail.clearfix(node-type="feed_content")
+                                .WB_face.W_fl
+                                    .face
+                                        a(target="_blank")
+                                            img(usercard="id=1791489070&amp;type=0&amp;refer_flag=1005055010_" src="http://tva4.sinaimg.cn/crop.0.0.180.180.50/6ac7f42ejw1e8qgp5bmzyj2050050aa8.jpg" width="50" height="50" alt="wallace_圆圆嗒" class="W_face_radius")
+                                .WB_detail
+                                    .WB_info
+                                        p(class="W_f14 W_fb S_txt1" usercard="id=1791489070&amp;type=0&amp;refer_flag=1005055010_" suda-uatrack="key=noload_singlepage&amp;value=user_name") wallace_圆圆嗒
+                                    .WB_from.S_txt2
+                                        span #{moment(content.sendAt).format('YYYY年MM月DD日 HH:mm')}
+                                        .WB_text(node-type="feed_list_reason")
+                                            p.
+                                                #{content.text}
+                            div(class="WB_row_line WB_row_r4 clearfix S_line2")
+                                .comments(data=content.mid) 评论
+                            div(class="WB_feed_repeat S_bg1 WB_repeat" node-type="feed_list_repeat")
+                                .list_box
+                                    .list_ul(node-type="feed_list_commentList")
+                                        .repeat_list
+    script(src="/vendor/jquery.js")
+    script(src="/js/smallC.js")
+    script.
+        function comGet(mid,page) {
+            $.ajax({
+                url: '/crawler/big/?id='+mid+'&page='+page,
+                type: 'get',
+                success: function (data) {
+                    $('.repeat_list').html('')
+                    $('.repeat_list').append(data.data.html)
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        }
+        $(function(){
+            comGet(#{content.mid},1)
+            $(document).on('click','.W_pages a.S_bg2,.W_pages a.S_line1 span',function (){
+                var data = $(this).attr('action-data')
+                var andA = data.split('&')
+                var parmBox = []
+                andA.map(function (aa) {
+                    parmBox.push(aa.split('=')[1])
+                })
+                comGet(parmBox[0],parmBox[1])
+            })
+        })

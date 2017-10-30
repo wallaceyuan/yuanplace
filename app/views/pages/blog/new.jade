@@ -1,0 +1,78 @@
+extends ../../layout
+
+block content
+    link(href="/editor/css/editormd.css", rel="stylesheet")
+    link(href="/css/editor.css", rel="stylesheet")
+
+    form.mt50(id="uploadForm" enctype="multipart/form-data",method="post",action="/blog")
+        input(type="hidden", name="genres",value)
+        input(type="hidden", name="id", value=blog.id)
+        #layout
+            table
+                tr
+                    td 标题
+                    td
+                        input.title.mousetrap#note_title(name="note_title" type="text")
+                tr
+                    td 分类
+                    td
+                        each val in cats
+                            span
+                                input(name="checkbox" type="checkbox" value="#{val.id}")
+                                | #{val.name}
+                tr
+                    td 封面
+                    td
+                        .editor-cover-form
+                            form(action="/upload/editor"  enctype="multipart/form-data" method="post")
+                                .cover-img-upload.file-input
+                                    input(type="text" name="titlepic"  data-url="")
+                                    .cover-file-input
+                                        input( type="file" name="editormd-image-file" accept="image/*")
+                                        input(type="submit" value="本地上传")
+                                    span.cancel-btn 取消
+            #test-editormd
+                textarea(style="display:none;")
+
+        button.btn.btn-default 提交
+
+    script(src="/editor/editormd.min.js")
+    script(src="/js/editor/func.js")
+    script.
+        var testEditor;
+        var editor = new Editor
+        var id  = #{blog.id}
+        id?editor.load(id):editor.base()
+
+        var dialog = $('.editor-cover-form')
+        var coverInput = dialog.find('input[name=\"editormd-image-file\"]')
+
+        var cancel = dialog.find('.cancel-btn')
+        cancel.bind('click',function(){
+            dialog.find("[data-url]").val('');
+        })
+
+        coverInput.bind("change", function() {
+            var formData = new FormData();
+            formData.append('editormd-image-file', $('.cover-file-input input[name=\"editormd-image-file\"]')[0].files[0])
+            $.ajax({
+                url: '/upload/editor',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function (json) {
+                    console.log(json)
+                    if (json.success === 1) {
+                        dialog.find("[data-url]").val(json.url);
+                    }
+                    else {
+                        alert(json.message);
+                    }
+                },
+                fail:function (err) {
+                    console.log(err)
+                }
+            })
+        })

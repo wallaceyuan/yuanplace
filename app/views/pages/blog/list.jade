@@ -1,0 +1,43 @@
+extends ../../layout
+block content
+    .col-md-10.mt50
+        .row
+            a(class="func" href="/admin/blog/new") 编写文章
+            a(class="func" href="/admin/blog/cate") 编辑分类
+            table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th ID
+                        th 标题
+                        th 录入时间
+                        th pv
+                        th 查看
+                        th 修改
+                        th 删除
+                tbody
+                    each item in blogs
+                        tr(class="item-id-#{item.id}")
+                            td #{item.id}
+                            td #{item.title}
+                            td #{moment(item.updateAt).format('MM/DD/YYYY')}
+                            td #{item.pv}
+                            td
+                                a(target="_blank", href="/blog/p/#{item.id}")
+                                    button.btn.btn.btn-success(type="button") 查看
+                            td
+                                a(target="_blank", href="/admin/blog/update/#{item.id}")
+                                    button.btn.btn.btn-primary(type="button") 修改
+                            td
+                                button.btn.btn-danger.blogdel(type="button", data-id="#{item.id}") 删除
+            ul.pagination
+                - for (var i = 0; i < totalPage; i++) {
+                - if (currentPage == (i + 1)) {
+                li.active
+                    span #{currentPage}
+                - }
+                - else {
+                li
+                    a(href='/admin/movie/list?&p=#{i+1}') #{i + 1}
+                - }
+                - }
+    script(src="/js/admin.js")

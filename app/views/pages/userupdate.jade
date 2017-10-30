@@ -1,0 +1,41 @@
+extends ../layout
+
+block content
+   .col-md-8.mt50
+      .row
+         form.form-horizontal.userForm(method="post", action="/admin/user", enctype="multipart/form-data")
+            .form-group
+               label.col-sm-2.control-label 姓名
+               .col-sm-10
+                  input#name.form-control(type="text", name="name", value=users.name)
+            .form-group
+               label.col-sm-2.control-label(for="inputRole") 用户密码
+               .col-sm-10.password
+                  if users.id
+                     div  *******
+                     .operate
+                        input#old_p.form-control(type="text", name="old_p",placeholder="输入旧密码" value=)
+                        input.mt10#new_p.form-control(type="text", name="new_p",placeholder="输入新密码" value=)
+                     .edit.btn.btn-default(type="edit") 修改
+                     .cancel.btn.btn-default(type="cancel") 取消
+                  else
+                     input#name.form-control(type="text", name="password")
+            if users.id
+               input(type="hidden", name="id", value=users.id)
+            .form-group
+               label.col-sm-2.control-label(for="inputRole") 用户分类
+               .col-sm-10
+                  each val in roles
+                     label.radio-inline
+                        input(type="radio",name="inputRole",value=val.role_id,checked=users.roleName == val.name)
+                        | #{val.name}
+            .form-group
+               .col-sm-10
+               button.btn.btn-default(type="submit") 提交
+      script.
+         $('.edit').on('click',function(){
+            $('.password').addClass('oping')
+         })
+         $('.cancel').on('click',function () {
+            $('.password').removeClass('oping')
+         })

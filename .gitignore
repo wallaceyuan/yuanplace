@@ -1,0 +1,8 @@
+node_modules
+.idea
+lib
+vendor
+wx/vendor
+config/ticket.txt
+config/wechat.txt
+public/upload

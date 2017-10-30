@@ -1,0 +1,65 @@
+extends ../../layout
+
+block content
+    link(href="/editor/css/editormd.css", rel="stylesheet")
+    link(href="/css/editor.css", rel="stylesheet")
+    #layout
+        header
+            h1 Simple example
+        #test-editormd
+            textarea(style="display:none;")
+
+
+    button Click Me
+
+    script(src="/editor/editormd.min.js")
+    script.
+        $('button').on('click', function () {
+            var getHtml = testEditor.getHTML();
+            console.log(getHtml)
+        })
+        $(function () {
+            $.get("/blog/update/2", function (md) {
+                testEditor = editormd("test-editormd", {
+                    width: "90%",
+                    height: 740,
+                    path: "/editor/lib/",
+                    appendMarkdown: "\n" + md,
+                    saveHTMLToTextarea: true,
+                    watch: false,
+                    htmlDecode: true,
+                    toolbar: false,
+                    previewCodeHighlight: false,
+                    tex: true,
+                    flowChart: true,
+                    sequenceDiagram: true,
+                    emoji: true,
+                    taskList: true,
+                    imageUpload: true,
+                    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL: "/upload/editor",
+                    onload: function () {
+                        console.log('onload', this);
+                        this.config("lineNumbers", false);
+                        this.config({
+                            toc: false,
+                            tex: false,
+                            toolbar: true,
+                            previewCodeHighlight: true, // before set previewCodeHighlight == false, editor not load pretty.js, so now codes can't highlight and display line numbers.
+                            flowChart: false,
+                            sequenceDiagram: false,
+                            dialogLockScreen: false,
+                            dialogMaskOpacity: 0.5,       // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                            dialogDraggable: false,
+                            dialogMaskBgColor: "#000"
+                        });
+
+                        this.config("onresize", function () {
+                            console.log("onresize =>", this);
+                        });
+
+                        this.watch();
+                    }
+                });
+            });
+        });

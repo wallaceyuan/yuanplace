@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+    head
+        - var name = 'Jade'
+        title= name
+        meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css" href="/css/home.css")
+    body(id="classic-website" class="mt-main-index one-column")
+        #container
+            .container-inner
+                #header
+                    #header-inner
+                        #header-content
+                            h1 袁圆的个人网站
+                            p wallaceyuan 's Personal Website
+                #content
+                    #content-inner
+                        #page-alpha(style="margin-bottom:2em;")
+                            p
+                                | »
+                                a(href="blog/") blog
+                                |/
+                                a(href="movie/") movie
+                                |/
+                                a(href="crawler/") crawler
+                                | /
+                                a(href="livenews/") livenews
+        #indexFoot
+            a(href="http://www.miitbeian.gov.cn/" target="_blank") 工业和信息化部 版权所有 沪ICP备16042908号-1
