@@ -54,7 +54,7 @@ app.use(staticServer(path.join(__dirname, 'public')));
 
 
 //session
-app.keys = ['some secret things'];
+app.keys = ['some secret things add by yuan'];
 app.use(session(app));
 app.use(bodyParser());
 app.use(flash());

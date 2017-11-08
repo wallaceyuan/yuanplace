@@ -53,7 +53,7 @@ block content
                               p #{item.createAt}
                           hr
                   #comments
-                      form#commentForm(method="POST", action="/user/comment")
+                      form#commentForm
                           input(type="hidden", name="comment[movie]", value="#{movie.id}")
                           if user
                               input(type="hidden", name="comment[from]", value="#{user.id}")
@@ -62,33 +62,34 @@ block content
                           .form-group
                               textarea.form-control(name="comment[content]", row="3")
                           if user
-                              button#submit.btn.btn-primary(type='submit') 提交
+                              button#submit.btn.btn-primary 提交
                           else
                               a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论
     else
         .container
             .row
                 |页面找不到了
-  script.
-    $(function() {
-        $('.comment').click(function(e) {
-            var target = $(this)
-            var toId = target.data('tid')
-            var commentId = target.data('cid')
-            $('#toId').val(toId)
-            $('#commentId').val(commentId)
-        })
-        $('#submit').click(function(e) {
-            e.preventDefault()
-            $.ajax({
-                type: 'POST',
-                data: $('#commentForm').serialize(),
-                    url: '/user/comment'
-                })
-                .done(function(results) {
-                    if (results.success === 1) {
-                        window.location.reload()
-                }
+    script.
+        $(function() {
+            $('.comment').click(function(e) {
+                var target = $(this)
+                var toId = target.data('tid')
+                var commentId = target.data('cid')
+                $('#toId').val(toId)
+                $('#commentId').val(commentId)
+            })
+            $('#submit').click(function(e) {
+                e.preventDefault()
+                $.ajax({
+                        type: 'POST',
+                        data: $('#commentForm').serialize(),
+                        url: '/user/comment'
+                    }).done(function(results) {
+                        console.log('results',results)
+                        if (results.success === 1) {
+                            window.location.reload()
+                        }
+                    }
+                )
             })
         })
-    })

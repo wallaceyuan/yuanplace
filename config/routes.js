@@ -96,6 +96,7 @@ module.exports = function(router,mupload) {
 
     // Comment
     router.post('/user/comment', User.signinRequired, Comment.save)
+    router.post('/user/commentTest', Comment.save)
 
     // Category
 /*

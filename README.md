@@ -24,3 +24,6 @@ var pool = mysql.createPool({
 ```
 打开
 http://127.0.0.1:3000/
+
+
+npm run test 进行mocha自动化测试
