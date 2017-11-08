@@ -83,9 +83,9 @@ app.listen(3000);
 
 console.log('Listening');
 
-var spawn = require('child_process').spawn;
+/*var spawn = require('child_process').spawn;
 var cronJob = require('cron').CronJob;
-var job = new cronJob('1 1 */10 * * *',function(){
+var job = new cronJob('1 1 *!/10 * * *',function(){
     console.log('start crawler')
     //创建一个子进程
     var child = spawn(process.execPath,['./task/main_v2.js']);
@@ -94,5 +94,5 @@ var job = new cronJob('1 1 */10 * * *',function(){
     //把子进程的错误输出的数据传递到主进程的错误输出
     child.stderr.pipe(process.stderr);
 });
-job.start();
+job.start();*/
 
