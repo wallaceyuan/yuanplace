@@ -3,8 +3,7 @@ node_modules
 lib
 vendor
 wx/vendor
-config/ticket.txt
-config/wechat.txt
+config/*.txt
 public/upload
 public/images/avtor
 
