@@ -117,7 +117,7 @@ gulp.task('copy-other',function(){
 })
 
 gulp.task('c_u_css',function(){
-    return gulp.src('app/css/index.css')//指定 less文件
+    return gulp.src('app/css/movie.css')//指定 less文件
         .pipe(concat('index.css'))
         .pipe(gulp.dest('dist/css'))
         .pipe(connect.reload())
@@ -133,5 +133,5 @@ gulp.task('c_u_js',function(){
 gulp.task('default',['server','copy-html','c_u_js','c_u_css'],function(){
     gulp.watch('app/test2.html',['copy-html']);
     gulp.watch(['app/js/index.js'],['c_u_js']);
-    gulp.watch('app/css/index.css',['c_u_css']);
+    gulp.watch('app/css/movie.css',['c_u_css']);
 })

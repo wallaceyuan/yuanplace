@@ -12,6 +12,7 @@ body{
     position: absolute;
     top:-35px;left:0px;width: 100%;
     z-index:5;
+
 }
 #topbar {
     position: relative;

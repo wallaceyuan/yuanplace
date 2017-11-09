@@ -16,7 +16,7 @@ describe('第一个测试',function () {
 describe('测试增加评论功能',function () {
     it('为电影添加一条评论',function (done) {
         request
-            .post('http://127.0.0.1:3000/user/commentTest')
+            .post('http://www.wallaceyuan.cn/user/commentTest')
             .send("comment%5Bmovie%5D=315&comment%5Bfrom%5D=13&comment%5Btid%5D=&comment%5Bcid%5D=&comment%5Bcontent%5D=mochatest")
             .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
             .end(function(err, res){
