@@ -1,10 +1,14 @@
-var assert = require("assert")
-var request = require('superagent');
-
+const assert = require("assert")
+const request = require('superagent');
+const bcrypt = require('bcryptjs')
+const SALT_WORK_FACTOR = 10
+const users = require('../app/api/users')
+const moment = require('moment')
 
 describe('第一个测试',function () {
     it('测试数组是否包含某个元素',function () {
-        should([1, 2, 3].indexOf(4)).equal(-1)
+        [1, 2, 3].indexOf(4).should.equal(-1)
+        //should([1, 2, 3].indexOf(4)).equal(-1)
         //assert.equal(-1, [1, 2, 3].indexOf(4))
     })
 })
@@ -25,5 +29,30 @@ describe('测试增加评论功能',function () {
                 should(res).be.a.Object
                 done();
             });*/
+    })
+})
+
+describe('测试数据库',function () {
+    var salt = ''
+    var hash = ''
+    var _user = {
+        password:'mocha'
+    }
+
+    before(function(done) {
+        salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
+        hash = bcrypt.hashSync(_user.password, salt);
+        _user.password = hash
+        _user.name = moment(new Date()).format('Y-M-D H:mm:ss')
+        done()
+    });
+
+    it('为电影添加一条评论',function *(){
+        var newUser = yield users.saveUser(_user)
+        should(newUser.name).equal(_user.name)
+    })
+
+    after(function () {
+        
     })
 })
