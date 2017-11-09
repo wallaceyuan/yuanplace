@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE TABLE IF NOT EXISTS `c_weibo` (
     `mid` varchar(255),
     `cLink` varchar(255),
@@ -169,4 +170,180 @@ SELECT * FROM movie WHERE title LIKE '三人行%'
 
 ALTER TABLE `movie`
 MODIFY COLUMN `id`  int(11) NOT NULL AUTO_INCREMENT FIRST ,
+=======
+CREATE TABLE IF NOT EXISTS `c_weibo` (
+    `mid` varchar(255),
+    `cLink` varchar(255),
+    `text` mediumtext,
+    PRIMARY KEY (mid)
+)
+
+CREATE TABLE IF NOT EXISTS `p_weibo` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `mid` varchar(255),
+    `userName` varchar(255),
+    `content` varchar(255),
+    `cid` varchar(255),
+    PRIMARY KEY (id)
+)
+
+CREATE TABLE IF NOT EXISTS `kweibo` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `tbinfo` varchar(255),
+    `mid` varchar(255),
+    `isforward` varchar(255),
+    `minfo` varchar(255),
+    `omid` varchar(255),
+    `text` mediumtext,
+    `sendAt` datetime,
+    `fname` varchar(255),
+    `fid` varchar(255),
+    `ftext` mediumtext,
+    `fsendAt` datetime,
+    primary key (id)
+)
+
+
+CREATE TABLE IF NOT EXISTS `blog` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `createAt` datetime,
+    `updateAt` datetime,
+    `content` mediumtext,
+    `pv` int NOT NULL DEFAULT 0,
+    `category` int(11),
+    primary key (id)
+)
+
+alter table blog add titlepic varchar(255)
+
+
+alter table kweibo add cid varchar(255)
+alter table kweibo add clink varchar(255)
+
+
+CREATE TABLE IF NOT EXISTS `kweibo_c` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `news_id` varchar(255),
+    `comment_id` varchar(255),
+    `name` varchar(255),
+    `isReply` varchar(100),
+    `repName` varchar(255),
+    `content` mediumtext,
+    `poster` varchar(255),
+    primary key (id)
+)
+
+
+
+CREATE TABLE IF NOT EXISTS `KweiboF` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255),
+    `id` varchar(255),
+    `text` mediumtext(0),
+    `sendAt` datetime
+)
+
+CREATE TABLE IF NOT EXISTS `roles` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255),
+    `role_id` int(11) NOT NULL,
+    PRIMARY KEY (id)
+)
+
+CREATE TABLE IF NOT EXISTS `comments` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `parent_id` int(11) NOT NULL,
+    `parent_name` varchar(255),
+    `movie_id` int(11) NOT NULL,
+    `user_id` int(11) NOT NULL,
+    `createAt` datetime,
+    `updateAt` datetime,
+    `content` text NOT NULL,
+    `thread` varchar(30) NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (movie_id) REFERENCES movie(id)
+)
+
+alter table comments add parent_name varchar(255)
+
+
+
+CREATE TABLE movie(
+    id int NOT NULL AUTO_INCREMENT,
+    director varchar(255),
+    title varchar(255),
+    language varchar(255),
+    doubanId varchar(255),
+    country varchar(255),
+    summary mediumtext(0),
+    flash varchar(255),
+    poster varchar(255),
+    year varchar(255),
+    coutry varchar(255),
+    pv int NOT NULL DEFAULT 0,
+    category int,
+    createAt datetime,
+    updateAt datetime,
+    genres varchar(255),
+    PRIMARY KEY (id)
+)
+alter table movie modify year varchar(255)
+
+
+CREATE TABLE category(
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255),
+    movieId int,
+    createAt datetime,
+    updateAt datetime,
+    PRIMARY KEY (id),
+    FOREIGN KEY (movieId) REFERENCES movie(id)
+)
+
+CREATE TABLE `cate_name` (
+     id int NOT NULL AUTO_INCREMENT,
+     name varchar(255),
+     PRIMARY KEY (id)
+ )
+
+CREATE TABLE `blog_category`(
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255),
+    blogId int,
+    createAt datetime,
+    updateAt datetime,
+    PRIMARY KEY (id),
+    FOREIGN KEY (blogId) REFERENCES blog(id)
+)
+
+CREATE TABLE users(
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255),
+    password varchar(255),
+    role int NOT NULL DEFAULT 0,
+    createAt datetime,
+    updateAt datetime,
+    UNIQUE (name),
+    PRIMARY KEY (id)
+)
+
+
+
+CREATE TABLE users(
+    Id_P int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255),
+    UNIQUE (Id_P)
+)
+
+alter table movie add genres varchar(255);
+
+SELECT * FROM movie WHERE title LIKE '三人行%'
+
+
+ALTER TABLE `movie`
+MODIFY COLUMN `id`  int(11) NOT NULL AUTO_INCREMENT FIRST ,
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5
 ADD PRIMARY KEY (`id`);

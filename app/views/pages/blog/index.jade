@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 doctype html
 html(lang="en")
     head
@@ -46,4 +47,54 @@ html(lang="en")
                                 a(href='/blog/?&p=#{i + 1}') #{i + 1}
                             - }
                         - }
+=======
+doctype html
+html(lang="en")
+    head
+        - var name = 'Jade'
+        title= name
+        meta(charset="utf-8")
+        link(href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css", rel="stylesheet")
+        link(rel="stylesheet", type="text/css" href="/css/font-awesome.min.css")
+        link(rel="stylesheet", type="text/css" href="/css/blog/index.css")
+    body
+        .j-container
+            include ../../includes/leftside
+        .j-main
+            .list-container
+                ul(class="unstyled clearfix sort-nav")
+                    li(class="#{id == 0 ? 'active' : ''}")
+                        a.category(href="/blog/") 全部
+                    each vat in cates
+                        li(class="#{id == vat.id ? 'active' : ''}")
+                            a.category(href="/blog/#{vat.id}") #{vat.name}
+                ul.article-list.thumbnails.clearfix
+                    each val in blogs
+                        li.have-img
+                            a.wrap-img(href="/blog/p/#{val.id}")
+                                if(val.titlepic)
+                                    img(src="#{val.titlepic}" alt="300")
+                            div
+                                p.list-top
+                                    span.time(data-shared-at="#{val.createAt}") #{moment(val.createAt).format('YYYY年MM月DD日')}
+                                h4.title
+                                    a(arget="_blank" href="/blog/p/#{val.id}") #{val.title}
+                                .list-footer
+                                    a(target="_blank" href="/blog/p/#{val.id}") 阅读 #{val.pv}
+                ul.pagination.thumb
+                    - for (var i = 0; i < totalPage; i++) {
+                        - if (currentPage == (i + 1)) {
+                        li.active
+                            span #{currentPage}
+                        - }
+                        - else {
+                        li
+                            - if (id!=0){
+                                a(href='/blog/#{id}?&p=#{i + 1}') #{i + 1}
+                            - }
+                            - else {
+                                a(href='/blog/?&p=#{i + 1}') #{i + 1}
+                            - }
+                        - }
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5
                     - }

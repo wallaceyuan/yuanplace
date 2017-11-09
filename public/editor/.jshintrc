@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
 	"esnext": true,
 	"bitwise": true,
@@ -17,4 +18,25 @@
 	"trailing": true,
 	"smarttabs": true,
 	"white": true
+=======
+{
+	"esnext": true,
+	"bitwise": true,
+	"camelcase": true,
+	"curly": true,
+	"eqeqeq": true,
+	"immed": true,
+	"indent": 4,
+	"latedef": true,
+	"newcap": true,
+	"noarg": true,
+	"quotmark": "double",
+	"regexp": true,
+	"undef": true,
+	"unused": true,
+	"strict": true,
+	"trailing": true,
+	"smarttabs": true,
+	"white": true
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5
 }

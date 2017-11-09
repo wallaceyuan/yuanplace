@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 doctype html
 html(lang="en")
     head
@@ -23,4 +24,31 @@ html(lang="en")
                                     .show-content
                                         | !{blog.content}
                                 else
+=======
+doctype html
+html(lang="en")
+    head
+        - var name = 'Jade'
+        title= name
+        meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css" href="/css/font-awesome.min.css")
+        link(rel="stylesheet", type="text/css" href="/css/blog/index.css")
+        link(href="/editor/css/editormd.css", rel="stylesheet")
+    body.post
+        .j-container
+            include ../../includes/leftside
+        #show-note-container.imagebubble-container.imagebubble-mode-off
+            .post-bg#flag
+                .container
+                    .article
+                        .markdown-body.editormd-preview-container
+                            .preview
+                                if blog.id
+                                    h1.title #{blog.title}
+                                    .meta-top
+                                        span.views-count #{blog.pv}
+                                    .show-content
+                                        | !{blog.content}
+                                else
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5
                                     p 没有这篇博客~~

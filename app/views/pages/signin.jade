@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 extends ../layout
 
 block content
@@ -14,4 +15,22 @@ block content
               input#signinPassword.form-control(name="user[password]", type="text")
           .modal-footer
             button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+=======
+extends ../layout
+
+block content
+  .container
+    .row
+      .col-md-5
+        form(method="POST", action="/user/signin")
+          .modal-body
+            .form-group
+              label(for="signinName") 用户名
+              input#signinName.form-control(name="user[name]", type="text")
+            .form-group
+              label(for="signinPassword") 密码
+              input#signinPassword.form-control(name="user[password]", type="text")
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5
             button.btn.btn-success(type="submit") 提交

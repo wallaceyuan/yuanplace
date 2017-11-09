@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @charset "utf-8";
 html {overflow-y:scroll;}
 div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,p,img{padding:0; margin:0; border:0;}
@@ -16,3 +17,23 @@ a:link,a:visited,a:hover,a:active{color:#252525; text-decoration:none;}
 .navLeft{
     margin-top:147px;
 }
+=======
+@charset "utf-8";
+html {overflow-y:scroll;}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,p,img{padding:0; margin:0; border:0;}
+table,td,tr,th{font-size:12px;}
+ol,ul {list-style:none;}
+li{list-style-type:none;}
+img{vertical-align:top;border:0;}
+/*
+h1,h2,h3,h4,h5,h6{fonts-size:inherit; fonts-weight:normal;}
+*/
+address,cite,code,em,th,i{font-weight:normal; font-style:normal;}
+.clearfix{*zoom:1;}
+.clearfix:after{display:block; overflow:hidden; clear:both; height:0; visibility:hidden; content:".";}
+a:link,a:visited,a:hover,a:active{color:#252525; text-decoration:none;}
+
+.navLeft{
+    margin-top:147px;
+}
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5

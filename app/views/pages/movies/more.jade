@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 extends ../../layout
 
 block content
@@ -29,3 +30,36 @@ block content
                                             i (#{val.year})
                                 p.mt12
                                 |#{val.summary}
+=======
+extends ../../layout
+
+block content
+    link(href="/css/index.css", rel="stylesheet")
+    style.
+        body{
+            background: #f9f9f9;
+            font-size: 14px;
+        }
+        a:link, a:visited, a:hover, a:active {
+            color: #08c;
+        }
+    .top_header
+        h2 #{cat}影视集
+    .top_shadow
+        .top_cont
+            #itemListDiv
+                .top_nlist
+                    dl
+                    each val in categories
+                        dd
+                            .list_picnum
+                                span.num_tip
+                                    a.imger
+                                        img(width="140" height="210" alt="#{val.title}(#{val.year})" src="#{val.poster}")
+                                h3
+                                    a(href="/movie/#{val.id}" target="_blank") #{val.title}
+                                        if val.year
+                                            i (#{val.year})
+                                p.mt12
+                                |#{val.summary}
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5

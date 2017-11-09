@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules
 .idea
 lib
@@ -6,3 +7,14 @@ wx/vendor
 config/ticket.txt
 config/wechat.txt
 public/upload
+=======
+node_modules
+.idea
+lib
+vendor
+wx/vendor
+config/ticket.txt
+config/wechat.txt
+public/upload
+public/images/avtor
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 img.media-object{
     border-radius: 50%;
 }
@@ -90,4 +91,98 @@ img.media-object{
     border-bottom: 1px solid transparent;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+=======
+img.media-object{
+    border-radius: 50%;
+}
+.movieContent{
+    margin-top: 30px;
+}
+.db_shadow {
+    background: url(http://static1.mtime.cn/library/20160919164403/images/group_shadow.png) no-repeat 0 0;
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding: 17px 11px 0;
+}
+.db_topcont {
+    background: #fff;
+}
+.db_coverinner {
+    position: absolute;
+    left: 25px;
+    top: 30px;
+}
+.db_coverpicbox {
+    background: #f9f9fa;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #999;
+    padding: 10px;
+    width: 272px;
+}
+.db_contout{
+    padding-left: 340px;
+}
+.db_head h1 {
+    font-size: 35px;
+    line-height: 1.2em;
+    color: #333;
+}
+.db_head h1, .db_cutline, .db_year, .db_head h3 {
+    display: inline-block;
+    position: relative;
+    zoom: 1;
+}
+.db_head {
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 25px;
+    zoom: 1;
+    z-index: 5;
+}
+.db_head h1, .db_head h3 {
+    display: inline;
+}
+.info_l, .info_r {
+    float: left;
+    display: inline;
+    width: 407px;
+    margin-left: 6px;
+}
+.info_l dd {
+    border-bottom: 1px dotted #999;
+    position: relative;
+    zoom: 1;
+    padding: 9px 0 9px 95px;
+    line-height: 1.5em;
+    font-size: 13px;
+}
+.info_l dd strong {
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 95px;
+    font-size: 14px;
+    line-height: 1.5em;
+}
+.info_l dd a, .info_l dd span {
+    margin-right: 10px;
+    color:#08c;
+}
+.db_contout dt{
+    font-weight: normal;
+}
+.db_contout h4{
+    font-weight: bold;
+}
+.comment_heading{
+    padding: 10px 0px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+>>>>>>> 0d3ea3112a579e19f29e07586fa6906c63c92ef5
 }
