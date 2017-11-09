@@ -1,3 +1,4 @@
+
 $(function(){
     $('button.moviedel').on('click',function(){
         var id = $(this).attr('data-id')
