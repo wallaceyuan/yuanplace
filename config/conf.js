@@ -10,7 +10,7 @@ var host = 'localhost';
 var pool = mysql.createPool({
     host:'127.0.0.1',
     user:'root',
-    password:'admin',
+    password:'123456',
     database:'yuan_place',
     connectTimeout:30000
 });
