@@ -64,7 +64,6 @@ exports.kComment = function (kn,cb) {
 }
 
 exports.kNewscom = function (uri,callback) {
-    console.log('web news')
     var options = {
         uri:uri,
         encoding:null,
