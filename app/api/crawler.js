@@ -120,3 +120,9 @@ exports.commentB_v2 = function *(count,page,id) {
         "tmp"  : tmp
     }
 }
+
+exports.getNews = function *(count,page) {
+    var sql = 'select * from crawler order by id desc limit '+(page-1) * count+','+count
+    var data = yield p.query(sql)
+    return data
+}

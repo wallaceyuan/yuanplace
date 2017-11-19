@@ -14,6 +14,37 @@ exports.kNews = function(list,callback){
     },callback);
 }
 
+exports.crawler = function (list,callback) {
+    console.log('save news')
+    var connection = list.connection
+    async.forEach(list.res,function(item,cb){
+        debug('save news',JSON.stringify(item));
+        var data = [item.tbinfo,item.mid,item.isforward,item.minfo,item.omid,item.text,item.sendAt,item.cid,item.clink]
+        if(item.forward){
+            var fo = item.forward
+            data = data.concat([fo.name,fo.id,fo.text,fo.sendAt])
+        }else{
+            data = data.concat(['','','',new Date()])
+        }
+        connection.query('select mid from crawler where mid = ?',[item.mid],function (err,res) {
+            if(err){
+                console.log(err)
+            }
+            if(res && res.length){
+                //console.log('has news')
+                cb();
+            }else{
+                connection.query('insert into crawler(tbinfo,mid,isforward,minfo,omid,text,sendAt,cid,clink,fname,fid,ftext,fsendAt) values(?,?,?,?,?,?,?,?,?,?,?,?,?)',data,function(err,result){
+                    if(err){
+                        console.log('kNewscom',err)
+                    }
+                    cb();
+                })
+            }
+        })
+    },callback);
+}
+
 exports.kNewscom = function(list,callback){
     console.log('save news')
     var connection = list.connection

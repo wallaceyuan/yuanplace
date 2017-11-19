@@ -85,7 +85,7 @@ console.log('Listening');
 
 /*var spawn = require('child_process').spawn;
 var cronJob = require('cron').CronJob;
-var job = new cronJob('1 1 *!/10 * * *',function(){
+var job = new cronJob('1 1 * * * *',function(){
     console.log('start crawler')
     //创建一个子进程
     var child = spawn(process.execPath,['./task/main_v2.js']);

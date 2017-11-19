@@ -113,6 +113,7 @@ module.exports = function(router,mupload) {
     router.get('/crawler/big',Crawler.commentB)
     router.get('/crawler/small/:mid',Crawler.commentS)
     router.get('/crawler/content/:mid',Crawler.content)
+    router.get('/crawler/getNews',Crawler.getNews)
 
     //liveNews
     router.get('/livenews',livenews.index)

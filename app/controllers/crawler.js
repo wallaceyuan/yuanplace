@@ -62,3 +62,16 @@ exports.content  = function *(next) {
         content: content[0]
     })
 }
+
+exports.getNews = function *(next) {
+    var page = parseInt(this.query.page, 10) || 1
+    page = page?page:1
+    var count = 10
+    var crawler = yield Crawler.getNews(count,page)
+    var json = {
+        "code":200,
+        "msg": "",
+        "data":crawler
+    }
+    this.body  = json
+}
