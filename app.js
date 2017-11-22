@@ -88,7 +88,7 @@ var cronJob = require('cron').CronJob;
 var job = new cronJob('1 1 * * * *',function(){
     console.log('start crawler')
     //创建一个子进程
-    var child = spawn(process.execPath,['./task/main_v2.js']);
+    var child = spawn(process.execPath,['./task/crawler.js']);
     //把子进程的标准输出的数据传递到主进程 的标准输出
     child.stdout.pipe(process.stdout);
     //把子进程的错误输出的数据传递到主进程的错误输出

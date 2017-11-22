@@ -118,6 +118,7 @@ exports.kCommentCom = function(obj,cb){
 function fetchWeb(body,cb) {
     var $ = cheerio.load(body);
     $("div[action-type=feed_list_item]").map(function (index,item) {
+        console.log(getWeibo($,item))
         cb(null,getWeibo($,item))
     })
 }
