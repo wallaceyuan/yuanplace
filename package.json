@@ -6,7 +6,7 @@
   "scripts": {
     "mocha test": "mocha test/moach.test.js",
     "karam test": "karma start",
-    "app": "node app.js"
+    "app": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
@@ -53,6 +53,8 @@
     "qiniu": "^6.1.13",
     "randbytes": "0.0.1",
     "raw-body": "^2.1.7",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
     "redis": "^2.6.3",
     "request": "^2.72.0",
     "sha1": "^1.1.1",
@@ -62,9 +64,14 @@
     "superagent": "^3.8.0",
     "underscore": "^1.8.3",
     "util": "^0.10.3",
+    "webpack": "^3.8.1",
     "xml2js": "^0.4.16"
   },
   "devDependencies": {
-    "qiniu": "^6.1.13"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "nodemon": "^1.12.1",
+    "qiniu": "^6.1.13",
+    "webpack-dev-server": "^2.9.4"
   }
 }

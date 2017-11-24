@@ -17,7 +17,7 @@ request(options, function (error, response, body) {
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     console.log('body:', body); // Print the HTML for the Google homepage.
 
-    /*var result = iconv.decode(body,'utf8');
+    var result = iconv.decode(body,'utf8');
     var $ = cheerio.load(result)
-    console.log($('#u').html())*/
+    console.log($('#u').html())
 });

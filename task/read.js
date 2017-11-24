@@ -5,7 +5,6 @@ var cheerio = require('cheerio')
 var async = require('async');
 var cBU = 'http://weibo.com/aj/v6/comment/big?ajwvr=6&id='
 
-
 exports.kNews = function (uri,callback) {
     console.log('m news')
     var options = {

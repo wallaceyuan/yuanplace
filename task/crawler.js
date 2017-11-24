@@ -1,9 +1,6 @@
-/**
- * Created by yuanyuan on 2017/11/19.
- */
 var read = require('./read')
 var save = require('./save')
-var uri = "http://weibo.com/kankanews"
+var uri = "http://weibo.com/breakingnews"
 var async = require('async')
 var debug = require('debug')('crawl:main')
 var conf = require('../config/conf')

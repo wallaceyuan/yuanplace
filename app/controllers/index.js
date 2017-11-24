@@ -11,6 +11,9 @@ exports.index = function *(next) {
   })
 }
 
+exports.antd = function *(next) {
+  yield this.render('pages/antd/index')
+}
 
 //movie index page
 exports.movie = function *(next) {

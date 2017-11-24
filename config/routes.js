@@ -32,6 +32,8 @@ var blog = require('../app/controllers/blog')
 module.exports = function(router,mupload) {
 
     router.get('/',Index.index)
+    // antd 搭建新后台
+    router.get('/reactAdmin', User.signinRequired, User.adminRequired, Index.antd)
 
     router.get('/wxlogin',wxLogin.index)
     router.get('/wxlogin/check',wxLogin.check)
@@ -72,6 +74,7 @@ module.exports = function(router,mupload) {
     router.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list)
     router.post('/admin/user', User.adminRequired, koaBody({multipart:true}), User.save)
     router.delete('/admin/user/list', User.signinRequired, User.adminRequired, User.del)
+
 
     //movie
     router.get('/movie', Index.movie)

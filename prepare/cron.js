@@ -3,7 +3,7 @@
  */
 var CronJob = require('cron').CronJob
 
-var job = new CronJob('* * * * * *',function () {
+var job = new CronJob('*/5 * * * * *',function () {
     console.log('每秒执行一次')
 })
 
