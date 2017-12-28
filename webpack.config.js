@@ -19,23 +19,26 @@ var plugins = [
         template: path.resolve(__dirname, 'template.html')
     }),
     new webpack.HotModuleReplacementPlugin(), // 热替换插件
-    new webpack.NamedModulesPlugin() // 执行热替换时打印模块名字
+    new webpack.NamedModulesPlugin(), // 执行热替换时打印模块名字
+    new webpack.optimize.CommonsChunkPlugin({
+        name: "vendor",
+        minChunks: Infinity
+    })
 ]
 if (env === 'production') {
     plugins.push(new UglifyJSPlugin({
         sourceMap: true
     }));
-    outputFile = 'bundle.min.js';
+    outputFile = '[name].[hash:8].min.js';
 } else {
-    outputFile = 'bundle.js';
+    outputFile = '[name].[hash:8].js';
 }
 
 
 module.exports = {
-    entry: [
-        'react-hot-loader/patch', // 激活HMR
-        path.resolve(__dirname, './react/index.js')
-    ],
+    entry: {
+        bundle:[path.resolve(__dirname, './react/src/modules/index.js')]
+    },
     devtool: 'inline-source-map',
     devServer: {
         contentBase:'./dist',
@@ -61,10 +64,9 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                include: __dirname + /src/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
-                    use: ["style-loader","css-loader","sass-loader"],
+                    use: ["css-loader","sass-loader"],
                     publicPath: "/dist"
                 })
             },

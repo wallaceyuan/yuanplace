@@ -10,7 +10,7 @@ export default class IndexPage extends React.Component {
         return(
             <div className="demo">
                 <img src={Icon} width="100"/>
-                <p>Hello,This is created By wallaceYuan,</p>
+                <p>Hello,This is created By wallaceYuan,wallaceYuan</p>
             </div>
         )
     }
