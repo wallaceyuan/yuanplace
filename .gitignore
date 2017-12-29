@@ -3,5 +3,6 @@ node_modules
 lib
 vendor
 wx/vendor
-config/*.txt
+config/wechat.txt
+config/wx_wechat.txt
 public/upload
