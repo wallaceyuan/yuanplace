@@ -1,2 +1,2 @@
-import Layout1 from './Layout';
-export {Layout1};
+import AdminLayout from './Layout';
+export {AdminLayout};

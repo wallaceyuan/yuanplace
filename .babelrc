@@ -4,6 +4,13 @@
     "react"
   ],
   "plugins": [
-    "react-hot-loader/babel" // 添加HMR支持
+    "react-hot-loader/babel", // 添加HMR支持
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": "css"
+      }
+    ]
   ]
 }
